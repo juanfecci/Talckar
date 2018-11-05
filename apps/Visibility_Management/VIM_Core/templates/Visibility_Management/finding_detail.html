@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Finding {{finding.id}} {{finding.asset.dns}} - {{finding.asset.address}} - {{finding.scan.startDate}} <a href="{% url "VIM_Scan_New" %}" type="button" class="btn btn-round btn-success">Nuevo</a></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                    </p>
+                    <br>
+                    <h3>Address: {{finding.asset.address}} : {{finding.port}} </h3>
+                    <br>
+                    <h3>Url: {{finding.url}} </h3>
+                    <br>
+                    <img src="{{ finding.image.url }}" width=600/>
+                    <br><br><br>
+                    <h3>Titulo: {{finding.title}}</h3>
+                    <br>
+                    <h3>Fecha: {{finding.scan.startDate}}</h3>
+                    <br>
+                    <h3>Estado: {{finding.status}} </h3>
+                    <br>
+                    <h3>Codigo de estado: {{finding.statusCode}} </h3>
+                    
+
+
+                  </div>
+                </div>
+              </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <!-- Datatables -->
+    <script src="{% static 'js/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script src="{% static 'js/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script src="{% static 'js/jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/vfs_fonts.js' %}"></script>
+
+
+{% endblock %}

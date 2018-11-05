@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>New Scan </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                    </p>
+
+      
+                    <table id="datatable-inbox" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th><input name="select_all" value="1" id="scan-select-all" type="checkbox"></th>
+                          <th>Tag</th>
+                          <th>Address</th>
+                        </tr>
+                      </thead>
+                      <tfoot>
+                        <tr>
+                          <th>Select</th>
+                          <th>Tag</th>
+                          <th>Address</th>
+                        </tr>
+                      </tfoot>
+                      <tbody>
+                      {% for a in assets.all%}
+                        <tr>
+                          <td></td>
+                          <td>{% for t in a.tags.all%}{{t.tag}} {% endfor %}</td>
+                          <td>{{a.address}}</td>
+                         
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+
+                    </table>
+                  <p><button id = "button1">Submit</button></p>
+
+                  <form method="post">{% csrf_token %}
+                    {{ form.as_p }} <input type="submit" value="Submit" />
+                  </form>
+
+                  </div>
+
+                 
+                </div>
+              </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <!-- Datatables -->
+    <script src="{% static 'js/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script src="{% static 'js/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script src="{% static 'js/jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/vfs_fonts.js' %}"></script>
+
+<script>
+
+
+jQuery.fn.dataTableExt.oSort['numeric-comma-asc']  = function(a,b) {
+  var x = (a == "-") ? 0 : a.replace( /,/, "." );
+  var y = (b == "-") ? 0 : b.replace( /,/, "." );
+  x = parseFloat( x );
+  y = parseFloat( y );
+  return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+};
+
+jQuery.fn.dataTableExt.oSort['numeric-comma-desc'] = function(a,b) {
+  var x = (a == "-") ? 0 : a.replace( /,/, "." );
+  var y = (b == "-") ? 0 : b.replace( /,/, "." );
+  x = parseFloat( x );
+  y = parseFloat( y );
+  return ((x < y) ?  1 : ((x > y) ? -1 : 0));
+};
+
+
+$(document).ready(function() {
+  var ind = 1
+  var table = $('#datatable-inbox').DataTable( {
+      "paging": false,
+      "responsive": false,
+      "info": false,
+      "oSearch": {"sSearch": ""},
+      "dom": 'Bfrtip',
+      "buttons": [],
+      
+
+      "aoColumns": [
+          null,
+          null,
+          null
+         
+        ],
+
+      'columnDefs': [{
+         'targets': 0,
+         'searchable':false,
+         'orderable':false,
+         'className': 'dt-body-center',
+         'render': function (data, type, full, meta){
+            ind=meta.row;
+             return '<input type="checkbox" name="id[]" id="'+meta.row+'" value="' + $('<div/>').text(data).html() + '">';
+             
+         }
+      }],
+
+    } );
+
+$('#scan-select-all').on('click', function(){
+      // Get all rows with search applied
+      var rows = table.rows({ 'search': 'applied' }).nodes();
+      // Check/uncheck checkboxes for all rows in the table
+      $('input[type="checkbox"]', rows).prop('checked', this.checked);
+   });
+
+$("#button1").click(function(){
+      $("#id_assets").val("")
+      var res1 = $('#id_ports').val();
+      res1 = String(res1);
+      var res = res1.split('\n');
+      var data = table.rows().data();
+      var i = 0;
+       data.each(function (value, index) {
+            for (var port in res){
+             if ($("#" + index).is(":checked")){
+            $("#id_assets").val($("#id_assets").val() + "http://" + value[2] + ":" +res[port]+ "\n");    
+            $("#id_assets").val($("#id_assets").val() + "https://" + value[2] + ":" +res[port]+ "\n");    
+          }
+            }        
+         
+       });
+    });
+
+$("#id_sameProxy").click(function(){
+      if ($("#id_sameProxy").is(":checked")){
+        $("#id_proxySsl").val($("#id_proxyHttp").val());
+        $("#id_proxySslPort").val($("#id_proxyHttpPort").val());
+        $("#id_proxyFtp").val($("#id_proxyHttp").val());
+        $("#id_proxyFtpPort").val($("#id_proxyHttpPort").val());
+        $("#id_proxySocks").val($("#id_proxyHttp").val());
+        $("#id_proxySocksPort").val($("#id_proxyHttpPort").val());
+        $("#id_proxySsl").prop( "disabled", true );
+        $("#id_proxySslPort").prop( "disabled", true );
+        $("#id_proxyFtp").prop( "disabled", true );
+        $("#id_proxyFtpPort").prop( "disabled", true );
+        $("#id_proxySocks").prop( "disabled", true );
+        $("#id_proxySocksPort").prop( "disabled", true );
+      }
+      else{
+        $("#id_proxySsl").prop( "disabled", false );
+        $("#id_proxySslPort").prop( "disabled", false );
+        $("#id_proxyFtp").prop( "disabled", false );
+        $("#id_proxyFtpPort").prop( "disabled", false );
+        $("#id_proxySocks").prop( "disabled", false );
+        $("#id_proxySocksPort").prop( "disabled", false );
+      }
+    });
+
+$("#id_proxy").click(function(){
+    if ($("#id_proxy").is(":checked")){
+        $("#id_proxyHttp").prop( "disabled", true );
+        $("#id_proxyHttpPort").prop( "disabled", true );
+        $("#id_proxySsl").prop( "disabled", true );
+        $("#id_proxySslPort").prop( "disabled", true );
+        $("#id_proxyFtp").prop( "disabled", true );
+        $("#id_proxyFtpPort").prop( "disabled", true );
+        $("#id_proxySocks").prop( "disabled", true );
+        $("#id_proxySocksPort").prop( "disabled", true );
+      }
+      else{
+        $("#id_proxyHttp").prop( "disabled", false );
+        $("#id_proxyHttpPort").prop( "disabled", false );
+        $("#id_proxySsl").prop( "disabled", false );
+        $("#id_proxySslPort").prop( "disabled", false );
+        $("#id_proxyFtp").prop( "disabled", false );
+        $("#id_proxyFtpPort").prop( "disabled", false );
+        $("#id_proxySocks").prop( "disabled", false );
+        $("#id_proxySocksPort").prop( "disabled", false );
+      }
+  });
+
+$('[value=Submit]').click(function(){
+      $("#id_proxyHttp").prop( "disabled", false );
+      $("#id_proxyHttpPort").prop( "disabled", false );
+      $("#id_proxySsl").prop( "disabled", false );
+      $("#id_proxySslPort").prop( "disabled", false );
+      $("#id_proxyFtp").prop( "disabled", false );
+      $("#id_proxyFtpPort").prop( "disabled", false );
+      $("#id_proxySocks").prop( "disabled", false );
+      $("#id_proxySocksPort").prop( "disabled", false );
+    });
+
+$('#datatable-inbox tfoot th').each( function () 
+{        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Buscar '+title+'" />' );
+    } );
+
+    // DataTable
+    
+ 
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
+ 
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
+
+} );
+</script>
+
+{% endblock %}

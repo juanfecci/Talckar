@@ -1,0 +1,58 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+# Register your models here.
+
+from .models import *
+
+
+class ClientAdmin(admin.ModelAdmin):
+	list_display = ('name',)
+    
+
+class ModuleAdmin(admin.ModelAdmin):
+	pass
+
+class WorkerAdmin(admin.ModelAdmin):
+	list_display = ('name',)
+
+class TaskAdmin(admin.ModelAdmin):
+	list_display = ('task_id', 'task_type')
+
+class UserAdmin(BaseUserAdmin):
+	fieldsets = BaseUserAdmin.fieldsets
+	fieldsets += (
+	('Minerva', {'fields':['clients','activeClient', 'datos_conductor', 'correo', 'profesion', 'interes', 'fumador', 'foto', 'viajes']}),
+	)
+
+class ConductorAdmin(admin.ModelAdmin):
+	list_display = ('licencia', 'fecha_obtencion')
+
+class ViajeAdmin(admin.ModelAdmin):
+	list_display = ('id_viaje', 'tarifaPreferencias')
+
+class ParadaAdmin(admin.ModelAdmin):
+	list_display = ('nombre', 'id_parada', 'coordenada_x', 'coordenada_y')
+
+class TrayectoAdmin(admin.ModelAdmin):
+	list_display = ('id_trayecto', 'precio')
+
+class PlazaAdmin(admin.ModelAdmin):
+	list_display = ('id_plaza', 'posicion')
+
+class DemoAdmin(admin.ModelAdmin):
+	list_display = ('id_plaza',)
+
+admin.site.register(Client, ClientAdmin)
+admin.site.register(Module, ModuleAdmin)
+admin.site.register(User, UserAdmin)
+admin.site.register(Worker, WorkerAdmin)
+admin.site.register(Task, TaskAdmin)
+admin.site.register(Conductor, ConductorAdmin)
+admin.site.register(Viaje, ViajeAdmin)
+admin.site.register(Parada, ParadaAdmin)
+admin.site.register(Trayecto, TrayectoAdmin)
+admin.site.register(Plaza, PlazaAdmin)
+admin.site.register(Demo, DemoAdmin)
