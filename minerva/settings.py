@@ -63,7 +63,8 @@ INSTALLED_APPS = [
     'Visibility_Management.VIM_Web',
     'Asset_Management.ASE_Core',
     'djcelery',
-    'Demo'
+    'Demo',
+    'mapwidgets'
 
 ]
 
@@ -118,7 +119,15 @@ DATABASES = {
     }
 }
 
-
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocationName", "london"),
+        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'uk'}}),
+        ("markerFitZoom", 12),
+    ),
+    "GOOGLE_MAP_API_KEY": "<google-api-key>"
+}
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 

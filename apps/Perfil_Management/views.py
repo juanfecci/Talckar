@@ -18,3 +18,8 @@ from django.shortcuts import get_object_or_404
 class PerfilDetail(DetailView):
 	model = User
 	template_name = "Perfil_Management/perfil_detail.html"
+
+class PerfilEdit(DetailView):
+	model = User
+	template_name = "Perfil_Management/perfil_edit.html"
+
