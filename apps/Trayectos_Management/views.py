@@ -24,3 +24,8 @@ class TrayectoList(ListView):
 class TrayectoDetail(DetailView):
 	model = Trayecto
 	template_name = "Trayectos_Management/trayecto_detail.html"
+
+def TrayectoDelete(request, tray_id):
+	Trayecto.objects.filter(id=tray_id).delete()
+	print(tray_id)
+	return render(request, 'Trayectos_Management/correcto.html')
