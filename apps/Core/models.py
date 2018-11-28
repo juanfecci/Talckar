@@ -19,8 +19,9 @@ class User(AbstractUser):
 	foto = models.ImageField(upload_to='user', default="default.png")
 
 	viajes = models.ManyToManyField("Viaje")
+	trayectos = models.ManyToManyField("Trayecto")
 
-	celular = models.IntegerField()
+	celular = models.IntegerField(default=123456789)
 
 	class Meta:
 		verbose_name = "User"
@@ -104,16 +105,16 @@ class Conductor(models.Model):
 		return self.modelo
 
 class Viaje(models.Model):
-	id_viaje = models.IntegerField(null=True,blank=True)
-	tarifaPreferencias = models.IntegerField(null=True,blank=True)
+	#id_viaje = models.IntegerField(null=True,blank=True)
+	tarifaPreferencias = models.IntegerField(null=False,blank=True, default=100)
 	maletero = models.BooleanField(default=True)
 	mascota = models.BooleanField(default=True)
 	paradas = models.ManyToManyField("Parada")
-	trayectos = models.ManyToManyField("Trayecto")
+	#trayectos = models.ManyToManyField("Trayecto")
 	#fecha = models.CharField(max_length=30,null=False, default="21/10/18")
 	#hora = models.CharField(max_length=30,null=False, default="15:00")
-	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=True, blank=True)
-	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=True, blank=True)
+	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
+	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=False, default = 1)
 	estado =  models.IntegerField(default = -1)
 
 
@@ -122,7 +123,7 @@ class Viaje(models.Model):
 		verbose_name_plural = "Viajes"
 
 	def __unicode__(self):
-		return str(self.id_viaje)
+		return self.origen.nombre + " " + self.destino.nombre
 
 class Parada(models.Model):
 	#id_parada = models.IntegerField(null=True,blank=True)
@@ -142,17 +143,18 @@ class Parada(models.Model):
 class Trayecto(models.Model):
 	#id_trayecto = models.IntegerField(null=True,blank=True)
 	precio = models.IntegerField(null=True,blank=True)
-	origen = models.ForeignKey("Parada",related_name="ParadaOrigenTrayecto", null=True, blank=True)
-	destino = models.ForeignKey("Parada",related_name="ParadaDestinoTrayecto", null=True, blank=True)
+	origen = models.ForeignKey("Parada",related_name="ParadaOrigenTrayecto", null=False, blank=True, default=1)
+	destino = models.ForeignKey("Parada",related_name="ParadaDestinoTrayecto", null=False, blank=True, default=1)
 	plazas = models.ManyToManyField("Plaza")
 	estado = models.BooleanField(default=False)
+	viaje = models.ForeignKey("Viaje",related_name="Viaje", null=False, blank=True, default=1)
 	
 	class Meta:
 		verbose_name = "Trayecto"
 		verbose_name_plural = "Trayectos"
 
 	def __unicode__(self):
-		return str(self.id_trayecto)
+		return self.origen.nombre + " " + self.destino.nombre
 
 class Plaza(models.Model):
 	#id_plaza = models.IntegerField(null=True,blank=True)

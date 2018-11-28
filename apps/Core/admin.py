@@ -24,14 +24,14 @@ class TaskAdmin(admin.ModelAdmin):
 class UserAdmin(BaseUserAdmin):
 	fieldsets = BaseUserAdmin.fieldsets
 	fieldsets += (
-	('Minerva', {'fields':['clients','activeClient', 'datos_conductor', 'correo', 'profesion', 'interes', 'fumador', 'foto', 'viajes']}),
+	('Minerva', {'fields':['clients','activeClient', 'datos_conductor', 'correo', 'profesion', 'interes', 'fumador', 'foto', 'viajes', 'trayectos']}),
 	)
 
 class ConductorAdmin(admin.ModelAdmin):
 	list_display = ('licencia', 'fecha_obtencion')
 
 class ViajeAdmin(admin.ModelAdmin):
-	list_display = ('id_viaje', 'tarifaPreferencias')
+	list_display = ('tarifaPreferencias', )
 
 class ParadaAdmin(admin.ModelAdmin):
 	list_display = ('nombre', 'coordenada_x', 'coordenada_y')
