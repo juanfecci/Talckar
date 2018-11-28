@@ -14,8 +14,8 @@ import json
 
 @login_required()
 def home(request):
-	try: Core.worker_master.vigilant.apply_async()
-	except: print "The vigilant don't start"
+	#try: Core.worker_master.vigilant.apply_async()
+	#except: print "The vigilant don't start"
 	return render(request,'base.html',{})	
 
 def updateTask(request, id, status, percent):

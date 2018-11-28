@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'Viajes_Management',
     'Buscar_Management',
     'Perfil_Management',
+    'Trayectos_Management',
     'Health_Status.HS_Core',
     'WorkOrders_Management.WM_Core',
     'WorkOrders_Management.WM_Parser_Remedy',

@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^Viajes_Management/', include('Viajes_Management.urls')),
     url(r'^Perfil_Management/', include('Perfil_Management.urls')),
     url(r'^Buscar_Management/', include('Buscar_Management.urls')),
+    url(r'^Trayecto_Management/', include('Trayectos_Management.urls')),
     url(r'^Demo/', include('Demo.urls'))
 ]
 

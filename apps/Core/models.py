@@ -146,7 +146,7 @@ class Trayecto(models.Model):
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigenTrayecto", null=False, blank=True, default=1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestinoTrayecto", null=False, blank=True, default=1)
 	plazas = models.ManyToManyField("Plaza")
-	estado = models.BooleanField(default=False)
+	estado =  models.IntegerField(default = -1)
 	viaje = models.ForeignKey("Viaje",related_name="Viaje", null=False, blank=True, default=1)
 	
 	class Meta:
