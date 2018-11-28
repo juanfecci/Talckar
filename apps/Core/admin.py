@@ -34,13 +34,13 @@ class ViajeAdmin(admin.ModelAdmin):
 	list_display = ('id_viaje', 'tarifaPreferencias')
 
 class ParadaAdmin(admin.ModelAdmin):
-	list_display = ('nombre', 'id_parada', 'coordenada_x', 'coordenada_y')
+	list_display = ('nombre', 'coordenada_x', 'coordenada_y')
 
 class TrayectoAdmin(admin.ModelAdmin):
-	list_display = ('id_trayecto', 'precio')
+	list_display = ('precio',)
 
 class PlazaAdmin(admin.ModelAdmin):
-	list_display = ('id_plaza', 'posicion')
+	list_display = ('posicion',)
 
 class DemoAdmin(admin.ModelAdmin):
 	list_display = ('id_plaza',)

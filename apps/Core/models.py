@@ -20,6 +20,8 @@ class User(AbstractUser):
 
 	viajes = models.ManyToManyField("Viaje")
 
+	celular = models.IntegerField()
+
 	class Meta:
 		verbose_name = "User"
 		verbose_name_plural = "Users"
@@ -108,10 +110,11 @@ class Viaje(models.Model):
 	mascota = models.BooleanField(default=True)
 	paradas = models.ManyToManyField("Parada")
 	trayectos = models.ManyToManyField("Trayecto")
-	fecha = models.CharField(max_length=30,null=False, default="21/10/18")
-	hora = models.CharField(max_length=30,null=False, default="15:00")
+	#fecha = models.CharField(max_length=30,null=False, default="21/10/18")
+	#hora = models.CharField(max_length=30,null=False, default="15:00")
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=True, blank=True)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=True, blank=True)
+	estado =  models.IntegerField(default = -1)
 
 
 	class Meta:
@@ -122,7 +125,7 @@ class Viaje(models.Model):
 		return str(self.id_viaje)
 
 class Parada(models.Model):
-	id_parada = models.IntegerField(null=True,blank=True)
+	#id_parada = models.IntegerField(null=True,blank=True)
 	nombre = models.CharField(max_length=30,null=False, default = "Concepcion")
 	coordenada_x = models.IntegerField(null=True,blank=True)
 	coordenada_y = models.IntegerField(null=True,blank=True)
@@ -137,11 +140,12 @@ class Parada(models.Model):
 		return self.nombre
 
 class Trayecto(models.Model):
-	id_trayecto = models.IntegerField(null=True,blank=True)
+	#id_trayecto = models.IntegerField(null=True,blank=True)
 	precio = models.IntegerField(null=True,blank=True)
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigenTrayecto", null=True, blank=True)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestinoTrayecto", null=True, blank=True)
 	plazas = models.ManyToManyField("Plaza")
+	estado = models.BooleanField(default=False)
 	
 	class Meta:
 		verbose_name = "Trayecto"
@@ -151,9 +155,8 @@ class Trayecto(models.Model):
 		return str(self.id_trayecto)
 
 class Plaza(models.Model):
-	id_plaza = models.IntegerField(null=True,blank=True)
+	#id_plaza = models.IntegerField(null=True,blank=True)
 	posicion = models.IntegerField(null=True,blank=True)
-	mascota = models.BooleanField(default=True)
 	caracteristica = models.CharField(max_length=30,null=False)
 
 	class Meta:
@@ -173,3 +176,14 @@ class Demo(models.Model):
 
 	def __unicode__(self):
 		return str(self.id_plaza)
+
+class Valoracion(models.Model):
+	puntaje = models.IntegerField(null=True,blank=True)
+	comentario = models.CharField(max_length=200,null=False)
+
+	class Meta:
+		verbose_name = "Valoracion"
+		verbose_name_plural = "Valoraciones"
+
+	def __unicode__(self):
+		return str(self.puntaje)
