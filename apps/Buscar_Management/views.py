@@ -56,3 +56,8 @@ def Buscar(request):
 		form = BuscarForm()
 
 	return render(request, 'Buscar_Management/buscar.html', {'form': form} )
+
+def Error(request):
+	if request.method =="Error":
+		form = BuscarForm(request.POST)
+		return render(request, 'Buscar_Management/buscar.html', {'form': form} )
