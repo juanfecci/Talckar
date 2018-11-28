@@ -20,3 +20,7 @@ class TrayectoList(ListView):
 	template_name = "Trayectos_Management/trayecto_list.html"
 	def get_queryset(self):
 		return self.request.user.trayectos.all()
+
+class TrayectoDetail(DetailView):
+	model = Trayecto
+	template_name = "Trayectos_Management/trayecto_detail.html"
