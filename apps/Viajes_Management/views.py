@@ -25,9 +25,6 @@ class ViajeList(ListView):
 def ViajeCreate(request):
 	usuario = request.user
 	if request.method == "POST":
-		wea = request.POST.get('lat')
-		print(wea	)
-		print("ñe")
 		response = ''
 		for key,value in request.POST.items():
 			response += 'key:%s value:%s\n' % (key,value)
@@ -45,10 +42,10 @@ def ViajeCreate(request):
 			viaje.hora = request.POST.get('hora_inicio')
 
 			par1 = Parada()
-			par1.id_parada = 8
+			par1.id_parada = 10
 			par1.nombre =  request.POST.get('origen')
-			par1.coordenada_x = form.cleaned_data['lat']
-			par1.coordenada_y = form.cleaned_data['long']
+			par1.coordenada_x = request.POST.get('lati1')
+			par1.coordenada_y = request.POST.get('long1')
 			par1.fecha = request.POST.get('fecha_inicio')
 			par1.hora =request.POST.get('hora_inicio')
 			par1.save()
@@ -56,10 +53,10 @@ def ViajeCreate(request):
 			par2 = Parada()
 			par2.id_parada = 8
 			par2.nombre = request.POST.get('destino')
-			par2.coordenada_x = 200
-			par2.coordenada_y = 200
-			par2.fecha = form.cleaned_data['fecha_final'].split()[0]
-			par2.hora = form.cleaned_data['fecha_final'].split()[1]
+			par2.coordenada_x = request.POST.get('lati2')
+			par2.coordenada_y = request.POST.get('long2')
+			par2.fecha = request.POST.get('fecha_final')
+			par2.hora = request.POST.get('hora_final')
 			par2.save()
 
 			viaje.origen = par1

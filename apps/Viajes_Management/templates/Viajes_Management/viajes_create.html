@@ -61,6 +61,8 @@
                 <li>Latitude: <span id="lat"></span></li>
                 <li>Longitude: <span id="long"></span></li>
                 <br>
+                <input type="hidden" id = "lati1" name="lati1" value="" />
+                <input type="hidden" id = "long1" name="long1" value="" />
             </ul>
             <div class="form-row field-fecha">
                 <div>
@@ -78,7 +80,8 @@
           <br>
            <div style="font-weight:bold">
              Destino: <input type="text" input id="searchInput2"  name = "destino" required class="vTextField" maxlength="30" />
-           </div>
+            </div>
+           <br>
            <br>
             <div id="map2"></div> 
             <br>
@@ -89,6 +92,22 @@
                 <li>Longitude: <span id="lon2"></span></li>
                 <br>
             </ul>
+                <input type="hidden" id = "lati2" name="lati2" value="" />
+                <input type="hidden" id = "long2" name="long2" value="" />
+                 <div style="font-weight:bold">
+                <div class="form-row field-fecha">
+                  <label class="required" for="fecha_final">Fecha de llegada:</label>
+                    <input type="date" name="fecha_final" value = "MM/DD/YY" id="id_fecha"/>
+                  </div>
+                  <br>
+                <div class="form-row field-hora">
+                  <div>
+                    <label class="required" for="hora_final">Hora de llegada:</label>
+                    <input type="time" name="hora_final" value = "HH:MM" id="id_hora"/>
+                  </div>
+                </div>
+              </div>
+                <br>
              <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>          
     {{ form.as_p }}
     <input type="submit" value="Submit" />
@@ -174,7 +193,8 @@
                   document.getElementById('location').innerHTML = place.formatted_address;
                   document.getElementById('lat').innerHTML = place.geometry.location.lat();
                   document.getElementById('long').innerHTML = place.geometry.location.lng();
-                  print(place.geometry.location.lat())
+                  document.getElementById('lati1').value = place.geometry.location.lat();
+                  document.getElementById('long1').value = place.geometry.location.lng();
               });
               autocomplete2.addListener('place_changed', function() {
                   infowindow2.close();
@@ -223,8 +243,12 @@
                   document.getElementById('location2').innerHTML = place2.formatted_address;
                   document.getElementById('lat2').innerHTML = place2.geometry.location.lat();
                   document.getElementById('lon2').innerHTML = place2.geometry.location.lng();
+                  document.getElementById('lati2').value = place2.geometry.location.lat();
+                  document.getElementById('long2').value = place2.geometry.location.lng();
               });
-             }
+             } 
+            
+</script>
           </script>
 
 {% endblock %}

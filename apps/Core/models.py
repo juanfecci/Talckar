@@ -111,7 +111,7 @@ class Viaje(models.Model):
 	mascota = models.BooleanField(default=True)
 	paradas = models.ManyToManyField("Parada")
 	#trayectos = models.ManyToManyField("Trayecto")
-	#fecha = models.CharField(max_length=30,null=False, default="21/10/18")
+	#fecha = models.DateField(max_length=30,null=False, default="2018-11-12")
 	#hora = models.CharField(max_length=30,null=False, default="15:00")
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=False, default = 1)
@@ -129,10 +129,10 @@ class Viaje(models.Model):
 class Parada(models.Model):
 	#id_parada = models.IntegerField(null=True,blank=True)
 	nombre = models.CharField(max_length=30,null=False, default = "Concepcion")
-	coordenada_x = models.IntegerField(null=True,blank=True)
-	coordenada_y = models.IntegerField(null=True,blank=True)
+	coordenada_x = models.FloatField(null=True,blank=True)
+	coordenada_y = models.FloatField(null=True,blank=True)
 	hora = models.CharField(max_length=30,null=False, default = "15:00")
-	fecha = models.CharField(max_length=30,null=False, default = "21/10/18")
+	fecha = models.CharField(max_length=30,null=False, default = "2018/11/12")
 
 	class Meta:
 		verbose_name = "Parada"
