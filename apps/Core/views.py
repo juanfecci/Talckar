@@ -16,7 +16,24 @@ import json
 def home(request):
 	#try: Core.worker_master.vigilant.apply_async()
 	#except: print "The vigilant don't start"
-	return render(request,'base.html',{})	
+	usuario = request.user
+	viaje = usuario.viajes.filter(estado=2)
+
+	if len(viaje) == 0:
+		return render(request,'base.html',{})	
+
+	else:
+		viaje = viaje.first()
+		return render(request,'base2.html',{'viaje':viaje})	
+
+def AdministrarViaje(request, pk):
+	viaje = Viaje.objects.get(id=pk)
+	trayectos = Trayecto.objects.filter(viaje=pk).filter(estado=1)
+
+	primero = trayectos.first()
+	trayectos = trayectos.exclude(id=primero.id)
+
+	return render(request, 'administrar.html', {'viaje':viaje, 'trayectos':trayectos, 'primero':primero})
 
 def updateTask(request, id, status, percent):
 	print id, status, percent

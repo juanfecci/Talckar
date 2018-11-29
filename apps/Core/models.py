@@ -19,7 +19,7 @@ class User(AbstractUser):
 	foto = models.ImageField(upload_to='user', default="default.png")
 
 	viajes = models.ManyToManyField("Viaje", related_name="user")
-	trayectos = models.ManyToManyField("Trayecto")
+	trayectos = models.ManyToManyField("Trayecto", related_name="user")
 
 	celular = models.IntegerField(default=123456789)
 
@@ -116,6 +116,10 @@ class Viaje(models.Model):
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=False, default = 1)
 	estado =  models.IntegerField(default = -1)
+	#-1 En espera
+	# 0 Realizando viaje
+	# 1 Viaje Terminado
+	# 2 Viaje cercano
 	precio =  models.IntegerField(default = 100)
 
 
@@ -148,6 +152,10 @@ class Trayecto(models.Model):
 	destino = models.ForeignKey("Parada",related_name="ParadaDestinoTrayecto", null=False, blank=True, default=1)
 	plazas = models.ManyToManyField("Plaza")
 	estado =  models.IntegerField(default = -1)
+	#-1 en espera
+	# 0 cancelado
+	# 1 aceptado 
+	# 2 terminado
 	viaje = models.ForeignKey("Viaje",related_name="Viaje", null=False, blank=True, default=1)
 	
 	class Meta:

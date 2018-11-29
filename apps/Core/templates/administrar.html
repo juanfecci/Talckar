@@ -18,12 +18,12 @@
                     <p class="text-muted font-13 m-b-30">
                     </p>
 
-                    <h3>Origen: {{viaje.origen}} Destino: {{viaje.destino}}</h3>
-
+                    <h3>Origen: {{viaje.origen}} </h3> 
+                    <h3>Destino: {{viaje.destino}}</h3>
+                    <br> 
                     <h3>Fecha de Inicio: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h3>
-
                     <h3>Fecha de Llegada: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h3>
-                    <br>
+                    <br> <br> <br>
                     <table id="datatable-inbox" class="table table-striped table-bordered">
                       <thead>
                         <tr>
@@ -72,7 +72,7 @@
                           {%endif%}
 
                           {%if trayecto.estado == -1%}
-                          <td><a href="{% url "Aceptar" viaje_id=viaje.id trayecto_id=trayecto.id %}" type="button" class="btn btn-round btn-success btn-sm">Aceptar</a>
+                          <td><a href="{% url "Aceptar" viaje_id=viaje.id trayecto_id=trayecto.id %}" type="button" class="btn btn-round btn-info btn-sm">Aceptar</a>
                           <a href="{% url "Rechazar" viaje_id=viaje.id trayecto_id=trayecto.id %}" type="button" class="btn btn-round btn-danger btn-sm">Cancelar</a>
                           <a href="{% url "Trayecto_Detail" trayecto.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
                           {%endif%}
