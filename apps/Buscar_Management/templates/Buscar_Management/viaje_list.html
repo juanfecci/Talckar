@@ -33,7 +33,7 @@
                           <td>{{viaje.origen}}</td>
                           <td>{{viaje.destino}}</td>
                           <td>{{viaje.fecha}} - {{viaje.hora}}</td>
-                          <td><a href="{% url "ASE_Asset_Detail" viaje.id %}" type="button" class="btn btn-round btn-info btn-sm">Seleccionar</a></td>
+                          <td><a href= "{{"http://127.0.0.1:8000/Buscar_Management/buscar/"}}{{viaje.id}}{{"/"}}{{viaje.origen.id}}{{"/"}}{{viaje.destino.id}}" type="button" class="btn btn-round btn-info btn-sm">Seleccionar</a></td>
                         </tr>
                       {% endfor %}
                       </tbody>

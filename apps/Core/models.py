@@ -18,7 +18,7 @@ class User(AbstractUser):
 
 	foto = models.ImageField(upload_to='user', default="default.png")
 
-	viajes = models.ManyToManyField("Viaje")
+	viajes = models.ManyToManyField("Viaje", related_name="user")
 	trayectos = models.ManyToManyField("Trayecto")
 
 	celular = models.IntegerField(default=123456789)

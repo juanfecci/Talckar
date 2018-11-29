@@ -89,3 +89,7 @@ def ViajeCreate(request):
 	else:
 		form = ViajeForm()
 	return render(request, 'Viajes_Management/viajes_create.html', {'form': form} )		
+
+class ViajeDetail(DetailView):
+	model = Viaje
+	template_name = "Viajes_Management/viajes_detail.html"

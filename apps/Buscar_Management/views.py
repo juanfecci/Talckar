@@ -57,6 +57,18 @@ def Buscar(request):
 
 	return render(request, 'Buscar_Management/buscar.html', {'form': form} )
 
+'''
+def BuscarDetail(request, pk, origen, destino):
+	if request.method == "POST":
+		print("Wena wena ------------------")
+	else:
+		print("wea asdasdasd sddddddddddddddddddd")
+		return render(request, "Buscar_Management/buscar_detail.html", {'viaje': Viaje.objects.get(pk)})
+'''
+class BuscarDetail(DetailView):
+	model = Viaje
+	template_name = "Buscar_Management/buscar_detail.html"
+
 def Error(request):
 	if request.method =="Error":
 		form = BuscarForm(request.POST)
