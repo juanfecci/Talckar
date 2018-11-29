@@ -89,7 +89,28 @@ def ViajeCreate(request):
 	else:
 		form = ViajeForm()
 	return render(request, 'Viajes_Management/viajes_create.html', {'form': form} )		
-
+'''
 class ViajeDetail(DetailView):
 	model = Viaje
-	template_name = "Viajes_Management/viajes_detail.html"
+	template_name = "Viajes_Management/viaje_detail.html"
+'''
+def ViajeDetail(request, pk):
+	viaje = Viaje.objects.get(id=pk)
+	trayectos = Trayecto.objects.filter(viaje=pk).exclude(estado=0)
+	return render(request, 'Viajes_Management/viaje_detail.html', {'viaje':viaje, 'trayectos':trayectos})	
+
+def ViajeDelete(request, viaje_id):
+	Viaje.objects.filter(id=viaje_id).delete()
+	return render(request, 'Viajes_Management/correcto.html')
+
+def AceptarPlaza(request, viaje_id, trayecto_id):
+	trayecto = Trayecto.objects.get(id=trayecto_id)
+	trayecto.estado = 1
+	trayecto.save()
+	return ViajeDetail(request, viaje_id)
+
+def RechazarPlaza(request, viaje_id, trayecto_id):
+	trayecto = Trayecto.objects.get(id=trayecto_id)
+	trayecto.estado = 0
+	trayecto.save()
+	return ViajeDetail(request, viaje_id)
