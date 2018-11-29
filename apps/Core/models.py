@@ -116,6 +116,7 @@ class Viaje(models.Model):
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=False, default = 1)
 	estado =  models.IntegerField(default = -1)
+	precio =  models.IntegerField(default = 100)
 
 
 	class Meta:
