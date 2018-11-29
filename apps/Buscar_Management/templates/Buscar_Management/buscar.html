@@ -1,4 +1,31 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Buscar Viaje</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+       #map {
+    width: 25%;
+    height: 300px;
+}
+    #map2{
+    width: 25%;
+    height: 300px;
+}
+.controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+    </style>
+  </head>
+  {% extends 'base.html' %}
 
 {% block content %}
 
@@ -20,9 +47,163 @@
                     </p>
                     
                     <form method="post">{% csrf_token %}
-    {{ form.as_p }}
+                      <div style="font-weight:bold">
+                        <div>
+                        Origen: <input type="text" input id="searchInput"  name = "origen" required class="vTextField" maxlength="30" />
+                      </div>
+                      <br>
+                      <div id="map"></div>
+                    <br>
+                      <div>
+                         Destino: <input type="text" input id="searchInput2"  name = "destino" required class="vTextField" maxlength="30" />
+                      </div>
+                      <br>
+                      <div id="map2"></div> 
+                      <br>
+                      <div class="form-row field-fecha">
+                        <div>
+                          <label class="required" for="fecha_inicio">Fecha de inicio:</label>
+                          <input type="date" name="fecha_inicio" value = "MM/DD/YY" id="id_fecha"/>
+                      </div>
+                    </div>
+                  </div>
+                     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>  
     <input type="submit" value="Submit" />
 </form>
+<script>
+          function initMap() {
+              var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -33.8688, lng: 151.2195},
+                zoom: 13
+              });
+              var map2 = new google.maps.Map(document.getElementById('map2'), {
+                center: {lat: -33.8688, lng: 151.2195},
+                zoom: 13
+              });
+
+              var input = document.getElementById('searchInput');
+
+              var autocomplete = new google.maps.places.Autocomplete(input);
+              autocomplete.bindTo('bounds', map);
+
+              var infowindow = new google.maps.InfoWindow();
+              var marker = new google.maps.Marker({
+                  map: map,
+                  anchorPoint: new google.maps.Point(0, -29)
+              });
+              var input2 = document.getElementById('searchInput2');
+
+              var autocomplete2 = new google.maps.places.Autocomplete(input2);
+              autocomplete.bindTo('bounds', map2);
+
+              var infowindow2 = new google.maps.InfoWindow();
+              var marker2 = new google.maps.Marker({
+                  map: map2,
+                  anchorPoint: new google.maps.Point(0, -29)
+              });
+              autocomplete.addListener('place_changed', function() {
+                  infowindow.close();
+                  marker.setVisible(false);
+                  var place = autocomplete.getPlace();
+                  if (!place.geometry) {
+                      window.alert("Autocomplete's returned place contains no geometry");
+                      return;
+                  }
+            
+                  // If the place has a geometry, then present it on a map.
+                  if (place.geometry.viewport) {
+                      map.fitBounds(place.geometry.viewport);
+                  } else {
+                      map.setCenter(place.geometry.location);
+                      map.setZoom(17);
+                  }
+                  marker.setIcon(({
+                      url: place.icon,
+                      size: new google.maps.Size(71, 71),
+                      origin: new google.maps.Point(0, 0),
+                      anchor: new google.maps.Point(17, 34),
+                      scaledSize: new google.maps.Size(35, 35)
+                  }));
+                  marker.setPosition(place.geometry.location);
+                  marker.setVisible(true);
+              
+                  var address = '';
+                  if (place.address_components) {
+                      address = [
+                        (place.address_components[0] && place.address_components[0].short_name || ''),
+                        (place.address_components[1] && place.address_components[1].short_name || ''),
+                        (place.address_components[2] && place.address_components[2].short_name || '')
+                      ].join(' ');
+                  }
+              
+                  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+                  infowindow.open(map, marker);
+                
+                  //Location details
+                  for (var i = 0; i < place.address_components.length; i++) {
+                      if(place.address_components[i].types[0] == 'postal_code'){
+                          document.getElementById('postal_code').innerHTML = place.address_components[i].long_name;
+                      }
+                      if(place.address_components[i].types[0] == 'country'){
+                          document.getElementById('country').innerHTML = place.address_components[i].long_name;
+                      }
+                  }
+                  document.getElementById('location').innerHTML = place.formatted_address;
+                  document.getElementById('lat').innerHTML = place.geometry.location.lat();
+                  document.getElementById('long').innerHTML = place.geometry.location.lng();
+                  print(place.geometry.location.lat())
+              });
+              autocomplete2.addListener('place_changed', function() {
+                  infowindow2.close();
+                  marker2.setVisible(false);
+                  var place2 = autocomplete2.getPlace();
+                  if (!place2.geometry) {
+                      window.alert("Autocomplete's returned place contains no geometry");
+                      return;
+                  }
+            
+                  // If the place has a geometry, then present it on a map.
+                  if (place2.geometry.viewport) {
+                      map2.fitBounds(place2.geometry.viewport);
+                  } else {
+                      map2.setCenter(place2.geometry.location);
+                      map2.setZoom(17);
+                  }
+                  marker2.setIcon(({
+                      url: place2.icon,
+                      size: new google.maps.Size(71, 71),
+                      origin: new google.maps.Point(0, 0),
+                      anchor: new google.maps.Point(17, 34),
+                      scaledSize: new google.maps.Size(35, 35)
+                  }));
+                  marker2.setPosition(place2.geometry.location);
+                  marker2.setVisible(true);
+              
+                  var address2 = '';
+                  if (place2.address_components) {
+                      address2 = [
+                        (place2.address_components[0] && place2.address_components[0].short_name || ''),
+                        (place2.address_components[1] && place2.address_components[1].short_name || ''),
+                        (place2.address_components[2] && place2.address_components[2].short_name || '')
+                      ].join(' ');
+                  }
+              
+                  infowindow2.setContent('<div><strong>' + place2.name + '</strong><br>' + address2);
+                  infowindow2.open(map2, marker2);
+                
+                  //Location details
+                  for (var i = 0; i < place2.address_components.length; i++) {
+                      if(place2.address_components[i].types[0] == 'country'){
+                          document.getElementById('country2').innerHTML = place2.address_components[i].long_name;
+                      }
+                  }
+                  document.getElementById('location2').innerHTML = place2.formatted_address;
+                  document.getElementById('lat2').innerHTML = place2.geometry.location.lat();
+                  document.getElementById('lon2').innerHTML = place2.geometry.location.lng();
+              });
+             }
+          </script>
+
 
 {% endblock %}
 
