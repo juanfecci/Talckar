@@ -108,8 +108,12 @@
                 </div>
               </div>
                 <br>
-             <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>          
+             <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script> 
+
+             <a href="{% url "Buscar_Create"%}" type="button" class="btn btn-round btn-success btn-sm">Agregar Paradas</a>         
     {{ form.as_p }}
+
+    <h2> Tarifa promedio del sistema: 20 </h2>
     <input type="submit" value="Submit" />
 </form>
 <script>

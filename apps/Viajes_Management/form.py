@@ -12,7 +12,7 @@ class ViajeForm(forms.Form):
 	#mapa2 = forms.CharField(widget=forms.Textarea, required=False)
 	#fecha_final = forms.CharField(label = "Fecha de llegada (DD/MM/YY HH:MM)")
 
-	paradas = forms.CharField(widget=forms.Textarea, label = "Paradas (Nombre YY/MM/DD HH:MM:SS)")
+	#paradas = forms.CharField(widget=forms.Textarea, label = "Paradas (Nombre YY/MM/DD HH:MM:SS)")
 
 	tarifa = forms.IntegerField(label="Tarifa")
 	maletero  = forms.BooleanField(label = "Maletero", required=False)

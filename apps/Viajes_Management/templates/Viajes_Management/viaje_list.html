@@ -32,7 +32,7 @@
                         <tr>
                           <td>{{viaje.origen}}</td>
                           <td>{{viaje.destino}}</td>
-                          <td>{{viaje.fecha}} - {{viaje.hora}}</td>
+                          <td>{{viaje.origen.fecha}} - {{viaje.origen.hora}}</td>
                           <td><a href="{% url "Viaje_Detail" viaje.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalle</a></td>
                         </tr>
                       {% endfor %}

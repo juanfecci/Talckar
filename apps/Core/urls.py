@@ -25,18 +25,14 @@ urlpatterns = [
     url(r'^logout', auth_views.logout, {'next_page': '/'}, name="logout"),
     url(r'^$', core_views.home, name="Index_Base"),
     url(r'^Administrar/(?P<pk>\d+)/$', core_views.AdministrarViaje, name='Administrar_Viaje'),
-    url(r'^Task_Management/updateTask/(?P<id>.+)/(?P<status>.+)/(?P<percent>.+)/$', core_views.updateTask),
-    url(r'^Task_Management/List$', core_views.taskList),
+    url(r'^Administrar/Toma/(?P<viaje_id>\d+)/(?P<trayecto_id>\d+)/$', core_views.TomarPasajero, name='Tomar_Pasajero'),
+    url(r'^Valorar/(?P<pk>\d+)/$', core_views.Valorar, name='Valorar'),
+    url(r'^Administrar/Pasa/(?P<viaje_id>\d+)/(?P<trayecto_id>\d+)/$', core_views.ValorarPasajero, name='Valorar_Pasajero'),
     url(r'^changeActiveClient/([0-9]+)/$', core_views.changeActiveClient, name="changeActiveClient" ),
-    url(r'^Health_Status/', include('Health_Status.HS_Core.urls')),
-    url(r'^WorkOrders_Management/', include('WorkOrders_Management.WM_Core.urls')),
-    url(r'^Visibility_Management/', include('Visibility_Management.VIM_Core.urls')),
-    url(r'^Asset_Management/', include('Asset_Management.ASE_Core.urls')),
     url(r'^Viajes_Management/', include('Viajes_Management.urls')),
     url(r'^Perfil_Management/', include('Perfil_Management.urls')),
     url(r'^Buscar_Management/', include('Buscar_Management.urls')),
-    url(r'^Trayecto_Management/', include('Trayectos_Management.urls')),
-    url(r'^Demo/', include('Demo.urls'))
+    url(r'^Trayecto_Management/', include('Trayectos_Management.urls'))
 ]
 
 #http://127.0.0.1:8000/Task_Management/updateTask/a452df87-39f1-4e3e-a926-0e3c047b5a7d/SUCCESS/-1/

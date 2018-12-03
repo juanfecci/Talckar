@@ -12,82 +12,52 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                       </li>
                     </ul>
+                    <h1>Viaje en curso</h1>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
                     </p>
 
-                    <h3>Origen: {{viaje.origen}} </h3> 
-                    <h3>Destino: {{viaje.destino}}</h3>
+                    <h2>Origen: {{viaje.origen}} </h2> 
+                    <h2>Destino: {{viaje.destino}}</h2>
                     <br> 
-                    <h3>Fecha de Inicio: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h3>
-                    <h3>Fecha de Llegada: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h3>
-                    <br> <br> <br>
+                    <h2>Fecha de Inicio: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h2>
+                    <h2>Fecha de Llegada: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h2>
+                    <br> <br>
+
+                    <h3> Siguiente pasajero: {{primero.user.first.first_name}} {{primero.user.first.last_name}} </h3>
+
+                    <h3> Se sube en {{primero.origen.nombre}} a las {{primero.origen.hora}} - {{primero.origen.fecha}}
+
+                    <br><br>
+
+                    <a href="{% url "Tomar_Pasajero" viaje_id=viaje.id trayecto_id=primero.id %}" type="button" class="btn btn-round btn-success btn-sm">Tomar pasajero</a>
+
+                    <br> <br>
+
+                    <h2> Siguientes pasajeros: </h2>
+
                     <table id="datatable-inbox" class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                          <th>Paradas</th>
+                          <th>Nombre</th>
+                          <th>Subida</th>
                           <th>Fecha</th>
                           
                         </tr>
                       </thead>
                       <tbody>
-                      {% for parada in viaje.paradas.all%}
+                      {% for trayecto in trayectos.all%}
                         <tr>
-                          <td>{{parada.nombre}}</td>                         
-                          <td>{{parada.fecha}} - {{parada.hora}}</td>                           
+                          <td>{{trayecto.user.first.first_name}} {{trayecto.user.first.last_name}} </td>   
+                          <td>{{trayecto.origen.nombre}}</td>     
+                          <td>{{trayecto.origen.hora}} - {{trayecto.origen.fecha}}</td>                           
                         </tr>
                       {% endfor %}
                       </tbody>
 
                     </table>
-
-                    <br>
-                    <h3>Solicitudes de reserva </h3>
-                    <table id="datatable-inbox" class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Parada Inicio</th>
-                          <th>Parada Destino</th>
-                          <th>Fecha-Hora de inicio</th>
-                          <th>Precio</th>
-                          <th>Estado</th>
-                          <th>Acciones</th>
-                          
-                        </tr>
-                      </thead>
-                      <tbody>
-                      {% for trayecto in trayectos%}
-                        <tr>
-                          <td>{{trayecto.origen}}</td>
-                          <td>{{trayecto.destino}}</td>
-                          <td>{{trayecto.origen.fecha}} - {{trayecto.origen.hora}}</td>
-                          <td>{{trayecto.precio}}</td>
-                          {%if trayecto.estado == -1%}
-                          <td>Esperando confirmacion</td>
-                          {%endif%}
-                          {%if trayecto.estado == 1%}
-                          <td>Confirmado</td>
-                          {%endif%}
-
-                          {%if trayecto.estado == -1%}
-                          <td><a href="{% url "Aceptar" viaje_id=viaje.id trayecto_id=trayecto.id %}" type="button" class="btn btn-round btn-info btn-sm">Aceptar</a>
-                          <a href="{% url "Rechazar" viaje_id=viaje.id trayecto_id=trayecto.id %}" type="button" class="btn btn-round btn-danger btn-sm">Cancelar</a>
-                          <a href="{% url "Trayecto_Detail" trayecto.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
-                          {%endif%}
-                          {%if trayecto.estado == 1%}
-                          <td><a href="{% url "Trayecto_Detail" trayecto.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
-                          {%endif%}
-                          
-                        </tr>
-                      {% endfor %}
-                      </tbody>
-
-                    </table>
-
-                    <a href="{% url "Viaje_Delete" viaje.id %}" type="button" class="btn btn-round btn-danger btn-sm">Eliminar</a>
-                    </a>
                   </div>
                 </div>
               </div>

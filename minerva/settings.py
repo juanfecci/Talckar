@@ -51,27 +51,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Core',
-    'Vulnerability_Management.VM_Core',
-    'Vulnerability_Management.VM_Parser_Qualys',
     'Viajes_Management',
     'Buscar_Management',
     'Perfil_Management',
     'Trayectos_Management',
-    'Health_Status.HS_Core',
-    'WorkOrders_Management.WM_Core',
-    'WorkOrders_Management.WM_Parser_Remedy',
-    'Visibility_Management.VIM_Core',
-    'Visibility_Management.VIM_Web',
-    'Asset_Management.ASE_Core',
     'djcelery',
-    'Demo',
     'mapwidgets'
 
 ]
 
 CRON_APPS = [
-    ('Health_Status.HS_Core.views'),
-    ('WorkOrders_Management.WM_Parser_Remedy.views'),
 ]
 
 MIDDLEWARE = [

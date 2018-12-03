@@ -34,7 +34,6 @@ class Client(models.Model):
 	name = models.CharField(max_length=15,null=False)
 	description = models.TextField(max_length=200,null=False)
 	modules = models.ManyToManyField("Module")
-	workers = models.ManyToManyField("Worker")
 
 	class Meta:
 		verbose_name = "Client"
@@ -63,32 +62,6 @@ SCAN_STATUS_CHOICES = (
 	("SC", "Terminado"),
 	("ER", "Error"),
 	)
-
-class Task(models.Model):
-	task_id = models.CharField(max_length=30,null=False)
-	previus_id = models.CharField(max_length=30,null=False)
-	task_type = models.CharField(max_length=30,null=False)
-	status = models.CharField(choices=SCAN_STATUS_CHOICES, max_length=300, default="WT")
-	percent = models.CharField(max_length=50, null=True, default="0")
-	total = models.CharField(max_length=50, null=True, default="0")
-
-	class Meta:
-		verbose_name = "Task"
-		verbose_name_plural = "Task"
-
-	def __unicode__(self):
-		return str(self.task_type) + " " + str(self.task_id)
-
-class Worker(models.Model):
-	name = models.CharField(max_length=30,null=False)
-	tasks = models.ManyToManyField("Task", blank=True)
-
-	class Meta:
-		verbose_name = "Worker"
-		verbose_name_plural = "Worker"
-
-	def __unicode__(self):
-		return self.name
 
 class Conductor(models.Model):
 	licencia = models.CharField(max_length=30,null=False)
@@ -176,17 +149,6 @@ class Plaza(models.Model):
 
 	def __unicode__(self):
 		return str(self.posicion)
-
-
-class Demo(models.Model):
-	id_plaza = models.IntegerField(null=True,blank=True)
-
-	class Meta:
-		verbose_name = "Demo"
-		verbose_name_plural = "Demos"
-
-	def __unicode__(self):
-		return str(self.id_plaza)
 
 class Valoracion(models.Model):
 	puntaje = models.IntegerField(null=True,blank=True)
