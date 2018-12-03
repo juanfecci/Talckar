@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Viaje</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+       #map {
+    width: 25%;
+    height: 300px;
+}
+    #map2{
+    width: 25%;
+    height: 300px;
+}
+.controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.button {
+    color: green;
+}
+    </style>
+  </head>
+{% extends 'base.html' %}
+
+{% block content %}
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Creación de viaje </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30">
+                    </p>
+                     <br>
+                   </div>
+
+                   <h3> Agregar parada </h3>
+          <form action="" method="POST">
+          {% csrf_token %}
+               <div style="font-weight:bold">
+                  Origen: <input type="text" input id="searchInput"  name = "origen" required class="vTextField" maxlength="30" />
+              </div>
+              <br>
+            <div id="map"></div>
+            <br>
+            <ul id="geoData">
+                <li>Full Address: <span id="location"></span></li>
+                <li>Country: <span id="country"></span></li>
+                <li>Latitude: <span id="lat"></span></li>
+                <li>Longitude: <span id="long"></span></li>
+                <br>
+                <input type="hidden" id = "lati1" name="lati1" value="" />
+                <input type="hidden" id = "long1" name="long1" value="" />
+            </ul>
+            <div class="form-row field-fecha">
+                <div>
+                  <label class="required" for="fecha_inicio">Fecha de inicio:</label>
+                    <input type="date" name="fecha_inicio" value = "MM/DD/YY" id="id_fecha"/>
+                </div>
+              </div>
+              <br>
+           <div class="form-row field-hora">
+            <div>
+              <label class="required" for="hora_inicio">Hora de inicio:</label>
+              <input type="time" name="hora_inicio" value = "HH:MM" id="id_hora"/>
+            </div>
+          </div>
+                <br>
+                  <div>
+                     <input type="submit" value="Agregar Paradas" style="background-color: #00cc7a; /* Green */border: none;color: white;padding: 11px;text-align: center;text-decoration: none;display: inline-block;font-size: 12px;margin: 4px 2px;border-radius: 21px;">
+                     <br> <br>
+                     <td><a href="{% url "Viaje2" %}" type="button" class="btn btn-round btn-info btn-sm">Continuar</a></td>
+                  </div>
+                </form>
+                  <br>
+             <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
+<script>
+          function initMap() {
+              var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -33.8688, lng: 151.2195},
+                zoom: 13
+              });
+
+              var input = document.getElementById('searchInput');
+
+              var autocomplete = new google.maps.places.Autocomplete(input);
+              autocomplete.bindTo('bounds', map);
+
+              var infowindow = new google.maps.InfoWindow();
+              var marker = new google.maps.Marker({
+                  map: map,
+                  anchorPoint: new google.maps.Point(0, -29)
+              });
+
+              autocomplete.addListener('place_changed', function() {
+                  infowindow.close();
+                  marker.setVisible(false);
+                  var place = autocomplete.getPlace();
+                  if (!place.geometry) {
+                      window.alert("Autocomplete's returned place contains no geometry");
+                      return;
+                  }
+            
+                  // If the place has a geometry, then present it on a map.
+                  if (place.geometry.viewport) {
+                      map.fitBounds(place.geometry.viewport);
+                  } else {
+                      map.setCenter(place.geometry.location);
+                      map.setZoom(17);
+                  }
+                  marker.setIcon(({
+                      url: place.icon,
+                      size: new google.maps.Size(71, 71),
+                      origin: new google.maps.Point(0, 0),
+                      anchor: new google.maps.Point(17, 34),
+                      scaledSize: new google.maps.Size(35, 35)
+                  }));
+                  marker.setPosition(place.geometry.location);
+                  marker.setVisible(true);
+              
+                  var address = '';
+                  if (place.address_components) {
+                      address = [
+                        (place.address_components[0] && place.address_components[0].short_name || ''),
+                        (place.address_components[1] && place.address_components[1].short_name || ''),
+                        (place.address_components[2] && place.address_components[2].short_name || '')
+                      ].join(' ');
+                  }
+              
+                  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+                  infowindow.open(map, marker);
+                
+                  //Location details
+                  for (var i = 0; i < place.address_components.length; i++) {
+                      if(place.address_components[i].types[0] == 'postal_code'){
+                          document.getElementById('postal_code').innerHTML = place.address_components[i].long_name;
+                      }
+                      if(place.address_components[i].types[0] == 'country'){
+                          document.getElementById('country').innerHTML = place.address_components[i].long_name;
+                      }
+                  }
+                  document.getElementById('location').innerHTML = place.formatted_address;
+                  document.getElementById('lat').innerHTML = place.geometry.location.lat();
+                  document.getElementById('long').innerHTML = place.geometry.location.lng();
+                  document.getElementById('lati1').value = place.geometry.location.lat();
+                  document.getElementById('long1').value = place.geometry.location.lng();
+              });
+             } 
+            
+</script>
+          </script>
+
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <!-- Datatables -->
+    <script src="{% static 'js/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script src="{% static 'js/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script src="{% static 'js/jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/vfs_fonts.js' %}"></script>
+
+<script>
+$(document).ready(function() {
+    $('#datatable-inbox').DataTable( {
+      "searching": false,
+      "paging": false,
+      "info": false
+    } );
+} );
+</script>
+
+{% endblock %}
