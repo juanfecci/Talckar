@@ -23,6 +23,9 @@
     outline: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
+.button {
+    color: green;
+}
     </style>
   </head>
 {% extends 'base.html' %}
@@ -108,14 +111,12 @@
                 </div>
               </div>
                 <br>
-             <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script> 
-
-             <a href="{% url "Buscar_Create"%}" type="button" class="btn btn-round btn-success btn-sm">Agregar Paradas</a>         
-    {{ form.as_p }}
-
-    <h2> Tarifa promedio del sistema: 20 </h2>
-    <input type="submit" value="Submit" />
-</form>
+                  <div>
+                     <input type="submit" value="Agregar Paradas" style="background-color: #00cc7a; /* Green */border: none;color: white;padding: 11px;text-align: center;text-decoration: none;display: inline-block;font-size: 12px;margin: 4px 2px;border-radius: 21px;">
+                  </div>
+                </form>
+                  <br>
+             <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 <script>
           function initMap() {
               var map = new google.maps.Map(document.getElementById('map'), {

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.shortcuts import redirect
 
 from django.shortcuts import render
 
@@ -25,19 +26,11 @@ class ViajeList(ListView):
 def ViajeCreate(request):
 	usuario = request.user
 	if request.method == "POST":
-		response = ''
-		for key,value in request.POST.items():
-			response += 'key:%s value:%s\n' % (key,value)
-			print(response)
-
-		form = ViajeForm(request.POST)
-		if form.is_valid():
+		#form = ViajeForm(request.POST)
+		#if form.is_valid():
 			viaje = Viaje()
 			viaje.save()
 			viaje.id_viaje = 7
-			viaje.tarifaPreferencia = form.cleaned_data['tarifa']
-			viaje.maletero = form.cleaned_data['maletero']
-			viaje.mascota = form.cleaned_data['mascota']
 			viaje.fecha = request.POST.get('fecha_inicio')
 			viaje.hora = request.POST.get('hora_inicio')
 
@@ -64,31 +57,11 @@ def ViajeCreate(request):
 
 			viaje.paradas.add(par1)
 			viaje.paradas.add(par2)
-
-			p = form.cleaned_data['paradas'].split("\n")
-
-			for i in p:
-				i_2 = i.split()
-				auxP = Parada()
-				auxP.id_parada = 7
-				auxP.nombre = i_2[0]
-				auxP.coordenada_x = 200
-				auxP.coordenada_y = 200
-				auxP.fecha = i_2[1]
-				auxP.hora = i_2[2]
-
-				auxP.save()
-
-				viaje.paradas.add(auxP)
-
-			viaje.save()
 			usuario.viajes.add(viaje)
-
-			return render(request, 'Viajes_Management/viajes_create.html', {'form': form} )		
-
+			return redirect('http://127.0.0.1:8000/Viajes_Management/viajeCreate/agregar')
 	else:
 		form = ViajeForm()
-	return render(request, 'Viajes_Management/viajes_create.html', {'form': form} )		
+		return render(request, 'Viajes_Management/viajes_create.html', {'form': form} )		
 '''
 class ViajeDetail(DetailView):
 	model = Viaje
@@ -114,3 +87,37 @@ def RechazarPlaza(request, viaje_id, trayecto_id):
 	trayecto.estado = 0
 	trayecto.save()
 	return ViajeDetail(request, viaje_id)
+
+def AgregarParadas(request):
+	usuario = request.user
+	if request.method == "POST":
+		viaje = usuario.viajes.last()
+		par2 = Parada()
+		par2.id_parada = Parada.objects.count() +1
+		par2.nombre = request.POST.get('parada')
+		#par2.coordenada_x = request.POST.get('lati1')
+		#par2.coordenada_y = request.POST.get('long1')
+		par2.coordenada_x = 200
+		par2.coordenada_y = 200
+		par2.fecha = request.POST.get('fecha_inicio')
+		par2.hora = request.POST.get('hora_inicio')
+		par2.save()
+		viaje.paradas.add(par2)
+
+		return render(request,'Viajes_Management/agregar_paradas.html')
+	else:
+		form = ViajeForm()
+		return render(request, 'Viajes_Management/agregar_paradas.html', {'form': form} )		
+
+def Viaje2(request):
+	usuario = request.user
+	if request.method == "POST":
+		form = ViajeForm(request.POST)
+		viaje = usuario.viajes.last()
+		viaje.tarifaPreferencia = form['tarifa']
+		viaje.maletero = form['maletero']
+		viaje.mascota = form['mascota']
+		return redirect('/')
+	else:
+		form = ViajeForm()
+		return render(request, 'Viajes_Management/Viaje2.html', {'form': form} )		
