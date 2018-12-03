@@ -14,6 +14,8 @@ class ViajeForm(forms.Form):
 
 	#paradas = forms.CharField(widget=forms.Textarea, label = "Paradas (Nombre YY/MM/DD HH:MM:SS)")
 
-	tarifa = forms.IntegerField(label="Tarifa")
+	plazas = forms.IntegerField(label="Plazas disponibles")
 	maletero  = forms.BooleanField(label = "Maletero", required=False)
 	mascota = forms.BooleanField(label = "Mascota", required=False)
+
+	tarifa = forms.IntegerField(label="Tarifa")

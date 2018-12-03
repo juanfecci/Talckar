@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Buscar Viaje</title>
+    <title>Create Viaje</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
@@ -23,16 +23,19 @@
     outline: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
+.button {
+    color: green;
+}
     </style>
   </head>
-  {% extends 'base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
 
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Buscar viaje </h2>
+                    <h2>Buscador de viaje </h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -45,31 +48,56 @@
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
                     </p>
-                    
-                    <form method="post">{% csrf_token %}
-                      <div style="font-weight:bold">
-                        <div>
-                        Origen: <input type="text" input id="searchInput"  name = "origen" required class="vTextField" maxlength="30" />
-                      </div>
-                      <br>
-                      <div id="map"></div>
-                    <br>
-                      <div>
-                         Destino: <input type="text" input id="searchInput2"  name = "destino" required class="vTextField" maxlength="30" />
-                      </div>
-                      <br>
-                      <div id="map2"></div> 
-                      <br>
-                      <div class="form-row field-fecha">
-                        <div>
-                          <label class="required" for="fecha_inicio">Fecha de inicio:</label>
-                          <input type="date" name="fecha_inicio" value = "MM/DD/YY" id="id_fecha"/>
-                      </div>
-                    </div>
+                     <br>
+                   </div>
+          <form action="" method="POST">
+          {% csrf_token %}
+               <div style="font-weight:bold">
+                  Origen: <input type="text" input id="searchInput"  name = "origen" required class="vTextField" maxlength="30" />
+              </div>
+              <br>
+            <div id="map"></div>
+            <br>
+            <ul id="geoData">
+                <li>Full Address: <span id="location"></span></li>
+                <li>Country: <span id="country"></span></li>
+                <li>Latitude: <span id="lat"></span></li>
+                <li>Longitude: <span id="long"></span></li>
+                <br>
+                <input type="hidden" id = "lati1" name="lati1" value="" />
+                <input type="hidden" id = "long1" name="long1" value="" />
+            </ul>
+            <div class="form-row field-fecha">
+                <div>
+                  <label class="required" for="fecha_inicio">Fecha de inicio:</label>
+                    <input type="date" name="fecha_inicio" value = "MM/DD/YY" id="id_fecha"/>
+                </div>
+              </div>
+              <br>
+          <br>
+           <div style="font-weight:bold">
+             Destino: <input type="text" input id="searchInput2"  name = "destino" required class="vTextField" maxlength="30" />
+            </div>
+           <br>
+           <br>
+            <div id="map2"></div> 
+            <br>
+            <ul id="geoData2">
+                <li>Full Address: <span id="location2"></span></li>
+                <li>Country: <span id="country2"></span></li>
+                <li>Latitude: <span id="lat2"></span></li>
+                <li>Longitude: <span id="lon2"></span></li>
+                <br>
+            </ul>
+                <input type="hidden" id = "lati2" name="lati2" value="" />
+                <input type="hidden" id = "long2" name="long2" value="" />
+                <br>
+                  <div>
+                     <input type="submit" value="Buscar" style="background-color: #00cc7a; /* Green */border: none;color: white;padding: 11px;text-align: center;text-decoration: none;display: inline-block;font-size: 12px;margin: 4px 2px;border-radius: 21px;">
                   </div>
-                     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>  
-    <input type="submit" value="Submit" />
-</form>
+                </form>
+                  <br>
+             <script src="https://maps.googleapis.com/maps/api/js?libraries=places&callback=initMap" async defer></script>
 <script>
           function initMap() {
               var map = new google.maps.Map(document.getElementById('map'), {
@@ -151,7 +179,8 @@
                   document.getElementById('location').innerHTML = place.formatted_address;
                   document.getElementById('lat').innerHTML = place.geometry.location.lat();
                   document.getElementById('long').innerHTML = place.geometry.location.lng();
-                  print(place.geometry.location.lat())
+                  document.getElementById('lati1').value = place.geometry.location.lat();
+                  document.getElementById('long1').value = place.geometry.location.lng();
               });
               autocomplete2.addListener('place_changed', function() {
                   infowindow2.close();
@@ -200,10 +229,13 @@
                   document.getElementById('location2').innerHTML = place2.formatted_address;
                   document.getElementById('lat2').innerHTML = place2.geometry.location.lat();
                   document.getElementById('lon2').innerHTML = place2.geometry.location.lng();
+                  document.getElementById('lati2').value = place2.geometry.location.lat();
+                  document.getElementById('long2').value = place2.geometry.location.lng();
               });
-             }
+             } 
+            
+</script>
           </script>
-
 
 {% endblock %}
 

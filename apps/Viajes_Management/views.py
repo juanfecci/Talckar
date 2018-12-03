@@ -110,7 +110,13 @@ def AgregarParadas(request):
 	else:
 		viaje.estado = -9
 		viaje.save()
-		return render(request, 'Viajes_Management/agregar_parada.html', {} )		
+		return render(request, 'Viajes_Management/agregar_parada.html', {} )
+
+def ObtenerPromedio():
+	viajes = Viaje.objects.all()
+	suma = 0
+	for v in viajes: suma += v.tarifaPreferencias
+	return suma / len(viajes)
 
 def Viaje2(request):
 	usuario = request.user
@@ -130,4 +136,7 @@ def Viaje2(request):
 		form = ViajeForm()
 		viaje.estado = -8
 		viaje.save()
-		return render(request, 'Viajes_Management/Viaje2.html', {'form': form} )		
+
+		tarifa = ObtenerPromedio()
+
+		return render(request, 'Viajes_Management/Viaje2.html', {'form': form, 'tarifa': tarifa} )		

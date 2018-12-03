@@ -78,14 +78,11 @@ class Conductor(models.Model):
 		return self.modelo
 
 class Viaje(models.Model):
-	#id_viaje = models.IntegerField(null=True,blank=True)
 	tarifaPreferencias = models.IntegerField(null=False,blank=True, default=100)
 	maletero = models.BooleanField(default=True)
 	mascota = models.BooleanField(default=True)
 	paradas = models.ManyToManyField("Parada")
-	#trayectos = models.ManyToManyField("Trayecto")
-	#fecha = models.DateField(max_length=30,null=False, default="2018-11-12")
-	#hora = models.CharField(max_length=30,null=False, default="15:00")
+	plazas_max = models.IntegerField(null=False,blank=False, default=4)
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=False, default = 1)
 	estado =  models.IntegerField(default = -1)
@@ -103,8 +100,10 @@ class Viaje(models.Model):
 	def __unicode__(self):
 		return self.origen.nombre + " " + self.destino.nombre
 
+	def verificar(self, cordx1, cordy1, cordx2, cordy2, fecha):
+		return self.paradas.filter(coordenada_x__gte=cordx1-1).filter(coordenada_x__lte=cordx1+1).filter(coordenada_y__gte=cordy1-1).filter(coordenada_y__lte=cordy1+1).exists() and self.paradas.filter(coordenada_x__gte=cordx2-1).filter(coordenada_x__lte=cordx2+1).filter(coordenada_y__gte=cordy2-1).filter(coordenada_y__lte=cordy2+1).exists()
+
 class Parada(models.Model):
-	#id_parada = models.IntegerField(null=True,blank=True)
 	nombre = models.CharField(max_length=30,null=False, default = "Concepcion")
 	coordenada_x = models.FloatField(null=True,blank=True)
 	coordenada_y = models.FloatField(null=True,blank=True)
@@ -119,7 +118,6 @@ class Parada(models.Model):
 		return self.nombre
 
 class Trayecto(models.Model):
-	#id_trayecto = models.IntegerField(null=True,blank=True)
 	precio = models.IntegerField(null=True,blank=True)
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigenTrayecto", null=False, blank=True, default=1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestinoTrayecto", null=False, blank=True, default=1)
@@ -139,7 +137,6 @@ class Trayecto(models.Model):
 		return self.origen.nombre + " " + self.destino.nombre
 
 class Plaza(models.Model):
-	#id_plaza = models.IntegerField(null=True,blank=True)
 	posicion = models.IntegerField(null=True,blank=True)
 	caracteristica = models.CharField(max_length=30,null=False)
 
