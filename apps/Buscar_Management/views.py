@@ -20,12 +20,16 @@ class BuscarList(ListView):
 	model = Viaje
 	template_name = "Buscar_Management/viaje_list.html"
 	def get_queryset(self):
-		o = self.request.GET.get('o')
+		cordx1 = float(self.request.GET.get('cordx1'))
+		cordy1 = float(self.request.GET.get('cordy1'))
+		cordx2 = float(self.request.GET.get('cordx2'))
+		cordy2 = float(self.request.GET.get('cordy2'))
+		fecha = self.request.GET.get('fecha')
 		d = self.request.GET.get('d')
 		viajes = Viaje.objects.all()
 		excl = []
 		for v in viajes:
-			if not (v.paradas.filter(nombre=o).exists() and v.paradas.filter(nombre=d).exists()):
+			if not (v.verificar(cordx1, cordy1, cordx2, cordy2, fecha)):
 				excl.append(v)
 
 		for v in excl:
@@ -35,28 +39,30 @@ class BuscarList(ListView):
 
 def Buscar(request):
 	if request.method == "POST":
-		form = BuscarForm(request.POST)
 		viajes = Viaje.objects.all()
 		b = False
+
+		cordx1 = float(request.POST.get('lati1'))
+		cordy1 = float(request.POST.get('long1'))
+
+		cordx2 = float(request.POST.get('lati2'))
+		cordy2 = float(request.POST.get('long2'))
+
+		fecha = request.POST.get('fecha_inicio')
+
 		for v in viajes:
-			print(form)
-			print(form.cleaned_data['origen'])
-			print(form.cleaned_data['destino'])
-			if v.paradas.filter(nombre=form.cleaned_data['origen']).exists() and v.paradas.filter(nombre=form.cleaned_data['destino']).exists():
+			
+			if v.verificar(cordx1, cordy1, cordx2, cordy2, fecha):
 				b = True
 				break
 
 		if b:
-			return HttpResponseRedirect("http://127.0.0.1:8000/Buscar_Management/show?o="+form.cleaned_data['origen']+"&d="+form.cleaned_data['destino'])
+			return HttpResponseRedirect("http://127.0.0.1:8000/Buscar_Management/show?cordx1="+str(cordx1)+"&cordy1="+str(cordy1)+"&cordx2="+str(cordx2)+"&cordy2="+str(cordy2) +"&fecha="+str(fecha))
 
 		else:
-			form = BuscarForm()
-			return render(request, 'Buscar_Management/buscar_error.html', {'form': form} )
+			return render(request, 'Buscar_Management/buscar_error.html', {} )
 
-	else:
-		form = BuscarForm()
-
-	return render(request, 'Buscar_Management/buscar.html', {'form': form} )
+	return render(request, 'Buscar_Management/buscar.html', {})
 
 
 class BuscarDetail(DetailView):

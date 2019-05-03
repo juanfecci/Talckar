@@ -35,7 +35,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Buscador de viaje </h2>
+                    <h2>Creación de viaje </h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -50,6 +50,8 @@
                     </p>
                      <br>
                    </div>
+
+                   <h3> Agregar parada </h3>
           <form action="" method="POST">
           {% csrf_token %}
                <div style="font-weight:bold">
@@ -74,26 +76,17 @@
                 </div>
               </div>
               <br>
-          <br>
-           <div style="font-weight:bold">
-             Destino: <input type="text" input id="searchInput2"  name = "destino" required class="vTextField" maxlength="30" />
+           <div class="form-row field-hora">
+            <div>
+              <label class="required" for="hora_inicio">Hora de inicio:</label>
+              <input type="time" name="hora_inicio" value = "HH:MM" id="id_hora"/>
             </div>
-           <br>
-           <br>
-            <div id="map2"></div> 
-            <br>
-            <ul id="geoData2">
-                <li>Full Address: <span id="location2"></span></li>
-                <li>Country: <span id="country2"></span></li>
-                <li>Latitude: <span id="lat2"></span></li>
-                <li>Longitude: <span id="lon2"></span></li>
-                <br>
-            </ul>
-                <input type="hidden" id = "lati2" name="lati2" value="" />
-                <input type="hidden" id = "long2" name="long2" value="" />
+          </div>
                 <br>
                   <div>
-                     <input type="submit" value="Buscar" style="background-color: #00cc7a; /* Green */border: none;color: white;padding: 11px;text-align: center;text-decoration: none;display: inline-block;font-size: 12px;margin: 4px 2px;border-radius: 21px;">
+                     <input type="submit" value="Agregar Paradas" style="background-color: #00cc7a; /* Green */border: none;color: white;padding: 11px;text-align: center;text-decoration: none;display: inline-block;font-size: 12px;margin: 4px 2px;border-radius: 21px;">
+                     <br> <br>
+                     <td><a href="{% url "Viaje2" %}" type="button" class="btn btn-round btn-info btn-sm">Continuar</a></td>
                   </div>
                 </form>
                   <br>
@@ -101,10 +94,6 @@
 <script>
           function initMap() {
               var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: -33.8688, lng: 151.2195},
-                zoom: 13
-              });
-              var map2 = new google.maps.Map(document.getElementById('map2'), {
                 center: {lat: -33.8688, lng: 151.2195},
                 zoom: 13
               });
@@ -119,16 +108,7 @@
                   map: map,
                   anchorPoint: new google.maps.Point(0, -29)
               });
-              var input2 = document.getElementById('searchInput2');
 
-              var autocomplete2 = new google.maps.places.Autocomplete(input2);
-              autocomplete.bindTo('bounds', map2);
-
-              var infowindow2 = new google.maps.InfoWindow();
-              var marker2 = new google.maps.Marker({
-                  map: map2,
-                  anchorPoint: new google.maps.Point(0, -29)
-              });
               autocomplete.addListener('place_changed', function() {
                   infowindow.close();
                   marker.setVisible(false);
@@ -181,56 +161,6 @@
                   document.getElementById('long').innerHTML = place.geometry.location.lng();
                   document.getElementById('lati1').value = place.geometry.location.lat();
                   document.getElementById('long1').value = place.geometry.location.lng();
-              });
-              autocomplete2.addListener('place_changed', function() {
-                  infowindow2.close();
-                  marker2.setVisible(false);
-                  var place2 = autocomplete2.getPlace();
-                  if (!place2.geometry) {
-                      window.alert("Autocomplete's returned place contains no geometry");
-                      return;
-                  }
-            
-                  // If the place has a geometry, then present it on a map.
-                  if (place2.geometry.viewport) {
-                      map2.fitBounds(place2.geometry.viewport);
-                  } else {
-                      map2.setCenter(place2.geometry.location);
-                      map2.setZoom(17);
-                  }
-                  marker2.setIcon(({
-                      url: place2.icon,
-                      size: new google.maps.Size(71, 71),
-                      origin: new google.maps.Point(0, 0),
-                      anchor: new google.maps.Point(17, 34),
-                      scaledSize: new google.maps.Size(35, 35)
-                  }));
-                  marker2.setPosition(place2.geometry.location);
-                  marker2.setVisible(true);
-              
-                  var address2 = '';
-                  if (place2.address_components) {
-                      address2 = [
-                        (place2.address_components[0] && place2.address_components[0].short_name || ''),
-                        (place2.address_components[1] && place2.address_components[1].short_name || ''),
-                        (place2.address_components[2] && place2.address_components[2].short_name || '')
-                      ].join(' ');
-                  }
-              
-                  infowindow2.setContent('<div><strong>' + place2.name + '</strong><br>' + address2);
-                  infowindow2.open(map2, marker2);
-                
-                  //Location details
-                  for (var i = 0; i < place2.address_components.length; i++) {
-                      if(place2.address_components[i].types[0] == 'country'){
-                          document.getElementById('country2').innerHTML = place2.address_components[i].long_name;
-                      }
-                  }
-                  document.getElementById('location2').innerHTML = place2.formatted_address;
-                  document.getElementById('lat2').innerHTML = place2.geometry.location.lat();
-                  document.getElementById('lon2').innerHTML = place2.geometry.location.lng();
-                  document.getElementById('lati2').value = place2.geometry.location.lat();
-                  document.getElementById('long2').value = place2.geometry.location.lng();
               });
              } 
             
