@@ -29,7 +29,7 @@ class BuscarList(ListView):
 		viajes = Viaje.objects.all()
 		excl = []
 		for v in viajes:
-			if not (v.verificar(cordx1, cordy1, cordx2, cordy2, fecha)):
+			if not (v.verificar(cordx1, cordy1, cordx2, cordy2, fecha) != (-1, -1)):
 				excl.append(v)
 
 		for v in excl:
@@ -52,7 +52,7 @@ def Buscar(request):
 
 		for v in viajes:
 			
-			if v.verificar(cordx1, cordy1, cordx2, cordy2, fecha):
+			if v.verificar(cordx1, cordy1, cordx2, cordy2, fecha) != (-1, -1):
 				b = True
 				break
 
@@ -74,12 +74,14 @@ def Error(request):
 		form = BuscarForm(request.POST)
 		return render(request, 'Buscar_Management/buscar.html', {'form': form} )
 
-def CrearTrayecto(request, id, origen, destino):
+def CrearTrayecto(request, id, origen, destino, cordx1, cordx2, cordy1, cordy2):
 	if request.method == "POST":
 		usuario = request.user
 		viaje = Viaje.objects.get(id=id)
-		par1 = Parada.objects.get(id=origen)
-		par2 = Parada.objects.get(id=destino)
+
+		res = viaje.verificar(float(cordx1), float(cordy1), float(cordx2), float(cordy2), "")
+		par1 = res[0]
+		par2 = res[1]
 
 		trayecto = Trayecto()
 		trayecto.save()

@@ -33,7 +33,7 @@
                           <td>{{viaje.origen}}</td>
                           <td>{{viaje.destino}}</td>
                           <td>{{viaje.origen.fecha}} - {{viaje.origen.hora}}</td>
-                          <td><a href= "{{"http://127.0.0.1:8000/Buscar_Management/buscar/"}}{{viaje.id}}{{"?origen="}}{{viaje.origen.id}}{{"&destino="}}{{viaje.destino.id}}" type="button" class="btn btn-round btn-info btn-sm">Seleccionar</a></td>
+                          <td><a href= "{{"http://127.0.0.1:8000/Buscar_Management/buscar/"}}{{viaje.id}}{{"?origen="}}{{viaje.origen.id}}{{"&destino="}}{{viaje.destino.id}}{{"&cordx1="}}{{request.GET.cordx1}}{{"&cordx2="}}{{request.GET.cordx2}}{{"&cordy1="}}{{request.GET.cordy1}}{{"&cordy2="}}{{request.GET.cordy2}}" type="button" class="btn btn-round btn-info btn-sm">Seleccionar</a></td>
                         </tr>
                       {% endfor %}
                       </tbody>

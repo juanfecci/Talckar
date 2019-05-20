@@ -24,8 +24,14 @@ class UserAdmin(BaseUserAdmin):
 class ConductorAdmin(admin.ModelAdmin):
 	list_display = ('licencia', 'fecha_obtencion')
 
+class VehiculoAdmin(admin.ModelAdmin):
+	list_display = ('marca', 'modelo', 'color', 'anno')
+
 class ViajeAdmin(admin.ModelAdmin):
-	list_display = ('tarifaPreferencias', )
+	list_display = ('tarifaPreferencias', 'estado')
+
+class PrestacionAdmin(admin.ModelAdmin):
+	list_display = ('maletero', 'mascota', 'silla_ninnos')
 
 class ParadaAdmin(admin.ModelAdmin):
 	list_display = ('nombre', 'coordenada_x', 'coordenada_y')
@@ -33,15 +39,29 @@ class ParadaAdmin(admin.ModelAdmin):
 class TrayectoAdmin(admin.ModelAdmin):
 	list_display = ('precio',)
 
+class TramoAdmin(admin.ModelAdmin):
+	list_display = ('precio', 'km')
+
+class ReservaAdmin(admin.ModelAdmin):
+	list_display = ('posicion', 'estado')
+
 class PlazaAdmin(admin.ModelAdmin):
 	list_display = ('posicion',)
+
+class ValoracionAdmin(admin.ModelAdmin):
+	list_display = ('comentario',)
 
 
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Module, ModuleAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Conductor, ConductorAdmin)
+admin.site.register(Vehiculo, VehiculoAdmin)
 admin.site.register(Viaje, ViajeAdmin)
+admin.site.register(Prestacion, PrestacionAdmin)
 admin.site.register(Parada, ParadaAdmin)
 admin.site.register(Trayecto, TrayectoAdmin)
+admin.site.register(Tramo, TramoAdmin)
+admin.site.register(Reserva, ReservaAdmin)
 admin.site.register(Plaza, PlazaAdmin)
+admin.site.register(Valoracion, ValoracionAdmin)

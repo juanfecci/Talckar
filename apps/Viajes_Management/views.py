@@ -26,7 +26,7 @@ class ViajeList(ListView):
 def ViajeCreate(request):
 	usuario = request.user
 	if request.method == "POST":
-		return ViajeCreate2(request, True)
+		return ViajeCreate4(request)
 
 	return render(request, 'Viajes_Management/viaje_create1.html', {} )
 
@@ -56,40 +56,42 @@ def ViajeCreate4(request):
 			response += 'key:%s value:%s\n' % (key,value)
 			print(response)
 
-		form = ViajeForm(request.POST)
-		if form.is_valid():
+		#form = ViajeForm(request.POST)
+		#print(1)
+		#if form.is_valid():
+		#	print(2)
 		#form = ViajeForm(request.POST)
 		#if form.is_valid():
-			viaje = Viaje()
-			viaje.save()
-			viaje.estado = -10
+		viaje = Viaje()
+		viaje.save()
+		viaje.estado = -10
 
-			par1 = Parada()
-			par1.nombre =  request.POST.get('origen')
-			par1.coordenada_x = request.POST.get('lati1')
-			par1.coordenada_y = request.POST.get('long1')
-			par1.fecha = request.POST.get('fecha_inicio')
-			par1.hora =request.POST.get('hora_inicio')
-			par1.save()
+		par1 = Parada()
+		par1.nombre =  request.POST.get('origen')
+		par1.coordenada_x = request.POST.get('lati1')
+		par1.coordenada_y = request.POST.get('long1')
+		par1.fecha = request.POST.get('fecha_inicio')
+		par1.hora =request.POST.get('hora_inicio')
+		par1.save()
 
-			par2 = Parada()
-			par2.nombre = request.POST.get('destino')
-			par2.coordenada_x = request.POST.get('lati2')
-			par2.coordenada_y = request.POST.get('long2')
-			par2.fecha = request.POST.get('fecha_final')
-			par2.hora = request.POST.get('hora_final')
-			par2.save()
+		par2 = Parada()
+		par2.nombre = request.POST.get('destino')
+		par2.coordenada_x = request.POST.get('lati2')
+		par2.coordenada_y = request.POST.get('long2')
+		par2.fecha = request.POST.get('fecha_final')
+		par2.hora = request.POST.get('hora_final')
+		par2.save()
 
-			viaje.origen = par1
-			viaje.destino = par2
+		viaje.origen = par1
+		viaje.destino = par2
 
-			viaje.paradas.add(par1)
-			viaje.paradas.add(par2)
-			usuario.viajes.add(viaje)
+		viaje.paradas.add(par1)
+		viaje.paradas.add(par2)
+		usuario.viajes.add(viaje)
 
-			viaje.save()
-			usuario.save()
-			return redirect('http://127.0.0.1:8000/Viajes_Management/viajeCreate/agregar')
+		viaje.save()
+		usuario.save()
+		return redirect('http://127.0.0.1:8000/Viajes_Management/viajeCreate/agregar')
 	else:
 		form = ViajeForm()
 		return render(request, 'Viajes_Management/viajes_create.html', {'form': form} )		
