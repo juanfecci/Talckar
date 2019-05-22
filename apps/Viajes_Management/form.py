@@ -17,5 +17,6 @@ class ViajeForm(forms.Form):
 	plazas = forms.IntegerField(label="Plazas disponibles")
 	maletero  = forms.BooleanField(label = "Maletero", required=False)
 	mascota = forms.BooleanField(label = "Mascota", required=False)
+	silla = forms.BooleanField(label = "Silla de ninnos", required=False)
 
 	tarifa = forms.IntegerField(label="Tarifa")

@@ -33,43 +33,45 @@ def home(request):
 
 def Valorar(request, pk):
 	viaje = Viaje.objects.get(id=pk)
-	trayectos = Trayecto.objects.filter(viaje=pk).filter(estado=2)
+	reservas = Reserva.objects.filter(viaje=pk).filter(estado=2)
+	#trayectos = Trayecto.objects.filter(viaje=pk).filter(estado=2)
 
-	if len(trayectos) == 0:
+	if len(reservas) == 0:
 		viaje.estado = 1
 		viaje.save()
 		return render(request, 'completado2.html', {})
 
-	primero = trayectos.first()
+	primero = reservas.first()
 
 	return render(request, 'valorar.html', {'viaje':viaje, 'primero':primero})
 
-def ValorarPasajero(request, viaje_id, trayecto_id):	
-	trayecto = Trayecto.objects.get(id=trayecto_id)
-	trayecto.estado = 1
-	trayecto.save()
+def ValorarPasajero(request, viaje_id, reserva_id):	
+	reserva = Reserva.objects.get(id=reserva_id)
+	reserva.estado = 1
+	reserva.save()
 	return Valorar(request, viaje_id)
 
 def AdministrarViaje(request, pk):
 	viaje = Viaje.objects.get(id=pk)
-	trayectos = Trayecto.objects.filter(viaje=pk).filter(estado=1)
+	reservas = Reserva.objects.filter(viaje=pk).filter(estado=1)
 
-	if len(trayectos) == 0:
+	if len(reservas) == 0:
 		viaje.estado = 3
 		viaje.save()
 		return render(request, 'completado.html', {})
 
-	primero = trayectos.first()
-	trayectos = trayectos.exclude(id=primero.id)
+	primero = reservas.first()
+	reservas = reservas.exclude(id=primero.id)
 
-	return render(request, 'administrar.html', {'viaje':viaje, 'trayectos':trayectos, 'primero':primero})
+	return render(request, 'administrar.html', {'viaje':viaje, 'reservas':reservas, 'primero':primero})
 
-def TomarPasajero(request, viaje_id, trayecto_id):
-	trayecto = Trayecto.objects.get(id=trayecto_id)
-	trayecto.estado = 2
-	trayecto.save()
+def TomarPasajero(request, viaje_id, reserva_id):
+	reserva = Reserva.objects.get(id=reserva_id)
+	reserva.estado = 2
+	reserva.save()
 	return AdministrarViaje(request, viaje_id)
 
+# Requerido para login
 @login_required()
 def changeActiveClient(request,clientId):
 	id_client = clientId

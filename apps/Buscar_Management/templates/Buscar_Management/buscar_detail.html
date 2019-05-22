@@ -52,7 +52,7 @@
 
                     </table>
 
-                    <form method="POST" action="{% url "Buscar_Final" id=viaje.id origen=request.GET.origen destino=request.GET.destino cordx1=request.GET.cordx1 cordx2=request.GET.cordx2 cordy1=request.GET.cordy1 cordy2=request.GET.cordy2 %}">
+                    <form method="POST" action="{% url "Buscar_Final" id=viaje.id cordx1=request.GET.cordx1 cordx2=request.GET.cordx2 cordy1=request.GET.cordy1 cordy2=request.GET.cordy2 %}">
                     {% csrf_token %}
                       <input type="checkbox" name="plaza1" value="1" disabled> 
                       <input type="checkbox" name="plaza2" value="1"> <br>

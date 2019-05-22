@@ -28,11 +28,11 @@
 
                     <h3> Siguiente pasajero: {{primero.user.first.first_name}} {{primero.user.first.last_name}} </h3>
 
-                    <h3> Se sube en {{primero.origen.nombre}} a las {{primero.origen.hora}} - {{primero.origen.fecha}}
+                    <h3> Se sube en {{primero.tramo.origen.nombre}} a las {{primero.tramo.origen.hora}} - {{primero.tramo.origen.fecha}}
 
                     <br><br>
 
-                    <a href="{% url "Tomar_Pasajero" viaje_id=viaje.id trayecto_id=primero.id %}" type="button" class="btn btn-round btn-success btn-sm">Tomar pasajero</a>
+                    <a href="{% url "Tomar_Pasajero" viaje_id=viaje.id reserva_id=primero.id %}" type="button" class="btn btn-round btn-success btn-sm">Tomar pasajero</a>
 
                     <br> <br>
 
@@ -48,11 +48,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                      {% for trayecto in trayectos.all%}
+                      {% for reserva in reservas.all%}
                         <tr>
-                          <td>{{trayecto.user.first.first_name}} {{trayecto.user.first.last_name}} </td>   
-                          <td>{{trayecto.origen.nombre}}</td>     
-                          <td>{{trayecto.origen.hora}} - {{trayecto.origen.fecha}}</td>                           
+                          <td>{{reserva.user.first.first_name}} {{reserva.user.first.last_name}} </td>   
+                          <td>{{reserva.tramo.origen.nombre}}</td>     
+                          <td>{{reserva.tramo.origen.hora}} - {{reserva.tramo.origen.fecha}}</td>                           
                         </tr>
                       {% endfor %}
                       </tbody>

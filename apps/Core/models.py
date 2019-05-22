@@ -20,8 +20,7 @@ class User(AbstractUser):
 	foto = models.ImageField(upload_to='user', default="default.png")
 
 	viajes = models.ManyToManyField("Viaje", related_name="user")
-	trayectos = models.ManyToManyField("Trayecto", related_name="user") #Por eliminar
-	reserva = models.ManyToManyField("Reserva", related_name="user")	
+	reservas = models.ManyToManyField("Reserva", related_name="user")	
 
 	class Meta:
 		verbose_name = "User"
@@ -63,13 +62,9 @@ SCAN_STATUS_CHOICES = (
 	("ER", "Error"),
 	)
 
-# Falta eliminar parametros
 class Conductor(models.Model):
 	licencia = models.CharField(max_length=30,null=False)
 	fecha_obtencion = models.CharField(max_length=30,null=False)
-	marca = models.CharField(max_length=30,null=False) #Por eliminar
-	modelo = models.CharField(max_length=30,null=False) #Por eliminar
-	foto_vehiculo = models.ImageField(upload_to='autos') #Por eliminar
 
 	class Meta:
 		verbose_name = "Conductor"
@@ -95,23 +90,19 @@ class Vehiculo(models.Model):
 	def __unicode__(self):
 		return self.marca + " " + self.modelo
 
-# Falta eliminar parametros
 class Viaje(models.Model):
 	tarifaPreferencias = models.IntegerField(null=False,blank=True, default=100)
-	maletero = models.BooleanField(default=True) #Por eliminar
-	mascota = models.BooleanField(default=True) #Por eliminar
 	paradas = models.ManyToManyField("Parada")
-	plazas_max = models.IntegerField(null=False,blank=False, default=4) #Por eliminar
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=False, default = 1)
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
-	prestacion = models.ForeignKey("Prestacion",related_name="Prestacion", null=False, default = 1) #Falta aplicarlo
+	prestacion = models.ForeignKey("Prestacion",related_name="Prestacion", null=False, default = 1)
 	estado =  models.IntegerField(default = -1)
 	#-1 En espera
 	# 0 Realizando viaje
-	# 1 Viaje Terminado
+	# 1 Viaje finalizado y valorado
 	# 2 Viaje cercano
-	precio =  models.IntegerField(default = 100)
+	# 3 Viaje finalizado y en valoracion
 
 
 	class Meta:
@@ -128,9 +119,7 @@ class Viaje(models.Model):
 			if p2.exists():
 				return (p1.first(), p2.first())
 		return (-1, -1)
-		#return self.paradas.filter(coordenada_x__gte=cordx1-1).filter(coordenada_x__lte=cordx1+1).filter(coordenada_y__gte=cordy1-1).filter(coordenada_y__lte=cordy1+1).exists() and self.paradas.filter(coordenada_x__gte=cordx2-1).filter(coordenada_x__lte=cordx2+1).filter(coordenada_y__gte=cordy2-1).filter(coordenada_y__lte=cordy2+1).exists()
 
-# Falta agregarlo al sistema
 class Prestacion(models.Model):
 	max_plazas = models.IntegerField(null=False,blank=False, default=4)
 	maletero = models.BooleanField(default=True)
@@ -158,71 +147,40 @@ class Parada(models.Model):
 	def __unicode__(self):
 		return self.nombre
 
-# Clase completa por eliminar
-class Trayecto(models.Model):
-	precio = models.IntegerField(null=True,blank=True)
-	origen = models.ForeignKey("Parada",related_name="ParadaOrigenTrayecto", null=False, blank=True, default=1)
-	destino = models.ForeignKey("Parada",related_name="ParadaDestinoTrayecto", null=False, blank=True, default=1)
-	plazas = models.ManyToManyField("Plaza")
-	estado =  models.IntegerField(default = -1)
-	#-1 en espera
-	# 0 cancelado
-	# 1 aceptado 
-	# 2 terminado
-	viaje = models.ForeignKey("Viaje",related_name="Viaje", null=False, blank=True, default=1)
-	
-	class Meta:
-		verbose_name = "Trayecto"
-		verbose_name_plural = "Trayectos"
-
-	def __unicode__(self):
-		return self.origen.nombre + " " + self.destino.nombre
-
-# Falta reemplazarla por Trayecto
 class Tramo(models.Model):
 	km = models.IntegerField(null=True,blank=True)
 	precio = models.IntegerField(null=True,blank=True)
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigenTramo", null=False, blank=True, default=1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestinoTramo", null=False, blank=True, default=1)
-	plazas = models.ManyToManyField("Plaza")
 	
 	viaje = models.ForeignKey("Viaje",related_name="ViajeTramo", null=False, blank=True, default=1)
 	
 	class Meta:
-		verbose_name = "Trayecto"
-		verbose_name_plural = "Trayectos"
+		verbose_name = "Tramo"
+		verbose_name_plural = "Tramos"
 
 	def __unicode__(self):
 		return self.origen.nombre + " " + self.destino.nombre
 
-# Falta implememtarla al sistema
 class Reserva(models.Model):
 	posicion = models.IntegerField(null=True,blank=True)
 	estado =  models.IntegerField(default = -1)
-	tramo = models.ForeignKey("Tramo",related_name="Tramo", null=False, blank=True, default=1)
 	#-1 en espera
 	# 0 cancelado
-	# 1 aceptado 
-	# 2 terminado
+	# 1 aceptado / finalizado
+	# 2 terminado / en espera de valoracion
 
+	tramo = models.ForeignKey("Tramo",related_name="Tramo", null=False, blank=True, default=1)
+
+	# viaje es igual al del tramo. Se realiza para aumentar la velocidad de la query
+	viaje = models.ForeignKey("Viaje",related_name="ViajeReserva", null=False, blank=True, default=1)
+	
 	class Meta:
-		verbose_name = "Plazas"
-		verbose_name_plural = "Plazas"
+		verbose_name = "Reserva"
+		verbose_name_plural = "Reservas"
 
 	def __unicode__(self):
 		return str(self.posicion) + " " + str(self.estado)
-
-# Clase por eliminar
-class Plaza(models.Model):
-	posicion = models.IntegerField(null=True,blank=True)
-	caracteristica = models.CharField(max_length=30,null=False)
-
-	class Meta:
-		verbose_name = "Plazas"
-		verbose_name_plural = "Plazas"
-
-	def __unicode__(self):
-		return str(self.posicion)
 
 class Valoracion(models.Model):
 	puntaje = models.IntegerField(null=True,blank=True)

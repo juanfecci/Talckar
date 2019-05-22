@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'Viajes_Management',
     'Buscar_Management',
     'Perfil_Management',
-    'Trayectos_Management',
+    'Reservas_Management',
     'djcelery',
     'mapwidgets'
 

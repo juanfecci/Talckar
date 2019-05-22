@@ -21,14 +21,14 @@
 
                     <h3> Nombre: {{primero.user.first.first_name}} {{primero.user.first.last_name}} </h3>
 
-                    <h3> Se subió en {{primero.origen.nombre}} a las {{primero.origen.hora}} - {{primero.origen.fecha}}
+                    <h3> Se subió en {{primero.tramo.origen.nombre}} a las {{primero.tramo.origen.hora}} - {{primero.tramo.origen.fecha}}
 
                     <br> <br>
                     <a href="" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a>
 
                     <br> <br> 
 
-                     <form method="POST" action="{% url "Valorar_Pasajero" viaje_id=viaje.id trayecto_id=primero.id%}">
+                     <form method="POST" action="{% url "Valorar_Pasajero" viaje_id=viaje.id reserva_id=primero.id%}">
                     {% csrf_token %}
                     <table id="datatable-inbox" class="table table-striped table-bordered">
                       <thead>

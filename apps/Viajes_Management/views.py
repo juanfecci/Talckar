@@ -30,6 +30,7 @@ def ViajeCreate(request):
 
 	return render(request, 'Viajes_Management/viaje_create1.html', {} )
 
+'''
 def ViajeCreate2(request, first=False):
 	usuario = request.user
 	if first:
@@ -46,11 +47,12 @@ def ViajeCreate2(request, first=False):
 		par2.coordenada_y = request.POST.get('long2')
 		par2.fecha = request.POST.get('fecha_final')
 		par2.hora = request.POST.get('hora_final')
-
+'''
 
 def ViajeCreate4(request):
 	usuario = request.user
 	if request.method == "POST":
+		'''
 		response = ''
 		for key,value in request.POST.items():
 			response += 'key:%s value:%s\n' % (key,value)
@@ -62,6 +64,7 @@ def ViajeCreate4(request):
 		#	print(2)
 		#form = ViajeForm(request.POST)
 		#if form.is_valid():
+		'''
 		viaje = Viaje()
 		viaje.save()
 		viaje.estado = -10
@@ -102,23 +105,23 @@ class ViajeDetail(DetailView):
 '''
 def ViajeDetail(request, pk):
 	viaje = Viaje.objects.get(id=pk)
-	trayectos = Trayecto.objects.filter(viaje=pk).exclude(estado=0)
-	return render(request, 'Viajes_Management/viaje_detail.html', {'viaje':viaje, 'trayectos':trayectos})	
+	reservas = Reserva.objects.filter(viaje=pk).exclude(estado=0)
+	return render(request, 'Viajes_Management/viaje_detail.html', {'viaje':viaje, 'reservas':reservas})	
 
 def ViajeDelete(request, viaje_id):
 	Viaje.objects.filter(id=viaje_id).delete()
 	return render(request, 'Viajes_Management/correcto.html')
 
-def AceptarPlaza(request, viaje_id, trayecto_id):
-	trayecto = Trayecto.objects.get(id=trayecto_id)
-	trayecto.estado = 1
-	trayecto.save()
+def AceptarPlaza(request, viaje_id, reserva_id):
+	reserva = Reserva.objects.get(id=reserva_id)
+	reserva.estado = 1
+	reserva.save()
 	return ViajeDetail(request, viaje_id)
 
-def RechazarPlaza(request, viaje_id, trayecto_id):
-	trayecto = Trayecto.objects.get(id=trayecto_id)
-	trayecto.estado = 0
-	trayecto.save()
+def RechazarPlaza(request, viaje_id, reserva_id):
+	reserva = Reserva.objects.get(id=reserva_id)
+	reserva.estado = 0
+	reserva.save()
 	return ViajeDetail(request, viaje_id)
 
 def AgregarParadas(request):
@@ -160,9 +163,17 @@ def Viaje2(request):
 		form = ViajeForm(request.POST)
 		if form.is_valid():
 
+			prestacion = Prestacion()
+			prestacion.max_plazas = form.cleaned_data['plazas']
+			prestacion.maletero = form.cleaned_data['maletero']
+			prestacion.mascota = form.cleaned_data['mascota']
+			prestacion.silla_ninnos = form.cleaned_data['silla']
+
 			viaje.tarifaPreferencias = form.cleaned_data['tarifa']
-			viaje.maletero = form.cleaned_data['maletero']
-			viaje.mascota = form.cleaned_data['mascota']
+
+			prestacion.save()
+			viaje.prestacion = prestacion
+			viaje.estado = -1
 
 			viaje.save()
 			return render(request, 'Viajes_Management/correcto2.html')

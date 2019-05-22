@@ -36,17 +36,11 @@ class PrestacionAdmin(admin.ModelAdmin):
 class ParadaAdmin(admin.ModelAdmin):
 	list_display = ('nombre', 'coordenada_x', 'coordenada_y')
 
-class TrayectoAdmin(admin.ModelAdmin):
-	list_display = ('precio',)
-
 class TramoAdmin(admin.ModelAdmin):
 	list_display = ('precio', 'km')
 
 class ReservaAdmin(admin.ModelAdmin):
 	list_display = ('posicion', 'estado')
-
-class PlazaAdmin(admin.ModelAdmin):
-	list_display = ('posicion',)
 
 class ValoracionAdmin(admin.ModelAdmin):
 	list_display = ('comentario',)
@@ -60,8 +54,6 @@ admin.site.register(Vehiculo, VehiculoAdmin)
 admin.site.register(Viaje, ViajeAdmin)
 admin.site.register(Prestacion, PrestacionAdmin)
 admin.site.register(Parada, ParadaAdmin)
-admin.site.register(Trayecto, TrayectoAdmin)
 admin.site.register(Tramo, TramoAdmin)
 admin.site.register(Reserva, ReservaAdmin)
-admin.site.register(Plaza, PlazaAdmin)
 admin.site.register(Valoracion, ValoracionAdmin)

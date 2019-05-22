@@ -25,14 +25,14 @@ urlpatterns = [
     url(r'^logout', auth_views.logout, {'next_page': '/'}, name="logout"),
     url(r'^$', core_views.home, name="Index_Base"),
     url(r'^Administrar/(?P<pk>\d+)/$', core_views.AdministrarViaje, name='Administrar_Viaje'),
-    url(r'^Administrar/Toma/(?P<viaje_id>\d+)/(?P<trayecto_id>\d+)/$', core_views.TomarPasajero, name='Tomar_Pasajero'),
+    url(r'^Administrar/Toma/(?P<viaje_id>\d+)/(?P<reserva_id>\d+)/$', core_views.TomarPasajero, name='Tomar_Pasajero'),
     url(r'^Valorar/(?P<pk>\d+)/$', core_views.Valorar, name='Valorar'),
-    url(r'^Administrar/Pasa/(?P<viaje_id>\d+)/(?P<trayecto_id>\d+)/$', core_views.ValorarPasajero, name='Valorar_Pasajero'),
+    url(r'^Administrar/Pasa/(?P<viaje_id>\d+)/(?P<reserva_id>\d+)/$', core_views.ValorarPasajero, name='Valorar_Pasajero'),
     url(r'^changeActiveClient/([0-9]+)/$', core_views.changeActiveClient, name="changeActiveClient" ),
     url(r'^Viajes_Management/', include('Viajes_Management.urls')),
     url(r'^Perfil_Management/', include('Perfil_Management.urls')),
     url(r'^Buscar_Management/', include('Buscar_Management.urls')),
-    url(r'^Trayecto_Management/', include('Trayectos_Management.urls'))
+    url(r'^Reservas_Management/', include('Reservas_Management.urls'))
 ]
 
 #http://127.0.0.1:8000/Task_Management/updateTask/a452df87-39f1-4e3e-a926-0e3c047b5a7d/SUCCESS/-1/

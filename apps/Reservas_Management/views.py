@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 
 from Core.models import *
-#from form import *
 
 # Create your views here.
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -15,17 +14,17 @@ from django.core.urlresolvers import reverse_lazy
 
 from django.shortcuts import get_object_or_404
 
-class TrayectoList(ListView):
-	model = Trayecto
-	template_name = "Trayectos_Management/trayecto_list.html"
+class ReservaList(ListView):
+	model = Reserva
+	template_name = "Reservas_Management/reserva_list.html"
 	def get_queryset(self):
-		return self.request.user.trayectos.all()
+		return self.request.user.reservas.all()
 
-class TrayectoDetail(DetailView):
-	model = Trayecto
-	template_name = "Trayectos_Management/trayecto_detail.html"
+class ReservaDetail(DetailView):
+	model = Reserva
+	template_name = "Reservas_Management/reserva_detail.html"
 
-def TrayectoDelete(request, tray_id):
-	Trayecto.objects.filter(id=tray_id).delete()
-	print(tray_id)
-	return render(request, 'Trayectos_Management/correcto.html')
+def ReservaDelete(request, reserva_id):
+	Reserva.objects.filter(id=reserva_id).delete()
+	print(reserva_id)
+	return render(request, 'Reservas_Management/correcto.html')

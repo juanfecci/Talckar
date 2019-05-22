@@ -58,26 +58,26 @@
                         </tr>
                       </thead>
                       <tbody>
-                      {% for trayecto in trayectos%}
+                      {% for reserva in reservas%}
                         <tr>
-                          <td>{{trayecto.origen}}</td>
-                          <td>{{trayecto.destino}}</td>
-                          <td>{{trayecto.origen.fecha}} - {{trayecto.origen.hora}}</td>
-                          <td>{{trayecto.precio}}</td>
-                          {%if trayecto.estado == -1%}
+                          <td>{{reserva.tramo.origen}}</td>
+                          <td>{{reserva.tramo.destino}}</td>
+                          <td>{{reserva.tramo.origen.fecha}} - {{reserva.tramo.origen.hora}}</td>
+                          <td>{{reserva.tramo.precio}}</td>
+                          {%if reserva.estado == -1%}
                           <td>Esperando confirmacion</td>
                           {%endif%}
-                          {%if trayecto.estado == 1%}
+                          {%if reserva.estado == 1%}
                           <td>Confirmado</td>
                           {%endif%}
 
-                          {%if trayecto.estado == -1%}
-                          <td><a href="{% url "Aceptar" viaje_id=viaje.id trayecto_id=trayecto.id %}" type="button" class="btn btn-round btn-success btn-sm">Aceptar</a>
-                          <a href="{% url "Rechazar" viaje_id=viaje.id trayecto_id=trayecto.id %}" type="button" class="btn btn-round btn-danger btn-sm">Cancelar</a>
-                          <a href="{% url "Trayecto_Detail" trayecto.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
+                          {%if reserva.estado == -1%}
+                          <td><a href="{% url "Aceptar" viaje_id=viaje.id reserva_id=reserva.id %}" type="button" class="btn btn-round btn-success btn-sm">Aceptar</a>
+                          <a href="{% url "Rechazar" viaje_id=viaje.id reserva_id=reserva.id %}" type="button" class="btn btn-round btn-danger btn-sm">Cancelar</a>
+                          <a href="{% url "Reserva_Detail" reserva.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
                           {%endif%}
-                          {%if trayecto.estado == 1%}
-                          <td><a href="{% url "Trayecto_Detail" trayecto.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
+                          {%if reserva.estado == 1%}
+                          <td><a href="{% url "Reserva_Detail" reserva.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
                           {%endif%}
                           
                         </tr>
