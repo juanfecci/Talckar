@@ -26,8 +26,6 @@ urlpatterns = [
     url(r'^$', core_views.home, name="Index_Base"),
     url(r'^Administrar/(?P<pk>\d+)/$', core_views.AdministrarViaje, name='Administrar_Viaje'),
     url(r'^Administrar/Toma/(?P<viaje_id>\d+)/(?P<reserva_id>\d+)/$', core_views.TomarPasajero, name='Tomar_Pasajero'),
-    url(r'^Valorar/(?P<pk>\d+)/$', core_views.Valorar, name='Valorar'),
-    url(r'^Administrar/Pasa/(?P<viaje_id>\d+)/(?P<reserva_id>\d+)/$', core_views.ValorarPasajero, name='Valorar_Pasajero'),
     url(r'^changeActiveClient/([0-9]+)/$', core_views.changeActiveClient, name="changeActiveClient" ),
     url(r'^Viajes_Management/', include('Viajes_Management.urls')),
     url(r'^Perfil_Management/', include('Perfil_Management.urls')),

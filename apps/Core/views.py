@@ -31,26 +31,6 @@ def home(request):
 		viaje = viaje.first()
 		return render(request,'base2.html',{'viaje':viaje})	
 
-def Valorar(request, pk):
-	viaje = Viaje.objects.get(id=pk)
-	reservas = Reserva.objects.filter(viaje=pk).filter(estado=2)
-	#trayectos = Trayecto.objects.filter(viaje=pk).filter(estado=2)
-
-	if len(reservas) == 0:
-		viaje.estado = 1
-		viaje.save()
-		return render(request, 'completado2.html', {})
-
-	primero = reservas.first()
-
-	return render(request, 'valorar.html', {'viaje':viaje, 'primero':primero})
-
-def ValorarPasajero(request, viaje_id, reserva_id):	
-	reserva = Reserva.objects.get(id=reserva_id)
-	reserva.estado = 1
-	reserva.save()
-	return Valorar(request, viaje_id)
-
 def AdministrarViaje(request, pk):
 	viaje = Viaje.objects.get(id=pk)
 	reservas = Reserva.objects.filter(viaje=pk).filter(estado=1)
