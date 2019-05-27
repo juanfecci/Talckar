@@ -1,7 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+  /* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
 
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -12,37 +27,32 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                       </li>
                     </ul>
-                    <h1>Valoración de pasajero</h1>
+                    <h1>Valoración del Conductor</h1>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
-                    <p class="text-muted font-13 m-b-30">
-                    </p>
-                    {% for r in reservas %}
-                    <h3> Nombre: {{r.user.first.first_name}} {{r.user.first.last_name}} </h3>
-
-                    <h3> Se subió en {{r.tramo.origen.nombre}} a las {{r.tramo.origen.hora}} - {{r.tramo.origen.fecha}}
-
-                    <br> <br>
-                    <a href="" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a>
-
-                    <br> <br> 
-
-                     <form method="POST" action="{% url "Valorar_Pasajero" viaje_id=viaje.id reserva_id=primero.id%}">
-                    {% csrf_token %}
-                    <table id="datatable-inbox" class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>1</th>
-                          <th>2</th>
-                          <th>3</th>
-                          <th>4</th>
-                          <th>5</th>
-                          
-                        </tr>
-                      </thead>
-                      <tbody>
-
+                  <div class="row">
+                    <div class="column">
+                      
+                      <p class="text-muted font-13 m-b-30"></p>
+                      <h3> Conductor: {{conductor.first.first_name}} {{conductor.first.last_name}} </h3>
+                      <br><br>
+                      <a href="" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a>
+                      <br> <br> 
+                    </div>
+                    <div class="column">
+                      <form method="POST" action="{% url "Valorar_Conductor" viaje_id=viaje.id reserva_id=reserva.id %}">
+                      {% csrf_token %}
+                      <table id="datatable-inbox" class="table table-striped table-bordered">
+                        <thead>
+                          <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                          </tr>
+                        </thead>
+                        <tbody>
                         <tr>
                           <td><input id="radio1" type="radio" name="estrellas" value="1"></td>   
                           <td><input id="radio2" type="radio" name="estrellas" value="2"></td>  
@@ -50,15 +60,13 @@
                           <td><input id="radio4" type="radio" name="estrellas" value="4"></td>   
                           <td><input id="radio5" type="radio" name="estrellas" value="5"></td>                              
                         </tr>
-                      </tbody>
-
-                    </table>
-                      
-                      <TEXTAREA NAME="Comentario" ROWS=3 COLS=30 > </TEXTAREA>
+                        </tbody>
+                      </table>
+                      <TEXTAREA NAME="Comentario" ROWS=3 COLS=30 >Comentario... </TEXTAREA>
                       <br> <br>
                       <input type="submit" value="Ingresar">
-                    </form>
-                    {%endfor%}
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>

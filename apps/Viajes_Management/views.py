@@ -91,7 +91,7 @@ def ViajeCreate4(request):
 		viaje.paradas.add(par1)
 		viaje.paradas.add(par2)
 		usuario.viajes.add(viaje)
-
+		#viaje.conductor = usuario
 		viaje.save()
 		usuario.save()
 		return redirect('http://127.0.0.1:8000/Viajes_Management/viajeCreate/agregar')

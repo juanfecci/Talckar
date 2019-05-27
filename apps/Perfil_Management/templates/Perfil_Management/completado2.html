@@ -18,7 +18,12 @@
                     <p class="text-muted font-13 m-b-30">
                     </p>
                     <br>
+                    {% if tipo == 'Conductor' %}
                     <h1>Todos los pasajero ya han sido valorados. Gracias por participar</h1>
+                    {% endif %}
+                    {% if tipo == 'Pasajero' %}
+                    <h1>El conductor fue valorado. Gracias por participar</h1>
+                    {% endif %}
                     <br>
                     <br>
                     

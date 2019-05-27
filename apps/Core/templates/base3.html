@@ -32,9 +32,14 @@
                     </div>
                   </div>
                    <div class="jumbotron">
+                    {% if tipo == 'Conductor' %}
                       <p>El viaje de <b>{{viaje.origen}}</b> a <b>{{viaje.destino}}</b> del <b>{{viaje.origen.fecha}}</b> - <b>{{viaje.origen.hora}}</b> ha finalizado. ¿Quiere realizar una valoracion de sus pasajeros? </p>
+                    {% endif %}
+                    {% if tipo == 'Pasajero' %}
+                       <p>El viaje de <b>{{viaje.origen}}</b> a <b>{{viaje.destino}}</b> del <b>{{viaje.origen.fecha}}</b> - <b>{{viaje.origen.hora}}</b> ha finalizado. ¿Quiere realizar una valoracion del Conductor? </p>
+                    {% endif %}
                       <br>
-                      <td><a href="{% url "Valorar" viaje.id %}" type="button" class="btn btn-round btn-info btn-lg btn-block">Iniciar Valoracion</a></td>
+                      <td><a href="{% url "Valorar" viaje_id tipo reserva_id usuario_id %}" type="button" class="btn btn-round btn-info btn-lg btn-block">Iniciar Valoracion</a></td>
                     </div>
                 </div>
               </div>

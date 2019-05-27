@@ -18,18 +18,33 @@ def home(request):
 	#except: print "The vigilant don't start"
 	usuario = request.user
 	viaje = usuario.viajes.filter(estado=2)
-
-	if len(viaje) == 0:
-		viaje = usuario.viajes.filter(estado=3)
+	if (usuario.activeClient.name == 'Conductor'):
 		if len(viaje) == 0:
-			return render(request,'base.html',{})	
+			viaje = usuario.viajes.filter(estado=3)
+			if len(viaje) == 0:
+				return render(request,'base.html',{'viajes': usuario.viajes})	
+			else:
+				viaje = viaje.first()
+				reserva = Reserva.objects.filter(viaje = viaje)
+				if (len(reserva) == 0):
+					return render(request, 'base.html', {})
+				reserva = reserva.first()
+				return render(request,'base3.html',{'viaje':viaje, 'viaje_id': viaje.id, 'tipo': usuario.activeClient.name, 'reserva_id': reserva.id, 'reserva': reserva, 'usuario_id': 1})
 		else:
 			viaje = viaje.first()
-			return render(request,'base3.html',{'viaje':viaje})	
-
+			return render(request,'base2.html',{'viaje':viaje})	#admin/Core/viaje/
+	elif (usuario.activeClient.name == 'Pasajero'):
+		reservas = usuario.reservas.filter(estado = 2)
+		if (len(reservas) == 0):
+			return render(request, 'base.html', {})
+		reserva = reservas.first()
+		viaje = reserva.viaje
+		if (not viaje):
+			return render(request, 'base.html', {'viajes': viaje})
+		return render(request, 'base3.html', {'viaje': viaje, 'viaje_id': viaje.id, 'tipo': usuario.activeClient.name, 'reserva_id': reserva.id, 'usuario_id': usuario.id})
 	else:
-		viaje = viaje.first()
-		return render(request,'base2.html',{'viaje':viaje})	
+		return render(request, 'base.html', {'tipo': usuario.activeClient.name, 'str': "mal :("})
+
 
 def AdministrarViaje(request, pk):
 	viaje = Viaje.objects.get(id=pk)
@@ -41,6 +56,8 @@ def AdministrarViaje(request, pk):
 		return render(request, 'completado.html', {})
 
 	primero = reservas.first()
+	primero.estado = 2
+	primero.save()
 	reservas = reservas.exclude(id=primero.id)
 
 	return render(request, 'administrar.html', {'viaje':viaje, 'reservas':reservas, 'primero':primero})

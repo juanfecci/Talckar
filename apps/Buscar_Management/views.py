@@ -78,7 +78,6 @@ def CrearReserva(request, id, cordx1, cordx2, cordy1, cordy2):
 	if request.method == "POST":
 		usuario = request.user
 		viaje = Viaje.objects.get(id=id)
-
 		res = viaje.verificar(float(cordx1), float(cordy1), float(cordx2), float(cordy2), "")
 		par1 = res[0]
 		par2 = res[1]

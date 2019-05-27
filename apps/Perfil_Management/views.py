@@ -23,22 +23,34 @@ class PerfilEdit(DetailView):
 	model = User
 	template_name = "Perfil_Management/perfil_edit.html"
 
-def Valorar(request, pk):
+def Valorar(request, pk, tipo, reserva_id, usuario_id):
 	viaje = Viaje.objects.get(id=pk)
 	reservas = Reserva.objects.filter(viaje=pk).filter(estado=2)
-	#trayectos = Trayecto.objects.filter(viaje=pk).filter(estado=2)
-
 	if len(reservas) == 0:
 		viaje.estado = 1
 		viaje.save()
-		return render(request, 'Perfil_Management/completado2.html', {})
+		return render(request, 'Perfil_Management/completado2.html', {'tipo': tipo})
 
-	primero = reservas.first()
-
-	return render(request, 'Perfil_Management/valorar.html', {'viaje':viaje, 'primero':primero})
+	if (tipo == 'Conductor'):
+		#trayectos = Trayecto.objects.filter(viaje=pk).filter(estado=2)
+		primero = reservas.first()
+		return render(request, 'Perfil_Management/valorar.html', {'viaje':viaje, 'primero':primero, 'reservas': reservas})
+	elif (tipo == 'Pasajero'):
+		reserva = Reserva.objects.get(id = reserva_id)
+		conductor = viaje.user
+		#conductor = viaje.conductor
+		return render(request, 'Perfil_Management/valorar_conductor.html', {'viaje': viaje, 'reserva': reserva, 'conductor': conductor})
 
 def ValorarPasajero(request, viaje_id, reserva_id):	
+	viaje = Viaje.objects.get(id=viaje_id)
+	conductor = viaje.user
 	reserva = Reserva.objects.get(id=reserva_id)
 	reserva.estado = 1
 	reserva.save()
-	return Valorar(request, viaje_id)
+	return Valorar(request, viaje_id, 'Conductor', reserva_id, 2)
+
+def ValorarConductor(request, viaje_id, reserva_id):
+	reserva = Reserva.objects.get(id=reserva_id)
+	reserva.estado = 1
+	reserva.save()
+	return render(request, 'Perfil_Management/completado2.html', {})

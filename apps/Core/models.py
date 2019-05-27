@@ -98,6 +98,7 @@ class Viaje(models.Model):
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
 	prestacion = models.ForeignKey("Prestacion",related_name="Prestacion", null=False, default = 1)
 	estado =  models.IntegerField(default = -1)
+	#conductor = models.ForeignKey("User", related_name = "conductor", null = False, default = 1)
 	#-1 En espera
 	# 0 Realizando viaje
 	# 1 Viaje finalizado y valorado
