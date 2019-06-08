@@ -20,7 +20,10 @@ class User(AbstractUser):
 	foto = models.ImageField(upload_to='user', default="default.png")
 
 	viajes = models.ManyToManyField("Viaje", related_name="user")
-	reservas = models.ManyToManyField("Reserva", related_name="user")	
+	reservas = models.ManyToManyField("Reserva", related_name="user")
+	valoraciones = models.ManyToManyField("Valoracion", related_name="user")
+
+	promedioVal = models.FloatField(null=True,blank=True)
 
 	class Meta:
 		verbose_name = "User"
@@ -28,6 +31,8 @@ class User(AbstractUser):
 
 	def __unicode__(self):
 		return self.username
+
+	
 
 class Client(models.Model):
 	name = models.CharField(max_length=15,null=False)
@@ -71,7 +76,7 @@ class Conductor(models.Model):
 		verbose_name_plural = "Conductores"
 
 	def __unicode__(self):
-		return self.modelo
+		return self.fecha_obtencion
 
 # Falta agregarlo al sistema
 class Vehiculo(models.Model):

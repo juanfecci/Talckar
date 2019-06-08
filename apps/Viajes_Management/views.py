@@ -103,9 +103,20 @@ class ViajeDetail(DetailView):
 	model = Viaje
 	template_name = "Viajes_Management/viaje_detail.html"
 '''
+
+def getValor(conductor):
+	vals = conductor.first().valoraciones.all()
+	suma = 0.0
+	for val in vals:
+		suma += val.puntaje
+	return "{0:.2f}".format(suma/len(vals))
+
 def ViajeDetail(request, pk):
 	viaje = Viaje.objects.get(id=pk)
 	reservas = Reserva.objects.filter(viaje=pk).exclude(estado=0)
+	for r in reservas:
+		r.user.first().promedioVal = getValor(r.user)
+		r.user.first().save()
 	return render(request, 'Viajes_Management/viaje_detail.html', {'viaje':viaje, 'reservas':reservas})	
 
 def ViajeDelete(request, viaje_id):

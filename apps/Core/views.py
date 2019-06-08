@@ -25,7 +25,7 @@ def home(request):
 				return render(request,'base.html',{'viajes': usuario.viajes})	
 			else:
 				viaje = viaje.first()
-				reserva = Reserva.objects.filter(viaje = viaje)
+				reserva = usuario.reservas.all()
 				if (len(reserva) == 0):
 					return render(request, 'base.html', {})
 				reserva = reserva.first()
@@ -45,6 +45,8 @@ def home(request):
 	else:
 		return render(request, 'base.html', {'tipo': usuario.activeClient.name, 'str': "mal :("})
 
+def Registrar(request):
+	return render(request, 'register.html', {})
 
 def AdministrarViaje(request, pk):
 	viaje = Viaje.objects.get(id=pk)

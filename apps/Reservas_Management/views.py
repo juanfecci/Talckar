@@ -14,10 +14,20 @@ from django.core.urlresolvers import reverse_lazy
 
 from django.shortcuts import get_object_or_404
 
+def getValor(conductor):
+	vals = conductor.valoraciones.all()
+	suma = 0.0
+	for val in vals:
+		suma += val.puntaje
+	return "{0:.2f}".format(suma/len(vals))
+
 class ReservaList(ListView):
 	model = Reserva
 	template_name = "Reservas_Management/reserva_list.html"
 	def get_queryset(self):
+		for user in User.objects.all():
+			user.promedioVal = getValor(user)
+			user.save()
 		return self.request.user.reservas.all()
 
 class ReservaDetail(DetailView):

@@ -37,7 +37,7 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{% static 'images/img.jpg' %}" alt="..." class="img-circle profile_img" >
+                <img src="/media/{{user.foto}}" alt="..." class="img-circle profile_img" >
               </div>
               <div class="profile_info">
                 <span>Bienvenido,</span>
@@ -109,7 +109,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{% static 'images/img.jpg' %}" alt="" >{{user.first_name}} {{user.last_name}}
+                    <img src="/media/{{user.foto}}" alt="" >{{user.first_name}} {{user.last_name}}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -126,7 +126,7 @@
                     {% for client in user.clients.all %}
                     <li>
                       <a href="{% url 'changeActiveClient' client.id %}">
-                        <span class="image"><img src="{% static 'images/img.jpg' %}" alt="Profile Image"  /></span>
+                        <span class="image"><img src="/media/{{user.foto}}" alt="Profile Image"  /></span>
                         <span>
                           <span>{{ client }}</span>
                           <span class="time"></span>
@@ -178,7 +178,7 @@
                   <div class="bs-example" data-example-id="simple-jumbotron">
                     <div class="jumbotron">
                       <h1>Bienvenido, {{user.first_name}} {{user.last_name}}</h1>
-                      <p>Estas en Talckar, sistema de busqueda de viajes. Eliga una de las opciones laterales para iniciar.</p>
+                      <p>Estas en Talckar, sistema de busqueda de viajes. Elija una de las opciones laterales para iniciar.</p>
                       <p>{{viaje}}</p>
                     </div>
                   </div>

@@ -52,6 +52,7 @@
                           <th>Parada Destino</th>
                           <th>Fecha-Hora de inicio</th>
                           <th>Precio</th>
+                          <th>Valoracion Pasajero</th>
                           <th>Estado</th>
                           <th>Acciones</th>
                           
@@ -64,6 +65,7 @@
                           <td>{{reserva.tramo.destino}}</td>
                           <td>{{reserva.tramo.origen.fecha}} - {{reserva.tramo.origen.hora}}</td>
                           <td>{{reserva.tramo.precio}}</td>
+                          <td>{{reserva.user.first.promedioVal}}</td>
                           {%if reserva.estado == -1%}
                           <td>Esperando confirmacion</td>
                           {%endif%}

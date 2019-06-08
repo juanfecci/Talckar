@@ -18,7 +18,7 @@ class ModuleAdmin(admin.ModelAdmin):
 class UserAdmin(BaseUserAdmin):
 	fieldsets = BaseUserAdmin.fieldsets
 	fieldsets += (
-	('Minerva', {'fields':['clients','activeClient', 'datos_conductor', 'correo', 'profesion', 'interes', 'fumador', 'foto', 'viajes', 'trayectos']}),
+	('Minerva', {'fields':['clients','activeClient', 'datos_conductor', 'correo', 'profesion', 'interes', 'fumador', 'foto', 'viajes', 'reservas', 'valoraciones']}),
 	)
 
 class ConductorAdmin(admin.ModelAdmin):

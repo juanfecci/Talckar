@@ -6431,6 +6431,11 @@ button.close {
 .carousel-caption .btn {
   text-shadow: none;
 }
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
 @media screen and (min-width: 768px) {
   .carousel-control .glyphicon-chevron-left,
   .carousel-control .glyphicon-chevron-right,

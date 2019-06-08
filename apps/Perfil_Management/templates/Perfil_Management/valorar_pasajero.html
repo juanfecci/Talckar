@@ -27,24 +27,24 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                       </li>
                     </ul>
-                    <h1>Valoración del Conductor</h1>
+                    <h1>Valoración del Pasajero</h1>
                     <div class="clearfix"></div>
                   </div>
                   <div class="row">
                     <div class="col-sm-1">
                       
                       <p class="text-muted font-13 m-b-30"></p>
-                      <a> <img src="/media/{{conductor.first.foto}}" width="80px"> </a>
+                      <a> <img src="/media/{{pasajero.first.foto}}" width="80px"> </a>
                     </div>
                     <div class="col-sm-4">
-                      <h2> Conductor: {{conductor.first.first_name}} {{conductor.first.last_name}} <a href="" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a> </h2> 
+                      <h2> Pasajero: {{pasajero.first.first_name}} {{pasajero.first.last_name}} <a href="" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a> </h2> 
                       <h2> Valoracion: {{ valor }} </h2>
                       
                       
                     </div>
                     <div class="col-sm-6">
                     <h2>Valorar: </h2>
-                      <form method="POST" action="{% url "Valorar_Pasajero" viaje_id=viaje.id reserva_id=reserva.id %}">
+                      <form method="POST" action="{% url "Valorar_Conductor" viaje_id=viaje.id reserva_id=reserva.id %}">
                       {% csrf_token %}
                       <table id="datatable-inbox" class="table table-striped table-bordered">
                         <thead>

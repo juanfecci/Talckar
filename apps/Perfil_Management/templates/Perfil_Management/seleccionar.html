@@ -12,24 +12,40 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                       </li>
                     </ul>
+                    <h1>Valoración de pasajero</h1>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
                     </p>
-                    <br>
-                    {% if tipo == 'Conductor' %}
-                    <h1>Todos los pasajero ya han sido valorados. Gracias por participar</h1>
-                    {% endif %}
-                    {% if tipo == 'Pasajero' %}
-                    <h1>El conductor fue valorado. Gracias por participar</h1>
-                    {% endif %}
-                    <br>
-                    {% if tipo == 'Fin' %}
-                    <h1>Valoracion finalizada. Gracias por participar</h1>
-                    {% endif %}
-                    <br>
-                    
+
+                    <table id="datatable-inbox" class="table table-striped table-bordered">
+                      
+                      <tbody>
+                      <tr>
+                      {%for reserva in reservas%}
+                        
+                          <td>
+                          <center>
+                          <a> <img src="/media/{{reserva.user.first.foto}}" width="120px"> </a>
+                          
+                          <br>
+                          {{reserva.user.first.first_name}} {{reserva.user.first.last_name}} 
+                          <br>
+                          {{reserva.tramo.origen.nombre}}
+                          <br>
+                          {{reserva.tramo.origen.hora}} - {{reserva.tramo.origen.fecha}}
+                          <br>
+                          <a href="{% url "Valorar_Conductor" viaje_id=viaje.id reserva_id=reserva.id%}" type="button" class="btn btn-round btn-info btn-sm">Valorar</a></td>
+                          </center>
+                          {% endfor %}
+                        </tr>
+                      
+                      </tbody>
+
+                    </table>
+
+                    <a href="{% url "Valorar" pk=viaje.id tipo=tipo reserva_id="1" usuario_id=user.id %}" type="button" class="btn btn-round btn-info btn-block">Terminar valoración</a>
 
                   </div>
                 </div>
