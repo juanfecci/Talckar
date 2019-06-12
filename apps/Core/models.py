@@ -70,6 +70,7 @@ SCAN_STATUS_CHOICES = (
 class Conductor(models.Model):
 	licencia = models.CharField(max_length=30,null=False)
 	fecha_obtencion = models.CharField(max_length=30,null=False)
+	vehiculo = models.ForeignKey("Vehiculo",related_name="Vehiculo", null=False, default=1)
 
 	class Meta:
 		verbose_name = "Conductor"

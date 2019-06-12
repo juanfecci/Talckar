@@ -24,31 +24,164 @@
     <link href="{% static 'css/custom.css' %}" rel="stylesheet">
   </head>
 
-  <body class="nav-md">
+  <body class="login">
     <div>
-      <a class="hiddenanchor" id="signup">aaa</a>
-      <a class="hiddenanchor" id="signin">aaa</a>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+      <a class="hiddenanchor" id="signup2"></a>
+      <a class="hiddenanchor" id="signin2"></a>
 
-      <div class="container body">
-        <div class="main_container">
-        <br>
-        <div class="row vertical-align"> 
-        <div class="col-md-12 col-sm-12 col-xs-12 vcenter">
-                
-             
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+            <form method="post">
+              {% csrf_token %}
+              <h1>Ingreso</h1>
+              <div>
+                <input name="username" type="text" class="form-control" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input name="password" type="password" class="form-control" placeholder="Password" required="" />
+              </div>
+              <div>
+                <button class="btn btn-default submit">Entrar</button>
+              </div>
 
-                  <div class="bs-example" data-example-id="simple-jumbotron">
-                    <div class="jumbotron ">
-                      <h1>Bienvenido, {{user.first_name}} {{user.last_name}}</h1>
-                      <p>Estas en Talckar, sistema de busqueda de viajes. Elija una de las opciones laterales para iniciar.</p>
-                      <p>{{viaje}}</p>
-                    </div>
-                  </div>
+              <div class="clearfix"></div>
 
-            </div>
+              <div class="separator">
+                <div class="clearfix"></div>
 
-         
+                 <div class="separator">
+                <p class="change_link">Nuevo en el sitio??
+                </p>
+                <a href="#signup" class="to_register">Pasajero</a>
+                <br>
+                <a href="#signup2" class="to_register">Conductor</a>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-car"></i> Talckar</h1>
+                  <p>©2019 Todos los derechos reservados.</p>
+                </div>
+              </div>
+            </form>
+          </section>
         </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form method="POST" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+              <h1>Pasajero</h1>
+              <div>
+                <input type="text" class="form-control" name="Username" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="email" class="form-control" name="Email" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" name="Password" placeholder="Password" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Celular" placeholder="Celular" required="" />
+              </div>
+
+              <div>
+                <input id="id_image" type="file" class="" name="image">
+                <br>
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Foto" placeholder="Foto" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Profesión" placeholder="Profesión" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Interés" placeholder="Interés" required="" />
+              </div>
+
+              <div>
+                <input class="btn btn-default submit" type="submit" value="Ingresar">
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">¿Eres miembro?
+                  <a href="#signin" class="to_register">Ingresar</a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-car"></i> Talckar</h1>
+                  <p>©2019 Todos los derechos reservados.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register2" class="animate form registration2_form">
+          <section class="login_content">
+            <form>
+              <h1>Conductor</h1>
+              <div>
+              <input type="text" class="form-control" name="Username" placeholder="Username" required="" />
+              </div>
+              <div>
+                <input type="email" class="form-control" name="Email" placeholder="Email" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" name="Password" placeholder="Password" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Celular" placeholder="Celular" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Foto" placeholder="Foto" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Profesión" placeholder="Profesión" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Interés" placeholder="Interés" required="" />
+              </div>
+              <div>
+                <a class="btn btn-default submit" href="index.html">Submit</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">¿Eres miembro?
+                  <a href="#signin" class="to_register">Ingresar</a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-car"></i> Talckar</h1>
+                  <p>©2019 Todos los derechos reservados.</p>
+                </div>
+              </div>
+            </form>
+          </section>
         </div>
       </div>
     </div>

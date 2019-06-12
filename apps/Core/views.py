@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 
 import Core.worker_master 
 
+from django import forms
+
 from Core.models import *
 
 import json
@@ -45,7 +47,34 @@ def home(request):
 	else:
 		return render(request, 'base.html', {'tipo': usuario.activeClient.name, 'str': "mal :("})
 
+class ImageUploadForm(forms.Form):
+    """Image upload form."""
+    image = forms.ImageField()
+
 def Registrar(request):
+	print("Hola")
+	print(request.method)
+	if request.method == "POST":
+		print("AAAAAAAAAAAA")
+
+		user = User.objects.create_user(request.POST.get('Username'), request.POST.get('Email'), request.POST.get('Password'))
+		
+		aux = Client.objects.get(name="Pasajero")
+		user.clients.add(aux) 
+		user.activeClient = aux
+
+		form2 = ImageUploadForm(request.POST, request.FILES)
+
+		if form2.is_valid():
+			print("Wena wena")
+			user.foto = form2.cleaned_data['image']
+
+		user.save()
+
+		print(request.POST.get('Username'))
+		print(request.POST.get('Password'))
+		print(request.POST.get('Celular'))
+
 	return render(request, 'register.html', {})
 
 def AdministrarViaje(request, pk):

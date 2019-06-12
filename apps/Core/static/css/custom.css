@@ -3418,6 +3418,12 @@ a.hiddenanchor {
     opacity: 0;
     width: 100%
 }
+.registration2_form,
+.registration2_form {
+    z-index: 23;
+    opacity: 0;
+    width: 100%
+}
 .login_form {
     z-index: 22
 }
@@ -3429,6 +3435,17 @@ a.hiddenanchor {
 }
 #signup:target ~ .login_wrapper .login_form,
 #signin:target ~ .login_wrapper .registration_form {
+    animation-name: fadeOutLeft
+}
+
+#signup2:target ~ .login_wrapper .registration2_form,
+#signin2:target ~ .login_wrapper .login_form {
+    z-index: 22;
+    animation-name: fadeInLeft;
+    animation-delay: .1s
+}
+#signup2:target ~ .login_wrapper .login_form,
+#signin2:target ~ .login_wrapper .registration2_form {
     animation-name: fadeOutLeft
 }
 .animate {
