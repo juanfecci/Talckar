@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  /* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>Vehiculo: {{conductor.vehiculo.marca}} {{conductor.vehiculo.modelo}}</h1>
+        </div>
+        <div class = "row">
+            <div class = "column" align = "center">
+                <p class="text-muted font-13 m-b-30"></p>
+                <a> <img src="/media/{{conductor.vehiculo.foto_vehiculo}}" width="300px"> </a>
+            </div>
+            <div class = "column">
+                <h2>Color: {{conductor.vehiculo.color}}</h2>
+                <h2>Año: {{conductor.vehiculo.anno}}</h2>
+                <h2>Autonomía: {{conductor.vehiculo.precio_combustible}}[Km/Lt]</h2>
+                <h2>Numero de Asientos: {{conductor.vehiculo.numero_asientos}}</h2>
+            </div>
+        </div>
+    </div>
+</div>                 
+
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <!-- Datatables -->
+    <script src="{% static 'js/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script src="{% static 'js/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script src="{% static 'js/jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/vfs_fonts.js' %}"></script>
+
+
+{% endblock %}

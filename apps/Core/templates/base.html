@@ -95,11 +95,19 @@
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-cubes"></i>
+                    {% if not flag %}
                       {% if user.activeClient %}
                         Cliente: {{ user.activeClient }}
                       {% else %}
                         Cliente: {{ user.clients.all.0 }}
                       {% endif %}
+                    {% else %}
+                      {% if user.activeClient == "Conductor" %}
+                      Cliente: Conductor
+                      {% else %}
+                      Cliente: Pasajero
+                      {% endif %}
+                    {% endif %}
                   </a>
                  </li>
                 </li>

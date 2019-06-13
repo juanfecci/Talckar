@@ -15,13 +15,37 @@ from django.core.urlresolvers import reverse_lazy
 
 from django.shortcuts import get_object_or_404
 
-class PerfilDetail(DetailView):
-	model = User
-	template_name = "Perfil_Management/perfil_detail.html"
+def PerfilDetail(request, pk):
+	user = User.objects.get(id = pk)
+	return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False})
 
 class PerfilEdit(DetailView):
 	model = User
 	template_name = "Perfil_Management/perfil_edit.html"
+
+def update_profile(request):
+    args = {}
+
+    if request.method == 'POST':
+        form = UpdateProfile(request.POST, instance=request.user)
+        form.actual_user = request.user
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('update_profile_success'))
+    else:
+        form = UpdateProfile()
+
+    args['form'] = form
+    return render(request, 'Perfil_Management/perfil_edit2.html', args)
+
+def VerPerfil(request, pk):
+	user = User.objects.get(id = pk)
+	return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': True})
+
+def DetalleVehiculo(request, pk):
+	user = User.objects.get(id = pk)
+	conductor = user.datos_conductor
+	return render(request, "Perfil_Management/vehiculo_detail.html", {'conductor': conductor})
 
 def getValor(conductor):
 	vals = conductor.first().valoraciones.all()
