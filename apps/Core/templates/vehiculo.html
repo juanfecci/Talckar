@@ -1,0 +1,273 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Talckar | Registro Vehiculo</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{% static 'css/nprogress.css' %}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+  </head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+      <a class="hiddenanchor" id="signup2"></a>
+      <a class="hiddenanchor" id="signin2"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+        {% if error != None %}
+              <div class="panel panel-default">
+                <center> <div class="panel-body">{{error}}</div></center>
+              </div>
+              {% endif %}
+          <section class="login_content">
+            <form method="POST" action="{% url "Registrar2" 2 user%}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <h1>Vehiculo</h1>
+
+              <div>
+                <input name="licencia" type="text" class="form-control" placeholder="Tipo de licencia" required="" />
+              </div>
+
+              <div>
+                <input name="fecha" type="text" class="form-control" placeholder="Fecha de obtención (YYYY-MM)" required="" />
+              </div>
+
+              <div>
+                <input name="patente" type="text" class="form-control" placeholder="Patente" required="" />
+              </div>
+
+              <div>
+                <input name="marca" type="text" class="form-control" placeholder="Marca" required="" />
+              </div>
+
+              <div>
+                <input name="Modelo" type="text" class="form-control" placeholder="Modelo" required="" />
+              </div>
+
+              <div>
+                <div class="pull-left">Subir foto del vehiculo</div>  <br> <input id="id_image" type="file" class="" name="image" required="">
+                <br>
+              </div>
+
+              <div>
+                <input name="Color" type="text" class="form-control" placeholder="Color" required="" />
+              </div>
+
+              <div>
+                <input name="Anno" type="text" class="form-control" placeholder="Año" required="" />
+              </div>
+
+              <div>
+                <input name="nAsientos" type="text" class="form-control" placeholder="Número de asientos" required="" />
+              </div>
+
+              <div>
+                <input name="pCombustible" type="text" class="form-control" placeholder="Precio de combustible (en km/l)" required="" />
+              </div>
+
+              <div>
+                <button class="btn btn-default submit">Ingresar</button>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <div class="clearfix"></div>
+
+                 <div class="separator">
+                
+
+                <div>
+                  <h1><i class="fa fa-car"></i> Talckar</h1>
+                  <p>©2019 Todos los derechos reservados.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register" class="animate form registration_form">
+          <section class="login_content">
+            <form method="POST" action="{% url "Registrar" 0%}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <h1>Pasajero</h1>
+              <div>
+                <input type="text" class="form-control" name="Username" placeholder="Nombre de Usuario" required="" />
+              </div>
+               <div>
+                <input type="password" class="form-control" name="Password" placeholder="Contraseña" required="" />
+              </div>
+               <div>
+                <input type="password" class="form-control" name="Password2" placeholder="Confirmar Contraseña" required="" />
+              </div>
+              <div>
+                <input type="text" class="form-control" name="Nombre" placeholder="Nombre" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Apellido" placeholder="Apellido" required="" />
+              </div>
+
+              <div>
+                <div class="pull-left">Subir foto de perfil</div>  <br> <input id="id_image" type="file" class="" name="image">
+                <br>
+              </div> 
+
+              <div>
+                <input type="text" class="form-control" name="Rut" placeholder="Rut (1.234.567-9)" required="" />
+              </div>
+
+              <div>
+                <input type="email" class="form-control" name="Email" placeholder="Email" required="" />
+              </div>
+
+              <div>
+                <input type="email" class="form-control" name="Email2" placeholder="Confirme correo" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Celular" placeholder="Celular" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Profesión" placeholder="Profesión" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Interes" placeholder="Interés" required="" />
+              </div>
+
+              <div>
+                ¿Es Fumador?
+                <label class="radio-inline"><input type="radio" name="optradio">Si</label>
+                <label class="radio-inline"><input type="radio" name="optradio">No</label>
+                <br>
+              </div>
+
+              <div>
+                <input class="btn btn-default submit" type="submit" value="Ingresar">
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">¿Eres miembro?
+                  <a href="#signin" class="to_register">Ingresar</a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-car"></i> Talckar</h1>
+                  <p>©2019 Todos los derechos reservados.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+
+        <div id="register2" class="animate form registration2_form">
+          <section class="login_content">
+            <form method="POST" action="{% url "Registrar" 1%}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <h1>Conductor</h1>
+              <div>
+                <input type="text" class="form-control" name="Username" placeholder="Nombre de Usuario" required="" />
+              </div>
+               <div>
+                <input type="password" class="form-control" name="Password" placeholder="Contraseña" required="" />
+              </div>
+               <div>
+                <input type="password" class="form-control" name="Password2" placeholder="Confirmar Contraseña" required="" />
+              </div>
+              <div>
+                <input type="text" class="form-control" name="Nombre" placeholder="Nombre" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Apellido" placeholder="Apellido" required="" />
+              </div>
+
+              <div>
+                <div class="pull-left">Subir foto de perfil</div>  <br> <input id="id_image" type="file" class="" name="image">
+                <br>
+              </div> 
+
+              <div>
+                <input type="text" class="form-control" name="Rut" placeholder="Rut (1.234.567-9)" required="" />
+              </div>
+
+              <div>
+                <input type="email" class="form-control" name="Email" placeholder="Email" required="" />
+              </div>
+
+              <div>
+                <input type="email" class="form-control" name="Email2" placeholder="Confirme correo" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Celular" placeholder="Celular" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Profesión" placeholder="Profesión" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Interes" placeholder="Interés" required="" />
+              </div>
+
+              <div>
+                ¿Es Fumador?
+                <label class="radio-inline"><input type="radio" name="optradio">Si</label>
+                <label class="radio-inline"><input type="radio" name="optradio">No</label>
+                <br>
+              </div>
+
+              <div>
+              <br>
+                <input class="btn btn-default submit" type="submit" value="Continuar">
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">¿Eres miembro?
+                  <a href="#signin" class="to_register">Ingresar</a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-car"></i> Talckar</h1>
+                  <p>©2019 Todos los derechos reservados.</p>
+                </div>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

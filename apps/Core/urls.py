@@ -21,9 +21,10 @@ from Core import views as core_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    url(r'^login', auth_views.login, {'template_name': './login.html'}, name="login"),
+    url(r'^login', auth_views.login, {'template_name': './loginNEW.html'}, name="login"),
     url(r'^logout', auth_views.logout, {'next_page': '/'}, name="logout"),
-    url(r'^register', core_views.Registrar, name="Registrar"),
+    url(r'^register/(?P<tipo>\d+)/$', core_views.Registrar, name="Registrar"),
+    url(r'^register/(?P<tipo>\d+)/(?P<userId>[\w\-]+)/$', core_views.Registrar, name="Registrar2"),
     url(r'^$', core_views.home, name="Index_Base"),
     url(r'^Administrar/(?P<pk>\d+)/$', core_views.AdministrarViaje, name='Administrar_Viaje'),
     url(r'^Administrar/Toma/(?P<viaje_id>\d+)/(?P<reserva_id>\d+)/$', core_views.TomarPasajero, name='Tomar_Pasajero'),

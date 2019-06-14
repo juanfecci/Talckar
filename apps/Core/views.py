@@ -14,6 +14,7 @@ from Core.models import *
 
 import json
 
+
 @login_required()
 def home(request):
 	#try: Core.worker_master.vigilant.apply_async()
@@ -51,31 +52,106 @@ class ImageUploadForm(forms.Form):
     """Image upload form."""
     image = forms.ImageField()
 
-def Registrar(request):
+def Registrar(request, tipo, userId=None):
 	print("Hola")
 	print(request.method)
+
+	print(tipo)
+
 	if request.method == "POST":
-		print("AAAAAAAAAAAA")
 
-		user = User.objects.create_user(request.POST.get('Username'), request.POST.get('Email'), request.POST.get('Password'))
-		
-		aux = Client.objects.get(name="Pasajero")
-		user.clients.add(aux) 
-		user.activeClient = aux
+		if int(tipo) == 0:
+			ret = createUser(request, "Pasajero")
+			print(ret)
+			return render(request, 'loginNEW.html', {'error': ret})
 
-		form2 = ImageUploadForm(request.POST, request.FILES)
+		if int(tipo) == 1:
+			ret = createUser(request, "Conductor")
+			print(ret)
+			if ret == "Registro realizado exitosamente":
+				return render(request, 'vehiculo.html', {'user': request.POST.get('Username')})
+			else:
+				return render(request, 'loginNEW.html', {'error': ret})
 
-		if form2.is_valid():
-			print("Wena wena")
-			user.foto = form2.cleaned_data['image']
+		if int(tipo) == 2:
 
-		user.save()
+			if not request.POST.get('Anno').isdigit():
+				ret = "Error, El año no fue ingresado de forma correcta"
+				return render(request, 'vehiculo.html', {'user': request.POST.get('Username'), 'error': ret})
 
-		print(request.POST.get('Username'))
-		print(request.POST.get('Password'))
-		print(request.POST.get('Celular'))
+			if not request.POST.get('nAsientos').isdigit():
+				ret = "Error, El numero de asientos no fue ingresado de forma correcta"
+				return render(request, 'vehiculo.html', {'user': request.POST.get('Username'), 'error': ret})
 
-	return render(request, 'register.html', {})
+			if not request.POST.get('pCombustible').isdigit():
+				ret = "Error, El precio del combustible no fue ingresado de forma correcta (debe ser solo los números)"
+				return render(request, 'vehiculo.html', {'user': request.POST.get('Username'), 'error': ret})
+
+			veh = Vehiculo()
+			cond = Conductor()
+			usuario = User.objects.get(username=userId)
+
+			veh.marca = request.POST.get('marca')
+			veh.modelo = request.POST.get('Modelo')
+
+			form2 = ImageUploadForm(request.POST, request.FILES)
+
+			if form2.is_valid():
+				veh.foto_vehiculo = form2.cleaned_data['image']
+
+			veh.color = request.POST.get('Color')
+			veh.anno = request.POST.get('Anno')
+			veh.numero_asientos = request.POST.get('nAsientos')
+			veh.precio_combustible = request.POST.get('pCombustible')
+
+			veh.save()
+
+			cond.licencia = request.POST.get('licencia')
+			cond.fecha_obtencion = request.POST.get('fecha')
+			cond.vehiculo = veh
+
+			cond.save()
+
+			usuario.datos_conductor = cond
+
+			usuario.save()
+
+			return render(request, 'loginNEW.html', {'error': "Registro realizado exitosamente"})
+
+
+	return home(request)
+
+def createUser(request, name):
+
+	if User.objects.filter(username=request.POST.get('Username')).exists():
+		return "Error, el usuario ya existe"
+
+	if request.POST.get('Password') != request.POST.get('Password2'):
+		return "Error, contraseñas incorrectas"
+
+	if not request.POST.get('Celular').isdigit():
+		return "Error, contraseñas incorrectas"	
+
+	user = User.objects.create_user(request.POST.get('Username'), request.POST.get('Email'), request.POST.get('Password'))
+	
+	user.first_name = request.POST.get('Nombre')
+	user.last_name = request.POST.get('Apellido')
+	user.profesion = request.POST.get('Profesión')
+	user.celular = request.POST.get('Celular')	
+	user.interes = request.POST.get('Interes')
+	user.fumador = request.POST.get('optradio')
+
+	aux = Client.objects.get(name=name)
+	user.clients.add(aux) 
+	user.activeClient = aux
+
+	form2 = ImageUploadForm(request.POST, request.FILES)
+
+	if form2.is_valid():
+		user.foto = form2.cleaned_data['image']
+
+	user.save()
+	return "Registro realizado exitosamente"
 
 def AdministrarViaje(request, pk):
 	viaje = Viaje.objects.get(id=pk)

@@ -33,9 +33,15 @@
 
       <div class="login_wrapper">
         <div class="animate form login_form">
+        {% if error != None %}
+              <div class="panel panel-default">
+                <center> <div class="panel-body">{{error}}</div></center>
+              </div>
+              {% endif %}
           <section class="login_content">
-            <form method="post">
+            <form method="post" action="{% url "login" %}">
               {% csrf_token %}
+
               <h1>Ingreso</h1>
               <div>
                 <input name="username" type="text" class="form-control" placeholder="Username" required="" />
@@ -75,17 +81,41 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-            <form method="POST" action="" enctype="multipart/form-data">
+            <form method="POST" action="{% url "Registrar" 0%}" enctype="multipart/form-data">
               {% csrf_token %}
               <h1>Pasajero</h1>
               <div>
-                <input type="text" class="form-control" name="Username" placeholder="Username" required="" />
+                <input type="text" class="form-control" name="Username" placeholder="Nombre de Usuario" required="" />
               </div>
+               <div>
+                <input type="password" class="form-control" name="Password" placeholder="Contraseña" required="" />
+              </div>
+               <div>
+                <input type="password" class="form-control" name="Password2" placeholder="Confirmar Contraseña" required="" />
+              </div>
+              <div>
+                <input type="text" class="form-control" name="Nombre" placeholder="Nombre" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Apellido" placeholder="Apellido" required="" />
+              </div>
+
+              <div>
+                <div class="pull-left">Subir foto de perfil</div>  <br> <input id="id_image" type="file" class="" name="image" required="">
+                <br>
+              </div> 
+
+              <div>
+                <input type="text" class="form-control" name="Rut" placeholder="Rut (1.234.567-9)" required="" />
+              </div>
+
               <div>
                 <input type="email" class="form-control" name="Email" placeholder="Email" required="" />
               </div>
+
               <div>
-                <input type="password" class="form-control" name="Password" placeholder="Password" required="" />
+                <input type="email" class="form-control" name="Email2" placeholder="Confirme correo" required="" />
               </div>
 
               <div>
@@ -93,24 +123,23 @@
               </div>
 
               <div>
-                <input id="id_image" type="file" class="" name="image">
-                <br>
-              </div>
-
-              <div>
-                <input type="text" class="form-control" name="Foto" placeholder="Foto" required="" />
-              </div>
-
-              <div>
                 <input type="text" class="form-control" name="Profesión" placeholder="Profesión" required="" />
               </div>
 
               <div>
-                <input type="text" class="form-control" name="Interés" placeholder="Interés" required="" />
+                <input type="text" class="form-control" name="Interes" placeholder="Interés" required="" />
               </div>
 
               <div>
-                <input class="btn btn-default submit" type="submit" value="Ingresar">
+                ¿Es Fumador?
+                <label class="radio-inline"><input type="radio" name="optradio">Si</label>
+                <label class="radio-inline"><input type="radio" name="optradio">No</label>
+                <br>
+              </div>
+
+              <div>
+              <br>
+              <button class="btn btn-default submit">Ingresar</button>
               </div>
 
               <div class="clearfix"></div>
@@ -134,16 +163,37 @@
 
         <div id="register2" class="animate form registration2_form">
           <section class="login_content">
-            <form>
+            <form method="POST" action="{% url "Registrar" 1%}" enctype="multipart/form-data">
+              {% csrf_token %}
               <h1>Conductor</h1>
               <div>
-              <input type="text" class="form-control" name="Username" placeholder="Username" required="" />
+                <input type="text" class="form-control" name="Username" placeholder="Nombre de Usuario" required="" />
               </div>
+               <div>
+                <input type="password" class="form-control" name="Password" placeholder="Contraseña" required="" />
+              </div>
+               <div>
+                <input type="password" class="form-control" name="Password2" placeholder="Confirmar Contraseña" required="" />
+              </div>
+              <div>
+                <input type="text" class="form-control" name="Nombre" placeholder="Nombre" required="" />
+              </div>
+
+              <div>
+                <input type="text" class="form-control" name="Apellido" placeholder="Apellido" required="" />
+              </div>
+
+              <div>
+                <div class="pull-left">Subir foto de perfil</div>  <br> <input id="id_image" type="file" class="" name="image">
+                <br>
+              </div> 
+
               <div>
                 <input type="email" class="form-control" name="Email" placeholder="Email" required="" />
               </div>
+
               <div>
-                <input type="password" class="form-control" name="Password" placeholder="Password" required="" />
+                <input type="email" class="form-control" name="Email2" placeholder="Confirme correo" required="" />
               </div>
 
               <div>
@@ -151,18 +201,23 @@
               </div>
 
               <div>
-                <input type="text" class="form-control" name="Foto" placeholder="Foto" required="" />
-              </div>
-
-              <div>
                 <input type="text" class="form-control" name="Profesión" placeholder="Profesión" required="" />
               </div>
 
               <div>
-                <input type="text" class="form-control" name="Interés" placeholder="Interés" required="" />
+                <input type="text" class="form-control" name="Interes" placeholder="Interés" required="" />
               </div>
+
               <div>
-                <a class="btn btn-default submit" href="index.html">Submit</a>
+                ¿Es Fumador?
+                <label class="radio-inline"><input type="radio" name="optradio" checked>Si</label>
+                <label class="radio-inline"><input type="radio" name="optradio">No</label>
+                <br>
+              </div>
+
+              <div>
+              <br>
+              <button class="btn btn-default submit">Continuar</button>
               </div>
 
               <div class="clearfix"></div>
