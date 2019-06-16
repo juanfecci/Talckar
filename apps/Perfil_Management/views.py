@@ -71,6 +71,7 @@ def EditarVehiculo(request):
 			request.user.datos_conductor.vehiculo.anno = datos.anno
 			request.user.datos_conductor.vehiculo.numero_asientos = datos.numero_asientos
 			request.user.datos_conductor.vehiculo.precio_combustible = datos.precio_combustible
+			request.user.datos_conductor.vehiculo.save()
 			request.user.save()
 			return render(request, "base.html", {'user': request.user})
 	form = VehiculoEditForm()
@@ -82,6 +83,7 @@ def EditarFotoVehiculo(request):
 		if (form.is_valid()):
 			request.user.datos_conductor.vehiculo.foto_vehiculo = form.cleaned_data['foto_vehiculo']
 			request.user.datos_conductor.vehiculo.save()
+			request.user.save()
 			return render(request, "base.html", {'user': request.user})
 	form = UploadCarImageForm()
 	return render(request, "Perfil_Management/vehiculo_image_edit.html", {'form': form})
