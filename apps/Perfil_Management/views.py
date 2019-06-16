@@ -33,7 +33,7 @@ def EditarPerfil(request):
 			#nuevoPerfil = form.save(commit = False)
 			request.user.first_name = request.POST.get('first_name')
 			request.user.last_name = request.POST.get('last_name')
-			request.user.email = request.POST.get('email')
+			request.user.correo = request.POST.get('email')
 			request.user.profesion = request.POST.get('profesion')
 			request.user.interes = request.POST.get('interes')
 			request.user.fumador = request.POST.get('fumador')
@@ -88,7 +88,16 @@ def EditarFotoVehiculo(request):
 
 def VerPerfil(request, pk):
 	user = User.objects.get(id = pk)
-	return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': True})
+	num_vals = len(user.valoraciones.all())
+	if (num_vals >= 3):
+		valoraciones = user.valoraciones.all().order_by('-id')[:3]
+	else:
+		valoraciones = user.valoraciones.all().order_by('-id')[:num_vals]
+	return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': True, 'valoraciones': valoraciones, 'n': num_vals})
+
+def MasValoraciones(request, pk):
+	user = User.objects.get(id = pk)
+	return render(request, "Perfil_Management/valoraciones_detail.html", {'valoraciones': user.valoraciones})
 
 def DetalleVehiculo(request, pk):
 	user = User.objects.get(id = pk)

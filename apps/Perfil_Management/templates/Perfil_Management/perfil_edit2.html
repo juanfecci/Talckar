@@ -33,8 +33,9 @@
                   </div>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30"></p>
+                    <font color="red"><h4>**Todos los campos son obligatorios**</h4></font>
                     <div class = "column">
-                      <form align = "center" method = "POST" class="post-form" enctype="multipart/form-data">
+                      <form method = "POST" class="post-form" enctype="multipart/form-data">
                         {% csrf_token %}
                         <h4>Nombre</h4>
                         {{form.first_name}}

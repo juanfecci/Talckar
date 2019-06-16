@@ -18,36 +18,9 @@
 }
 </style>
 <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="x_panel">
-        <div class="x_title">
-            <h1>Perfil {{usuario.activeClient.name}}</h1>
-        </div>
-        <div class = "row">
-            <div class = "column" align = "center">
-                <p class="text-muted font-13 m-b-30"></p>
-                <a> <img src="/media/{{usuario.foto}}" width="120px"> </a>
-            </div>
-            <div class = "column">
-                <h2>Nombre: {{usuario.first_name}} {{usuario.last_name}}</h2>
-                <h2>Profesión: {{usuario.profesion}}</h2>
-                <h2>Intereses: {{usuario.interes}}</h2>
-                <h2>Valoración: {{usuario.promedioVal}}</h2>
-                {% if flag == False %}
-                <h2>Correo: {{usuario.correo}}</h2>
-                <h2>Celular: {{usuario.celular}}</h2>
-                {% endif %}
-            </div>
-            {% if usuario.activeClient.name == "Conductor" %}
-            <div class = "column" align = "center">
-                <a> <img src="/media/{{usuario.datos_conductor.vehiculo.foto_vehiculo}}" width="100px"> </a>
-                <h3><a href = "{% url "DetalleVehiculo" usuario.id %}" type="button" class="btn btn-round btn-info btn-sm">Información del Vehículo</a></h3>
-            </div>
-            {% endif %}
-        </div>
-    </div>
     <div class = "x_panel">
         <div class = "x_title">
-            <h1>Comentarios</h1>
+            <h1>Todas las Valoraciones</h1>
         </div>
         <div class = "row">
             <table class = "table">
@@ -62,9 +35,6 @@
                 </tr>
                 {% endfor %}
             </table>
-            {% if n > 3 %}
-            <h3><a href = "{% url "MasValoraciones" usuario.id %}" type="button" class="btn btn-round btn-info btn-sm">Más</a></h3>
-            {% endif %}
         </div>
     </div>
 </div>                 
