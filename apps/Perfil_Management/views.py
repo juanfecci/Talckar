@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-
+from django.contrib.auth import authenticate, login
 from Core.models import *
 #from form import *
 
@@ -12,31 +12,79 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import TemplateView,ListView
 from django.views.generic.detail import DetailView
 from django.core.urlresolvers import reverse_lazy
-
+from forms import PerfilEditForm
+from forms import UploadImageForm
+from forms import VehiculoEditForm
+from forms import UploadCarImageForm
 from django.shortcuts import get_object_or_404
+from flask import Flask, render_template, request, redirect
 
 def PerfilDetail(request, pk):
 	user = User.objects.get(id = pk)
 	return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False})
 
+def EditarPerfil(request):
+	print("hola mundo")
+	if (request.method == "POST"):
+		form = PerfilEditForm(request.POST)
+		#form2 = UploadImageForm(request.POST, request.FILES)
+		if (form.is_valid()):
+			print("dentro del form is valid")
+			#nuevoPerfil = form.save(commit = False)
+			request.user.first_name = request.POST.get('first_name')
+			request.user.last_name = request.POST.get('last_name')
+			request.user.email = request.POST.get('email')
+			request.user.profesion = request.POST.get('profesion')
+			request.user.interes = request.POST.get('interes')
+			request.user.fumador = request.POST.get('fumador')
+			request.user.celular = request.POST.get('celular')
+			#request.user.foto = form2.cleaned_data['foto']
+			request.user.save()
+			return render(request, "base.html", {'user': request.user})
+		return render(request, "Perfil_Management/perfil_detail3.html", {'errores': form.errors})
+	form = PerfilEditForm()
+	#form2 = UploadImageForm()
+	return render(request, "Perfil_Management/perfil_edit2.html", {'form': form})
+
+def EditarFoto(request):
+	if (request.method == "POST"):
+		form = UploadImageForm(request.POST, request.FILES)
+		if (form.is_valid()):
+			request.user.foto = form.cleaned_data['foto']
+			request.user.save()
+			return render(request, "base.html", {'user': request.user})
+	form = UploadImageForm()
+	return render(request, "Perfil_Management/perfil_image_edit.html", {'form': form})
+
 class PerfilEdit(DetailView):
 	model = User
 	template_name = "Perfil_Management/perfil_edit.html"
 
-def update_profile(request):
-    args = {}
+def EditarVehiculo(request):
+	if (request.method == "POST"):
+		form = VehiculoEditForm(request.POST)
+		if (form.is_valid()):
+			datos = form.save(commit = False)
+			request.user.datos_conductor.vehiculo.marca = datos.marca
+			request.user.datos_conductor.vehiculo.modelo = datos.modelo
+			request.user.datos_conductor.vehiculo.color = datos.color
+			request.user.datos_conductor.vehiculo.anno = datos.anno
+			request.user.datos_conductor.vehiculo.numero_asientos = datos.numero_asientos
+			request.user.datos_conductor.vehiculo.precio_combustible = datos.precio_combustible
+			request.user.save()
+			return render(request, "base.html", {'user': request.user})
+	form = VehiculoEditForm()
+	return render(request, "Perfil_Management/vehiculo_edit.html", {'form': form})
 
-    if request.method == 'POST':
-        form = UpdateProfile(request.POST, instance=request.user)
-        form.actual_user = request.user
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('update_profile_success'))
-    else:
-        form = UpdateProfile()
-
-    args['form'] = form
-    return render(request, 'Perfil_Management/perfil_edit2.html', args)
+def EditarFotoVehiculo(request):
+	if (request.method == "POST"):
+		form = UploadCarImageForm(request.POST, request.FILES)
+		if (form.is_valid()):
+			request.user.datos_conductor.vehiculo.foto_vehiculo = form.cleaned_data['foto_vehiculo']
+			request.user.datos_conductor.vehiculo.save()
+			return render(request, "base.html", {'user': request.user})
+	form = UploadCarImageForm()
+	return render(request, "Perfil_Management/vehiculo_image_edit.html", {'form': form})
 
 def VerPerfil(request, pk):
 	user = User.objects.get(id = pk)

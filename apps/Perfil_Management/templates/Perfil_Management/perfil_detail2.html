@@ -35,7 +35,7 @@
             </div>
             {% if usuario.activeClient.name == "Conductor" %}
             <div class = "column" align = "center">
-                <a> <img src="/media/autos/auto1.jpg" width="100px"> </a>
+                <a> <img src="/media/{{usuario.datos_conductor.vehiculo.foto_vehiculo}}" width="100px"> </a>
                 <h3><a href = "{% url "DetalleVehiculo" usuario.id %}" type="button" class="btn btn-round btn-info btn-sm">Información del Vehículo</a></h3>
             </div>
             {% endif %}

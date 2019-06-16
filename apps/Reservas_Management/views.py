@@ -19,7 +19,10 @@ def getValor(conductor):
 	suma = 0.0
 	for val in vals:
 		suma += val.puntaje
-	return "{0:.2f}".format(suma/len(vals))
+	if (len(vals) != 0):
+		return "{0:.2f}".format(suma/len(vals))
+	else:
+		return "{0:.2f}".format(0)
 
 class ReservaList(ListView):
 	model = Reserva

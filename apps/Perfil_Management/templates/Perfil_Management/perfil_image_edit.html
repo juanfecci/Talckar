@@ -33,23 +33,14 @@
                   </div>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30"></p>
+                    <div class = "column" align = "center">
+                      <p class="text-muted font-13 m-b-30"></p>
+                      <a> <img src="/media/{{user.foto}}" width="120px"> </a>
+                    </div>
                     <div class = "column">
-                      <form align = "center" method = "POST" class="post-form" enctype="multipart/form-data">
+                      <form method="POST" class = "post-form" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <h4>Nombre</h4>
-                        {{form.first_name}}
-                        <h4>Apellido</h4>
-                        {{form.last_name}}
-                        <h4>Correo electrónico</h4>
-                        {{form.email}}
-                        <h4>Profesión</h4>
-                        {{form.profesion}}
-                        <h4>Intereses</h4>
-                        {{form.interes}}
-                        <h4>Fumador</h4>
-                        {{form.fumador}}
-                        <h4>Celular</h4>
-                        {{form.celular}}
+                        {{form.as_p}}
                         <button type="submit" class="save btn btn-default">Guardar</button>
                       </form>
                     </div>
