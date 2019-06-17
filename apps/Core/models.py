@@ -11,7 +11,6 @@ class User(AbstractUser):
 	activeClient = models.ForeignKey("Client",related_name="UsersViewing", null=True, blank=True)
 	datos_conductor = models.ForeignKey("Conductor",related_name="DatosConductor", null=True, blank=True)
 	correo = models.CharField(max_length=30,null=False, default=" ")
-
 	profesion = models.CharField(max_length=30,null=False, default=" ")
 	interes = models.CharField(max_length=30,null=False, default=" ")
 	fumador = models.CharField(max_length=30,null=False, default=" ")	

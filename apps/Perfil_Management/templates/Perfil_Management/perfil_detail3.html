@@ -1,21 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<style>
-  /* Create two equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 30%;
-  padding: 10px;
-  height: 500px; /* Should be removed. Only for demonstration */
-}
 
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-</style>
              <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -33,27 +18,7 @@
                   </div>
                   <div class="x_content">
                     <p class="text-muted font-13 m-b-30"></p>
-                    <font color="red"><h4>**Todos los campos son obligatorios**</h4></font>
-                    <div class = "column">
-                      <form method = "POST" class="post-form" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <h4>Nombre</h4>
-                        {{form.first_name}}
-                        <h4>Apellido</h4>
-                        {{form.last_name}}
-                        <h4>Correo electrónico</h4>
-                        {{form.email}}
-                        <h4>Profesión</h4>
-                        {{form.profesion}}
-                        <h4>Intereses</h4>
-                        {{form.interes}}
-                        <h4>Fumador</h4>
-                        {{form.fumador}}
-                        <h4>Celular</h4>
-                        {{form.celular}}
-                        <button type="submit" class="save btn btn-default">Guardar</button>
-                      </form>
-                    </div>
+                    <h1>{{errores.as_data}}</h1>
                   <!--<div class="form-row field-foto">
                     <div>
                       <label class="required" for="id_foto">Foto:</label>

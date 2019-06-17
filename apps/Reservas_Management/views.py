@@ -23,6 +23,7 @@ def getValor(conductor):
 		return 0
 	return "{0:.2f}".format(suma/len(vals))
 
+
 class ReservaList(ListView):
 	model = Reserva
 	template_name = "Reservas_Management/reserva_list.html"

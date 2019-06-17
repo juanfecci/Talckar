@@ -7,7 +7,12 @@ from .views import *
 urlpatterns = [
 
     url(r'^perfil/(?P<pk>\d+)$', PerfilDetail, name='Perfil_Detail'),
+    url(r'^MasValoraciones/(?P<pk>\d+)$', MasValoraciones, name='MasValoraciones'),
     url(r'^perfil/edit/(?P<pk>\d+)$', PerfilEdit.as_view(), name='Perfil_Edit'),
+    url(r'^EditarPerfil/$', EditarPerfil, name='EditarPerfil'),
+    url(r'^EditarFoto/$', EditarFoto, name='EditarFoto'),
+    url(r'^EditarVehiculo/$', EditarVehiculo, name='EditarVehiculo'),
+    url(r'^EditarFotoVehiculo/$', EditarFotoVehiculo, name='EditarFotoVehiculo'),
     url(r'^VerPerfil/(?P<pk>\d+)$', VerPerfil, name='VerPerfil'),
     url(r'^DetalleVehiculo/(?P<pk>\d+)$', DetalleVehiculo, name='DetalleVehiculo'),
     url(r'^Valorar/(?P<pk>\d+)/(?P<tipo>\w+)/(?P<reserva_id>\d+)/(?P<usuario_id>\d+)/$', Valorar, name='Valorar'),
