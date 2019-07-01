@@ -7,7 +7,9 @@ from .views import *
 urlpatterns = [
 
     url(r'^perfil/(?P<pk>\d+)$', PerfilDetail, name='Perfil_Detail'),
+    url(r'^inicio/$', inicio, name='inicio'),
     url(r'^MasValoraciones/(?P<pk>\d+)$', MasValoraciones, name='MasValoraciones'),
+    url(r'^change_password/$', change_password, name='change_password'),
     url(r'^perfil/edit/(?P<pk>\d+)$', PerfilEdit.as_view(), name='Perfil_Edit'),
     url(r'^EditarPerfil/$', EditarPerfil, name='EditarPerfil'),
     url(r'^EditarFoto/$', EditarFoto, name='EditarFoto'),

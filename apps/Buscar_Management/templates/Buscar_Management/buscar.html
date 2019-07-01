@@ -6,12 +6,12 @@
     <meta charset="utf-8">
     <style>
        #map {
-    width: 25%;
-    height: 300px;
+    width: 100%;
+    height: 400px;
 }
     #map2{
-    width: 25%;
-    height: 300px;
+    width: 100%;
+    height: 400px;
 }
 .controls {
     margin-top: 10px;
@@ -59,7 +59,7 @@
             <div id="map"></div>
             <br>
             <ul id="geoData">
-                <li>Full Address: <span id="location"></span></li>
+                <li>Dirección Exacta: <span id="location"></span></li>
                 <li>Country: <span id="country"></span></li>
                 <li>Latitude: <span id="lat"></span></li>
                 <li>Longitude: <span id="long"></span></li>
@@ -101,11 +101,11 @@
 <script>
           function initMap() {
               var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: -33.8688, lng: 151.2195},
+                center: {lat: -36.827158, lng: -73.050200},
                 zoom: 13
               });
               var map2 = new google.maps.Map(document.getElementById('map2'), {
-                center: {lat: -33.8688, lng: 151.2195},
+                center: {lat: -36.827158, lng: -73.050200},
                 zoom: 13
               });
 

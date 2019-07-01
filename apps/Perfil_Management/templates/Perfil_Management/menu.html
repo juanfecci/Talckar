@@ -1,8 +1,9 @@
 <li><a><i class="fa fa-user"></i> Perfil <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{% url "Perfil_Detail" user.id %}">Ver Perfil</a></li>
+                      <li><a href="{% url "VerPerfil" user.id %}">Ver Perfil</a></li>
                     <li><a href="{% url "EditarPerfil"%}">Editar Perfil</a></li>
                     <li><a href="{% url "EditarFoto"%}">Editar Foto de Perfil</a></li>
+                    <li><a href="{% url "change_password"%}">Cambiar Contraseña</a></li>
                     {% if user.activeClient.name == "Conductor" %}
                     <li><a href="{% url "EditarVehiculo"%}">Editar Info. Vehiculo</a></li>
                     <li><a href="{% url "EditarFotoVehiculo"%}">Editar Foto del Vehiculo</a></li>

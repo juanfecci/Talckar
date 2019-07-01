@@ -29,7 +29,7 @@
                 <th>Valoración</th>
                 {% for valoracion in valoraciones.all %}
                 <tr>
-                    <td><a> <img src="/media/{{valoracion.user.foto}}" width="80px"> </a></td>
+                    <td><a> <img src="/media/user/default.png" width="80px"> </a></td>
                     <td>{{valoracion.comentario}}</td>
                     <td>{{valoracion.puntaje}}</td>
                 </tr>
