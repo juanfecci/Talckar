@@ -129,6 +129,9 @@ def createUser(request, name):
 	if request.POST.get('Password') != request.POST.get('Password2'):
 		return "Error, contraseñas incorrectas"
 
+	if request.POST.get('Email') != request.POST.get('Email2'):
+		return "Error, correos incorrectas"
+
 	if not request.POST.get('Celular').isdigit():
 		return "Error, contraseñas incorrectas"	
 

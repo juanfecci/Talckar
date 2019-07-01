@@ -30,41 +30,9 @@ def ViajeCreate(request):
 
 	return render(request, 'Viajes_Management/viaje_create1.html', {} )
 
-'''
-def ViajeCreate2(request, first=False):
-	usuario = request.user
-	if first:
-		par1 = dict()
-		par2 = dict()
-		par1.nombre =  request.POST.get('origen')
-		par1.coordenada_x = request.POST.get('lati1')
-		par1.coordenada_y = request.POST.get('long1')
-		par1.fecha = request.POST.get('fecha_inicio')
-		par1.hora =request.POST.get('hora_inicio')
-
-		par2.nombre = request.POST.get('destino')
-		par2.coordenada_x = request.POST.get('lati2')
-		par2.coordenada_y = request.POST.get('long2')
-		par2.fecha = request.POST.get('fecha_final')
-		par2.hora = request.POST.get('hora_final')
-'''
-
 def ViajeCreate4(request):
 	usuario = request.user
 	if request.method == "POST":
-		'''
-		response = ''
-		for key,value in request.POST.items():
-			response += 'key:%s value:%s\n' % (key,value)
-			print(response)
-
-		#form = ViajeForm(request.POST)
-		#print(1)
-		#if form.is_valid():
-		#	print(2)
-		#form = ViajeForm(request.POST)
-		#if form.is_valid():
-		'''
 		viaje = Viaje()
 		viaje.save()
 		viaje.estado = -10
@@ -109,6 +77,8 @@ def getValor(conductor):
 	suma = 0.0
 	for val in vals:
 		suma += val.puntaje
+	if len(vals) == 0:
+		return 0
 	return "{0:.2f}".format(suma/len(vals))
 
 def ViajeDetail(request, pk):
