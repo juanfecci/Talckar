@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from django.forms import widgets
 from models import *
@@ -16,7 +17,7 @@ class ViajeForm(forms.Form):
 
 	plazas = forms.IntegerField(label="Plazas disponibles")
 	maletero  = forms.BooleanField(label = "Maletero", required=False)
-	mascota = forms.BooleanField(label = "Mascota", required=False)
-	silla = forms.BooleanField(label = "Silla de ninnos", required=False)
+	mascota = forms.BooleanField(label = "Permite llevar Mascota", required=False)
+	silla = forms.BooleanField(label = "Silla de niños", required=False)
 
-	tarifa = forms.IntegerField(label="Tarifa")
+	tarifa = forms.IntegerField(label="Tarifa de pesos por km")
