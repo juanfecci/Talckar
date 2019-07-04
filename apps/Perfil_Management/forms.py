@@ -3,6 +3,7 @@ from django.forms import widgets
 from models import *
 from Core.models import *
 
+
 class PerfilEditForm(forms.ModelForm):
     fumador = forms.TypedChoiceField(
                    coerce=lambda x: x == 'True',

@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  /* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  height: 500px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+             <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <br>
+                    <h2>Usuario: {{user.first_name}} {{user.last_name}}</h2> 
+                    
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <p class="text-muted font-13 m-b-30"></p>
+                    {% if not redirectt %}
+                    <font color="red"><h4>**Todos los campos son obligatorios**</h4></font>
+                    {% endif %}
+                    <div class = "column">
+                      {% if not redirectt %}
+                      <form method="post">
+                        {% csrf_token %}
+                        {{form.non_field_errors}}
+                        {% for field in form %}
+                        {{field.label_tag}}
+                        {{ field }}
+                        {% if field.errors %}
+                        {{ field.errors }}
+                        {% endif %}
+                        {% endfor %}
+                        <br>
+                        <button type="submit">guardar</button>
+                      </form>
+                      {% else %}
+                      <h3><a href = "{% url "inicio" %}" type="button" class="btn btn-round btn-info btn-sm">Inicio</a></h3>
+                      {% endif %}
+                    </div>
+                    <div class = "column">
+                      {% if messages %}
+                        <ul class="messages">
+                          {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  <!--<div class="form-row field-foto">
+                    <div>
+                      <label class="required" for="id_foto">Foto:</label>
+                      <p class="file-upload">Currently: <a href= {{user.foto}} >default.png</a><br>Change:
+                      <input type="file" name="foto" id="id_foto" /></p>
+                    </div>
+                  </div>
+                  <div class="submit-row">
+                    <input type="submit" value="Save" class="default" name="_save" />
+                  </div> -->
+              </div>
+              </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <!-- Datatables -->
+    <script src="{% static 'js/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script src="{% static 'js/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script src="{% static 'js/jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/vfs_fonts.js' %}"></script>
+
+
+{% endblock %}

@@ -19,9 +19,32 @@ from forms import UploadCarImageForm
 from django.shortcuts import get_object_or_404
 from flask import Flask, render_template, request, redirect
 
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.utils.translation import ugettext as _
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user = request.user, data = request.POST)
+        if form.is_valid():
+            form.save()
+            #user.save()
+            update_session_auth_hash(request, form.user)  # Important!
+            messages.success(request, _('Tu contraseña se cambio con exito!'))
+            return render(request, 'Perfil_Management/pass_change.html', {'redirectt': True})
+        else:
+            messages.error(request, _('Please correct the error below.'))
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'Perfil_Management/pass_change.html', {'form': form})
+
 def PerfilDetail(request, pk):
 	user = User.objects.get(id = pk)
 	return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False})
+
+def inicio(request):
+	return render(request, "base.html", {});
 
 def EditarPerfil(request):
 	print("hola mundo")
@@ -93,9 +116,11 @@ def VerPerfil(request, pk):
 	num_vals = len(user.valoraciones.all())
 	if (num_vals >= 3):
 		valoraciones = user.valoraciones.all().order_by('-id')[:3]
+		print("valoraciones: ", user.valoraciones)
+		return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False, 'valoraciones': valoraciones, 'n': num_vals})
 	else:
 		valoraciones = user.valoraciones.all().order_by('-id')[:num_vals]
-	return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': True, 'valoraciones': valoraciones, 'n': num_vals})
+		return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False, 'valoraciones': valoraciones, 'n': num_vals})
 
 def MasValoraciones(request, pk):
 	user = User.objects.get(id = pk)
