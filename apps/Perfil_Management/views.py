@@ -29,12 +29,12 @@ def change_password(request):
         form = PasswordChangeForm(user = request.user, data = request.POST)
         if form.is_valid():
             form.save()
-            #user.save()
+            request.user.save()
             update_session_auth_hash(request, form.user)  # Important!
             messages.success(request, _('Tu contraseña se cambio con exito!'))
             return render(request, 'Perfil_Management/pass_change.html', {'redirectt': True})
         else:
-            messages.error(request, _('Please correct the error below.'))
+            messages.error(request, _('Por favor corrige tus errores'))
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'Perfil_Management/pass_change.html', {'form': form})
