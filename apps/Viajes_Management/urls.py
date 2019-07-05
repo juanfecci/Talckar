@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^viajeCreate$', ViajeCreate, name='Viaje_Create'),
     url(r'^viajeCreate/agregar$',AgregarParadas, name='Agregar_Paradas'),
     url(r'^viaje/delete/(?P<viaje_id>\d+)/$', ViajeDelete, name='Viaje_Delete'),
-    url(r'^viaje/opciones$', Viaje2, name='Viaje2')
+    url(r'^viaje/opciones$', Viaje2, name='Viaje2'),
+    url(r'^VerPerfil/(?P<pk>\d+)$', VerPerfil1, name='Ver_Perfil1')
+
 ]
 

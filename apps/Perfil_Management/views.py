@@ -122,6 +122,7 @@ def VerPerfil(request, pk):
 		valoraciones = user.valoraciones.all().order_by('-id')[:num_vals]
 		return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False, 'valoraciones': valoraciones, 'n': num_vals})
 
+
 def MasValoraciones(request, pk):
 	user = User.objects.get(id = pk)
 	return render(request, "Perfil_Management/valoraciones_detail.html", {'valoraciones': user.valoraciones})

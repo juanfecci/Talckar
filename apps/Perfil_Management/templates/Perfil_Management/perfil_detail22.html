@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  /* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>Perfil {{usuario.activeClient.name}}</h1>
+        </div>
+        <div class = "row">
+            <div class = "column" align = "center">
+                <p class="text-muted font-13 m-b-30"></p>
+                <a> <img src="/media/{{usuario.foto}}" width="120px"> </a>
+            </div>
+            <div class = "column">
+                <h2>Nombre: {{usuario.first_name}} {{usuario.last_name}}</h2>
+                <h2>Profesión: {{usuario.profesion}}</h2>
+                <h2>Intereses: {{usuario.interes}}</h2>
+                <h2>Valoración: {{usuario.promedioVal}}</h2>
+                {% if flag == False %}
+                {% endif %}
+            </div>
+            {% if usuario.activeClient.name == "Conductor" %}
+            <div class = "column" align = "center">
+                <a> <img src="/media/{{usuario.datos_conductor.vehiculo.foto_vehiculo}}" width="100px"> </a>
+                <h3><a href = "{% url "DetalleVehiculo" usuario.id %}" type="button" class="btn btn-round btn-info btn-sm">Información del Vehículo</a></h3>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class = "x_panel">
+        <div class = "x_title">
+            <h1>Comentarios</h1>
+        </div>
+        <div class = "row">
+            <table class = "table">
+                <th>Usuario</th>
+                <th>Comentario</th>
+                <th>Valoración</th>
+                {% for valoracion in valoraciones.all %}
+                <tr>
+                    <td><a> <img src="/media/{{valoracion.user.foto}}" width="80px"> </a></td>
+                    <td>{{valoracion.comentario}}</td>
+                    <td>{{valoracion.puntaje}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% if n > 3 %}
+            <h3><a href = "{% url "MasValoraciones" usuario.id %}" type="button" class="btn btn-round btn-info btn-sm">Más</a></h3>
+            {% endif %}
+        </div>
+    </div>
+</div>                 
+
+{% endblock %}
+
+{% block scripts %}
+    {% load static %}
+    <!-- Datatables -->
+    <script src="{% static 'js/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'js/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script src="{% static 'js/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script src="{% static 'js/jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake/build/vfs_fonts.js' %}"></script>
+
+
+{% endblock %}

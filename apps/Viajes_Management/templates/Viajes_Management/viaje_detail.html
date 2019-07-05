@@ -76,10 +76,12 @@
                           {%if reserva.estado == -1%}
                           <td><a href="{% url "Aceptar" viaje_id=viaje.id reserva_id=reserva.id %}" type="button" class="btn btn-round btn-success btn-sm">Aceptar</a>
                           <a href="{% url "Rechazar" viaje_id=viaje.id reserva_id=reserva.id %}" type="button" class="btn btn-round btn-danger btn-sm">Cancelar</a>
-                          <a href="{% url "Reserva_Detail" reserva.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
-                          {%endif%}
+                          <a href="{% url "Reserva_Detail" reserva.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a>
+                          <a href="{% url "Ver_Perfil1" reserva.user.first.id %}" type="button" class="btn btn-round btn-info btn-sm">Ver Perfil</a></td>
+                         {%endif%}
                           {%if reserva.estado == 1%}
-                          <td><a href="{% url "Reserva_Detail" reserva.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a></td>
+                          <td><a href="{% url "Reserva_Detail" reserva.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a>
+                          <a href="{% url "Ver_Perfil1" reserva.user.first.id %}" type="button" class="btn btn-round btn-info btn-sm">Ver Perfil</a></td>
                           {%endif%}
                           
                         </tr>

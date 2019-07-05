@@ -199,3 +199,5 @@ def CrearReserva(request, id, cordx1, cordx2, cordy1, cordy2):
 		'''
 	print("Realmente no hubo Post")
 	return render(request, 'Buscar_Management/correcto.html')
+
+	

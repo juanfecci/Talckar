@@ -166,3 +166,12 @@ def Viaje2(request):
 		tarifa = ObtenerPromedio()
 
 		return render(request, 'Viajes_Management/Viaje2.html', {'form': form, 'tarifa': tarifa} )		
+
+def VerPerfil1(request, pk):
+	user = User.objects.get(id = pk)
+	num_vals = len(user.valoraciones.all())
+	if (num_vals >= 3):
+		valoraciones = user.valoraciones.all().order_by('-id')[:3]
+	else:
+		valoraciones = user.valoraciones.all().order_by('-id')[:num_vals]
+	return render(request, "Perfil_Management/perfil_detail22.html", {'usuario': user, 'flag': True, 'valoraciones': valoraciones, 'n': num_vals})
