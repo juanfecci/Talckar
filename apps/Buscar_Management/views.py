@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from Core.models import *
 from form import *
@@ -57,7 +57,7 @@ def Buscar(request):
 				break
 
 		if b:
-			return HttpResponseRedirect("http://127.0.0.1:8000/Buscar_Management/show?cordx1="+str(cordx1)+"&cordy1="+str(cordy1)+"&cordx2="+str(cordx2)+"&cordy2="+str(cordy2) +"&fecha="+str(fecha))
+			return redirect("show?cordx1="+str(cordx1)+"&cordy1="+str(cordy1)+"&cordx2="+str(cordx2)+"&cordy2="+str(cordy2) +"&fecha="+str(fecha))
 
 		else:
 			return render(request, 'Buscar_Management/buscar_error.html', {} )

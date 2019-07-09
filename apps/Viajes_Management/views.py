@@ -62,7 +62,7 @@ def ViajeCreate4(request):
 		#viaje.conductor = usuario
 		viaje.save()
 		usuario.save()
-		return redirect('http://127.0.0.1:8000/Viajes_Management/viajeCreate/agregar')
+		return AgregarParadas(request)
 	else:
 		form = ViajeForm()
 		return render(request, 'Viajes_Management/viajes_create.html', {'form': form} )		
