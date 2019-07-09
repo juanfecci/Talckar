@@ -38,7 +38,7 @@ SECRET_KEY = 'd+typjt6%5wpe-cn*p^2^t_dbiq-vydwce!4@im*jopsg20p(r'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['191.114.67.178','minerva.k.vu','127.0.0.1', "172.20.80.194","minerva.cci-entel.cl"]
+ALLOWED_HOSTS = ['191.114.67.178','minerva.k.vu','127.0.0.1', "172.20.80.194","minerva.cci-entel.cl", "192.168.0.80", "200.104.218.56"]
 
 
 # Application definition
