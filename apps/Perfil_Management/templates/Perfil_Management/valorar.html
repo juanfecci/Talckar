@@ -28,7 +28,7 @@
 
                     <br> <br> 
 
-                     <form method="POST" action="{% url "Valorar_Pasajero" viaje_id=viaje.id reserva_id=primero.id%}">
+                     <form method="POST" action="{% url "ValorarPasajero" viaje_id=viaje.id reserva_id=primero.id%}">
                     {% csrf_token %}
                     <table id="datatable-inbox" class="table table-striped table-bordered">
                       <thead>
