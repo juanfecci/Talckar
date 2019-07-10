@@ -52,7 +52,7 @@
                    </div>
 
                    <h3> Agregar parada </h3>
-          <form action="" method="POST">
+          <form action="{% url "Agregar_Paradas" %}" method="POST">
           {% csrf_token %}
                <div style="font-weight:bold">
                   Origen: <input type="text" input id="searchInput"  name = "origen" required class="vTextField" maxlength="30" />

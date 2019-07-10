@@ -137,6 +137,9 @@ def getValor(conductor):
 	suma = 0.0
 	for val in vals:
 		suma += val.puntaje
+
+	if len(vals) == 0:
+		return "5.0"
 	return "{0:.2f}".format(suma/len(vals))
 
 def Valorar(request, pk, tipo, reserva_id, usuario_id):

@@ -28,7 +28,7 @@ class VehiculoAdmin(admin.ModelAdmin):
 	list_display = ('marca', 'modelo', 'color', 'anno')
 
 class ViajeAdmin(admin.ModelAdmin):
-	list_display = ('tarifaPreferencias', 'estado')
+	list_display = ('tarifaPreferencias', 'estado', 'origen', 'destino')
 
 class PrestacionAdmin(admin.ModelAdmin):
 	list_display = ('maletero', 'mascota', 'silla_ninnos')
@@ -40,7 +40,7 @@ class TramoAdmin(admin.ModelAdmin):
 	list_display = ('precio', 'km')
 
 class ReservaAdmin(admin.ModelAdmin):
-	list_display = ('posicion', 'estado')
+	list_display = ('posicion', 'estado', 'tramo', 'viaje')
 
 class ValoracionAdmin(admin.ModelAdmin):
 	list_display = ('comentario',)

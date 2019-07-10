@@ -176,6 +176,8 @@ def AdministrarViaje(request, pk, name="none"):
 	else:
 		inicio = viaje.origen.nombre
 
+	print(inicio)
+	print(primero.tramo.origen.nombre)
 	return render(request, 'administrar.html', {'viaje':viaje, 'reservas':reservas, 'primero':primero, 'inicio':inicio})
 
 def TomarPasajero(request, viaje_id, reserva_id):
@@ -222,6 +224,25 @@ def apiTest1(request):
 	reserva.save()
 
 	viaje = Viaje.objects.get(id=35)
+	viaje.estado = 2
+	viaje.save()
+
+	return render(request, 'completado.html', {})
+
+def apiTest2(request):
+	reserva = Reserva.objects.get(id=28)
+	reserva.estado = 1
+	reserva.save()
+
+	reserva = Reserva.objects.get(id=27)
+	reserva.estado = 1
+	reserva.save()
+
+	reserva = Reserva.objects.get(id=26)
+	reserva.estado = 1
+	reserva.save()
+
+	viaje = Viaje.objects.get(id=75)
 	viaje.estado = 2
 	viaje.save()
 

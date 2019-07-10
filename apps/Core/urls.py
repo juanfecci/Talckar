@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^changeActiveClient/([0-9]+)/$', core_views.changeActiveClient, name="changeActiveClient" ),
     url(r'^apiViajes$', core_views.apiViajes, name="apiViajes" ),
     url(r'^apiTest1$', core_views.apiTest1, name="apiTest1" ),
+    url(r'^apiTest2$', core_views.apiTest2, name="apiTest2" ),
     url(r'^Viajes_Management/', include('Viajes_Management.urls')),
     url(r'^Perfil_Management/', include('Perfil_Management.urls')),
     url(r'^Buscar_Management/', include('Buscar_Management.urls')),

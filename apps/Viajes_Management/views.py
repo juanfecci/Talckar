@@ -117,8 +117,12 @@ def AgregarParadas(request):
 		par2.coordenada_y = float(request.POST.get('long1'))
 		#par2.coordenada_x = 200
 		#par2.coordenada_y = 200
-		par2.fecha = request.POST.get('fecha_inicio')
-		par2.hora = request.POST.get('hora_inicio')
+		par2.fecha = str(request.POST.get('fecha_inicio'))
+		par2.hora = str(request.POST.get('hora_inicio'))
+
+		print(request.POST.get('hora_inicio'))
+		print("AAAAAAAAAAAAAa")
+
 		par2.save()
 		viaje.paradas.add(par2)
 

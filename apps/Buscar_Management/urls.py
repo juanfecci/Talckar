@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^buscar$', Buscar, name='Buscar_Create'),
     url(r'^buscar_error$', Buscar, name='Buscar_Create2'),
     url(r'^show/$', BuscarList.as_view() , name='show'),
-    url(r'^buscar/(?P<pk>\d+)*', BuscarDetail.as_view(), name='Buscar_Detail'),
-    url(r'^buscar/correcto/(?P<id>\d+)/(?P<cordx1>-?\d+(?:\.\d+)?)/(?P<cordx2>-?\d+\d+(?:\.\d+)?)/(?P<cordy1>-?\d+\d+(?:\.\d+)?)/(?P<cordy2>-?\d+\d+(?:\.\d+)?)', CrearReserva, name='Buscar_Final'),
+    url(r'^buscar/(?P<pk>\d+)', BuscarDetail.as_view(), name='Buscar_Detail'),
+    url(r'^buscar/correcto/(?P<id>\d+)/(?P<cordx1>-?\d+(?:\.\d+)?)/(?P<cordx2>-?\d+(?:\.\d+)?)/(?P<cordy1>-?\d+(?:\.\d+)?)/(?P<cordy2>-?\d+(?:\.\d+)?)', CrearReserva, name='Buscar_Final'),
 
 ]
