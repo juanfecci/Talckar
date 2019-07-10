@@ -1,3 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create Viaje</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+       #map {
+    width: 25%;
+    height: 300px;
+}
+    #map2{
+    width: 25%;
+    height: 300px;
+}
+.controls {
+    margin-top: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+    </style>
+  </head>
+
 {% extends 'base.html' %}
 
 {% block content %}
@@ -5,13 +33,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                      </li>
-                    </ul>
+                    
                     <h1>Viaje en curso</h1>
                     <div class="clearfix"></div>
                   </div>
@@ -19,16 +41,66 @@
                     <p class="text-muted font-13 m-b-30">
                     </p>
 
-                    <h2>Origen: {{viaje.origen}} </h2> 
-                    <h2>Destino: {{viaje.destino}}</h2>
-                    <br> 
-                    <h2>Fecha de Inicio: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h2>
-                    <h2>Fecha de Llegada: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h2>
-                    <br> <br>
+                        <h2>Origen: {{viaje.origen}} </h2> 
+                        <h2>Destino: {{viaje.destino}}</h2>
+                        <br> 
+                        <h2>Fecha de Inicio: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h2>
+                        <h2>Fecha de Llegada: {{viaje.origen.fecha}} - {{viaje.destino.hora}}</h2>
+                        <br> <br>
 
-                    <h3> Siguiente pasajero: {{primero.user.first.first_name}} {{primero.user.first.last_name}} </h3>
+                        <div id="map"></div>
 
-                    <h3> Se sube en {{primero.tramo.origen.nombre}} a las {{primero.tramo.origen.hora}} - {{primero.tramo.origen.fecha}}
+                         <script 
+                           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAD6Q31QwQK0pv7twtzD32efp6hLa0uFEs">
+                           </script>
+
+                        <script>
+                          function initMap(o,d) {
+                            //alert(o + " " + d);
+                            var directionsService = new google.maps.DirectionsService;
+                            var directionsDisplay = new google.maps.DirectionsRenderer;
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                              zoom: 7,
+                              center: {lat: 41.85, lng: -87.65}
+                            });
+                            directionsDisplay.setMap(map);
+                              calculateAndDisplayRoute(directionsService, directionsDisplay,o,d);
+                          }
+
+                          function calculateAndDisplayRoute(directionsService, directionsDisplay,o,d) {
+                            directionsService.route({
+                              origin: o,
+                              destination: d,
+                              travelMode: 'DRIVING'
+                            }, function(response, status) {
+                              if (status === 'OK') {
+                                directionsDisplay.setDirections(response);
+                              } else {
+                                window.alert('No se encontro la direccion en el mapa');
+                              }
+                            });
+                          }
+
+                        </script>
+
+                        <script type="text/javascript"> initMap('{{inicio}}}','{{primero.tramo.origen.nombre}}');</script>
+                        
+
+                        <br> <br>
+
+                        <div class="row">
+                          <div class="col-sm-1">
+                            
+                            <p class="text-muted font-13 m-b-30"></p>
+                            <a> <img src="/media/{{primero.user.first.foto}}" width="80px" height="80px"> </a>
+                          </div>
+                          <div class="col-sm-4">
+                            <h3> Siguiente pasajero: {{primero.user.first.first_name}} {{primero.user.first.last_name}} </h3>
+                            <h3> Se sube en {{primero.tramo.origen.nombre}} a las {{primero.tramo.origen.hora}} - {{primero.tramo.origen.fecha}} </h3>
+                          </div>
+                        </div>
+
+                       
 
                     <br><br>
 
@@ -84,6 +156,8 @@
     <script src="{% static 'js/jszip/dist/jszip.min.js' %}"></script>
     <script src="{% static 'js/pdfmake/build/pdfmake.min.js' %}"></script>
     <script src="{% static 'js/pdfmake/build/vfs_fonts.js' %}"></script>
+    
+   
 
 
 {% endblock %}

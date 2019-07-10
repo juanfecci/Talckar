@@ -24,7 +24,7 @@
                     <h3> Se subió en {{r.tramo.origen.nombre}} a las {{r.tramo.origen.hora}} - {{r.tramo.origen.fecha}}
 
                     <br> <br>
-                    <a href="" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a>
+                    <a href="{% url "VerPerfil" r.user.first.id %}" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a>
 
                     <br> <br> 
 

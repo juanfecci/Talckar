@@ -123,6 +123,7 @@ def VerPerfil(request, pk):
 		valoraciones = user.valoraciones.all().order_by('-id')[:num_vals]
 		return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False, 'valoraciones': valoraciones, 'n': num_vals, 'prom': promedio})
 
+
 def MasValoraciones(request, pk):
 	user = User.objects.get(id = pk)
 	return render(request, "Perfil_Management/valoraciones_detail.html", {'valoraciones': user.valoraciones})
@@ -137,17 +138,9 @@ def getValorProm(usuario):
 	suma = 0.0
 	for val in vals:
 		suma += val.puntaje
-	if (len(vals) == 0):
-		return "{0:.2f}".format(0)
-	return "{0:.2f}".format(suma/len(vals))
 
-def getValor(usuario):
-	vals = usuario.first().valoraciones.all()
-	suma = 0.0
-	for val in vals:
-		suma += val.puntaje
-	if (len(vals) == 0):
-		return "{0:.2f}".format(0)
+	if len(vals) == 0:
+		return "5.0"
 	return "{0:.2f}".format(suma/len(vals))
 
 def Valorar(request, pk, tipo, reserva_id, usuario_id):

@@ -100,7 +100,6 @@ class Viaje(models.Model):
 	paradas = models.ManyToManyField("Parada")
 	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
 	destino = models.ForeignKey("Parada",related_name="ParadaDestino", null=False, default = 1)
-	origen = models.ForeignKey("Parada",related_name="ParadaOrigen", null=False, default = 1)
 	prestacion = models.ForeignKey("Prestacion",related_name="Prestacion", null=False, default = 1)
 	estado =  models.IntegerField(default = -1)
 	#conductor = models.ForeignKey("User", related_name = "conductor", null = False, default = 1)
@@ -116,12 +115,15 @@ class Viaje(models.Model):
 		verbose_name_plural = "Viajes"
 
 	def __unicode__(self):
-		return self.origen.nombre + " " + self.destino.nombre
+		try:
+			return  self.origen.nombre.replace("á", 'a').replace("é", 'e').replace("í", 'i').replace("ó", 'o').replace("ú", 'u').replace("ñ", 'n') + " " + self.destino.nombre.replace("á", 'a').replace("é", 'e').replace("í", 'i').replace("ó", 'o').replace("ú", 'u').replace("ñ", 'n')
+		except:
+			return 'error'
 
 	def verificar(self, cordx1, cordy1, cordx2, cordy2, fecha):
-		p1 = self.paradas.filter(coordenada_x__gte=cordx1-1).filter(coordenada_x__lte=cordx1+1).filter(coordenada_y__gte=cordy1-1).filter(coordenada_y__lte=cordy1+1)
+		p1 = self.paradas.filter(coordenada_x__gte=cordx1-0.2).filter(coordenada_x__lte=cordx1+0.2).filter(coordenada_y__gte=cordy1-0.2).filter(coordenada_y__lte=cordy1+0.2)
 		if p1.exists():
-			p2 = self.paradas.filter(coordenada_x__gte=cordx2-1).filter(coordenada_x__lte=cordx2+1).filter(coordenada_y__gte=cordy2-1).filter(coordenada_y__lte=cordy2+1)
+			p2 = self.paradas.filter(coordenada_x__gte=cordx2-0.2).filter(coordenada_x__lte=cordx2+0.2).filter(coordenada_y__gte=cordy2-0.2).filter(coordenada_y__lte=cordy2+0.2)
 			if p2.exists():
 				return (p1.first(), p2.first())
 		return (-1, -1)
@@ -143,8 +145,8 @@ class Parada(models.Model):
 	nombre = models.CharField(max_length=30,null=False, default = "Concepcion")
 	coordenada_x = models.FloatField(null=True,blank=True)
 	coordenada_y = models.FloatField(null=True,blank=True)
-	hora = models.CharField(max_length=30,null=False, default = "15:00")
-	fecha = models.CharField(max_length=30,null=False, default = "2018/11/12")
+	hora = models.CharField(max_length=30,null=True, default = "15:00")
+	fecha = models.CharField(max_length=30,null=True, default = "2018/11/12")
 
 	class Meta:
 		verbose_name = "Parada"
@@ -166,7 +168,7 @@ class Tramo(models.Model):
 		verbose_name_plural = "Tramos"
 
 	def __unicode__(self):
-		return self.origen.nombre + " " + self.destino.nombre
+		return self.origen.nombre.replace("á", 'a').replace("é", 'e').replace("í", 'i').replace("ó", 'o').replace("ú", 'u').replace("ñ", 'n') + " " + self.destino.nombre.replace("á", 'a').replace("é", 'e').replace("í", 'i').replace("ó", 'o').replace("ú", 'u').replace("ñ", 'n')
 
 class Reserva(models.Model):
 	posicion = models.IntegerField(null=True,blank=True)
@@ -175,6 +177,7 @@ class Reserva(models.Model):
 	# 0 cancelado
 	# 1 aceptado / finalizado
 	# 2 terminado / en espera de valoracion
+	# 3 aceptado y notificado #Falta implemetar
 
 	tramo = models.ForeignKey("Tramo",related_name="Tramo", null=False, blank=True, default=1)
 

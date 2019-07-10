@@ -62,7 +62,7 @@ def ViajeCreate4(request):
 		#viaje.conductor = usuario
 		viaje.save()
 		usuario.save()
-		return redirect('http://127.0.0.1:8000/Viajes_Management/viajeCreate/agregar')
+		return AgregarParadas(request)
 	else:
 		form = ViajeForm()
 		return render(request, 'Viajes_Management/viajes_create.html', {'form': form} )		
@@ -117,8 +117,12 @@ def AgregarParadas(request):
 		par2.coordenada_y = float(request.POST.get('long1'))
 		#par2.coordenada_x = 200
 		#par2.coordenada_y = 200
-		par2.fecha = request.POST.get('fecha_inicio')
-		par2.hora = request.POST.get('hora_inicio')
+		par2.fecha = str(request.POST.get('fecha_inicio'))
+		par2.hora = str(request.POST.get('hora_inicio'))
+
+		print(request.POST.get('hora_inicio'))
+		print("AAAAAAAAAAAAAa")
+
 		par2.save()
 		viaje.paradas.add(par2)
 
@@ -166,3 +170,12 @@ def Viaje2(request):
 		tarifa = ObtenerPromedio()
 
 		return render(request, 'Viajes_Management/Viaje2.html', {'form': form, 'tarifa': tarifa} )		
+
+def VerPerfil1(request, pk):
+	user = User.objects.get(id = pk)
+	num_vals = len(user.valoraciones.all())
+	if (num_vals >= 3):
+		valoraciones = user.valoraciones.all().order_by('-id')[:3]
+	else:
+		valoraciones = user.valoraciones.all().order_by('-id')[:num_vals]
+	return render(request, "Perfil_Management/perfil_detail22.html", {'usuario': user, 'flag': True, 'valoraciones': valoraciones, 'n': num_vals})

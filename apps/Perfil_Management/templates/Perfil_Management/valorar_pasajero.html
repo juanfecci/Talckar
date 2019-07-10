@@ -37,7 +37,7 @@
                       <a> <img src="/media/{{pasajero.first.foto}}" width="80px"> </a>
                     </div>
                     <div class="col-sm-4">
-                      <h2> Pasajero: {{pasajero.first.first_name}} {{pasajero.first.last_name}} <a href="" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a> </h2> 
+                      <h2> Pasajero: {{pasajero.first.first_name}} {{pasajero.first.last_name}} <a href="{% url "VerPerfil" pasajero.first.id %}" type="button" class="btn btn-round btn-success btn-sm">Ver Perfil</a> </h2> 
                       <h2> Valoracion: {{ valor }} </h2>
                       
                       

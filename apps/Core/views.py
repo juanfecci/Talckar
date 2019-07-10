@@ -156,7 +156,7 @@ def createUser(request, name):
 	user.save()
 	return "Registro realizado exitosamente"
 
-def AdministrarViaje(request, pk):
+def AdministrarViaje(request, pk, name="none"):
 	viaje = Viaje.objects.get(id=pk)
 	reservas = Reserva.objects.filter(viaje=pk).filter(estado=1)
 
@@ -170,13 +170,21 @@ def AdministrarViaje(request, pk):
 	primero.save()
 	reservas = reservas.exclude(id=primero.id)
 
-	return render(request, 'administrar.html', {'viaje':viaje, 'reservas':reservas, 'primero':primero})
+	if name!="none":
+		inicio = name
+
+	else:
+		inicio = viaje.origen.nombre
+
+	print(inicio)
+	print(primero.tramo.origen.nombre)
+	return render(request, 'administrar.html', {'viaje':viaje, 'reservas':reservas, 'primero':primero, 'inicio':inicio})
 
 def TomarPasajero(request, viaje_id, reserva_id):
 	reserva = Reserva.objects.get(id=reserva_id)
 	reserva.estado = 2
 	reserva.save()
-	return AdministrarViaje(request, viaje_id)
+	return AdministrarViaje(request, viaje_id, name=reserva.tramo.origen.nombre)
 
 # Requerido para login
 @login_required()
@@ -189,3 +197,53 @@ def changeActiveClient(request,clientId):
 		user.activeClient = user.clients.filter(id=id_client)[0]
 		user.save()
 	return redirect(home)
+
+
+## API MANAGEMENT
+
+def apiViajes(request):
+	viaje = Viaje.objects.all()
+	resp = []
+
+	for v in viaje:
+		aux = {'estado': v.estado, 'id': v.id}
+		auxU = [{'id': c.id, 'correo': c.correo} for c in v.user.all()]
+		
+		aux['users'] = auxU
+		resp.append(aux)
+
+	return HttpResponse(json.dumps(resp))
+
+def apiTest1(request):
+	reserva = Reserva.objects.get(id=16)
+	reserva.estado = 1
+	reserva.save()
+
+	reserva = Reserva.objects.get(id=15)
+	reserva.estado = 1
+	reserva.save()
+
+	viaje = Viaje.objects.get(id=35)
+	viaje.estado = 2
+	viaje.save()
+
+	return render(request, 'completado.html', {})
+
+def apiTest2(request):
+	reserva = Reserva.objects.get(id=28)
+	reserva.estado = 1
+	reserva.save()
+
+	reserva = Reserva.objects.get(id=27)
+	reserva.estado = 1
+	reserva.save()
+
+	reserva = Reserva.objects.get(id=26)
+	reserva.estado = 1
+	reserva.save()
+
+	viaje = Viaje.objects.get(id=75)
+	viaje.estado = 2
+	viaje.save()
+
+	return render(request, 'completado.html', {})
