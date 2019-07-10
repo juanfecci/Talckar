@@ -2,6 +2,31 @@
 
 {% block content %}
 
+{% if tipo == 'Conductor' %}
+  <script>
+  alertify.confirm('El viaje de "{{viaje.origen}}" a "{{viaje.destino}}" del {{viaje.origen.fecha}} - {{viaje.origen.hora}} ha finalizado. ¿Quiere realizar una valoracion de sus pasajeros?',
+    function(){
+      window.location.href = "{% url "Valorar" viaje_id tipo reserva_id usuario_id %}";
+    },
+    function(){
+      alertify.error('¡Recuerde inicar el viaje!');
+    }).set('labels', {ok:'Iniciar Valoracion', cancel:'Salir'});
+
+    </script>
+{% endif %}
+{% if tipo == 'Pasajero' %}
+  <script>
+  alertify.confirm('El viaje de "{{viaje.origen}}" a "{{viaje.destino}}" del "{{viaje.origen.fecha}}" - "{{viaje.origen.hora}}" ha finalizado. ¿Quiere realizar una valoracion del Conductor?',
+    function(){
+      window.location.href = "{% url "Valorar" viaje_id tipo reserva_id usuario_id %}";
+    },
+    function(){
+      alertify.error('¡Recuerde inicar el viaje!');
+    }).set('labels', {ok:'Iniciar Valoracion', cancel:'Salir'});
+
+    </script>
+{% endif %}
+
       <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">

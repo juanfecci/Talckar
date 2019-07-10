@@ -30,6 +30,11 @@
 
 {% block content %}
 
+            {% if inicio == viaje.origen.nombre%}
+
+            <script type="text/javascript"> alertify.success('Iniciado el viaje'); </script>
+            {% endif %}
+
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">

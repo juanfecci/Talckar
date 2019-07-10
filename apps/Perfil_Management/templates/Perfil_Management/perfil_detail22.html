@@ -54,7 +54,11 @@
                 <th>Valoración</th>
                 {% for valoracion in valoraciones.all %}
                 <tr>
-                    <td><a> <img src="/media/{{valoracion.user.foto}}" width="80px"> </a></td>
+                    {%if valoracion.usuario == ""%}
+                    <td><a> <img src="/media/user/default.png" width="80px"> </a></td>
+                    {%else%}
+                    <td><a> <img src="/media/{{valoracion.usuario.foto}}" width="80px"> </a></td>
+                    {%endif%}
                     <td>{{valoracion.comentario}}</td>
                     <td>{{valoracion.puntaje}}</td>
                 </tr>

@@ -194,6 +194,7 @@ class Reserva(models.Model):
 class Valoracion(models.Model):
 	puntaje = models.IntegerField(null=True,blank=True)
 	comentario = models.CharField(max_length=200,null=False)
+	usuario = models.ForeignKey("User",related_name="usuario", null=False, blank=True, default=1)
 
 	class Meta:
 		verbose_name = "Valoracion"

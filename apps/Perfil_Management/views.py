@@ -185,6 +185,8 @@ def ValorarPasajero(request, viaje_id, reserva_id):
 	comentario = request.POST.get("Comentario")
 	val.comentario = comentario
 
+	val.usuario = request.user
+
 	val.save()
 	usuario.valoraciones.add(val)
 	usuario.save()
@@ -213,6 +215,8 @@ def ValorarConductor(request, viaje_id, reserva_id):
 
 		comentario = request.POST.get("Comentario")
 		val.comentario = comentario
+
+		val.usuario = request.user
 
 		val.save()
 		usuario.valoraciones.add(val)

@@ -2,6 +2,18 @@
 
 {% block content %}
 
+
+<script>
+alertify.confirm('Un Viaje esta pronto de iniciar!\n\nEl viaje de "{{viaje.origen}}" a "{{viaje.destino}}" comienza a las {{viaje.origen.hora}} el dia {{viaje.origen.fecha}}',
+  function(){
+    window.location.href = "{% url "Administrar_Viaje" viaje.id %}";
+  },
+  function(){
+    alertify.error('¡Recuerde inicar el viaje!');
+  }).set('labels', {ok:'Iniciar Viaje', cancel:'Salir'});
+
+  </script>
+
       <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
