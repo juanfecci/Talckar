@@ -31,10 +31,8 @@ def change_password(request):
             form.save()
             request.user.save()
             update_session_auth_hash(request, form.user)  # Important!
-            messages.success(request, _('Tu contraseña se cambio con exito!'))
+            messages.success(request, 'Tu contraseña se cambio con exito!')
             return render(request, 'Perfil_Management/pass_change.html', {'redirectt': True})
-        else:
-            messages.error(request, _('Por favor corrige tus errores'))
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'Perfil_Management/pass_change.html', {'form': form})
@@ -134,7 +132,10 @@ def DetalleVehiculo(request, pk):
 	return render(request, "Perfil_Management/vehiculo_detail.html", {'conductor': conductor})
 
 def getValorProm(usuario):
-	vals = usuario.first().valoraciones.all()
+	try:
+		vals = usuario.first().valoraciones.all()
+	except:
+		vals = usuario.valoraciones.all()
 	suma = 0.0
 	for val in vals:
 		suma += val.puntaje
@@ -169,7 +170,7 @@ def Valorar(request, pk, tipo, reserva_id, usuario_id):
 		pasajero.promedioVal = aux
 		pasajero.save()
 		print(aux)
-		#conductor = viaje.conductor
+		conductor = viaje.user
 		return render(request, 'Perfil_Management/valorar_conductor.html', {'viaje': viaje, 'reserva': reserva, 'conductor': conductor, 'valor': aux})
 
 def ValorarPasajero(request, viaje_id, reserva_id):	# Conductor valorando pasajero

@@ -39,18 +39,30 @@
                       {% if not redirectt %}
                       <form method="post" >
                         {% csrf_token %}
-                        {{form.as_p}}
+                        {{ form.non_field_errors }}
+                        {% for field in form %}
+                        {{field.label_tag}}
+                        {{ field }}
                         <br>
+                        {{ field.help_text | safe }}
+                        {% if field.errors %}
+                        {% for error in field.errors %}
+                        <font color="red"><h5>{{ error }}</h5></font>
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                        <br>
+                        
                         <button type="submit">Guardar</button>
                       </form>
                       {% else %}
                       <h3><a href = "{% url "inicio" %}" type="button" class="btn btn-round btn-info btn-sm">Inicio</a></h3>
                       {% endif %}
                     <div class = "column">
-                      {% if messages %}
+                      {% if messages%}
                         <ul class="messages">
                           {% for message in messages %}
-                            <li class="html_safe alert alert-error error" role="alert">{{message}}</li>
+                          <li class="html_safe alert alert-success success" role="alert">{{message}}</li>
                           {% endfor %}
                         </ul>
                       {% endif %}
