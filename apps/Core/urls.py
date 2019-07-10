@@ -29,7 +29,14 @@ urlpatterns = [
     url(r'^Administrar/(?P<pk>\d+)/$', core_views.AdministrarViaje, name='Administrar_Viaje'),
     url(r'^Administrar/Toma/(?P<viaje_id>\d+)/(?P<reserva_id>\d+)/$', core_views.TomarPasajero, name='Tomar_Pasajero'),
     url(r'^changeActiveClient/([0-9]+)/$', core_views.changeActiveClient, name="changeActiveClient" ),
+
     url(r'^apiViajes$', core_views.apiViajes, name="apiViajes" ),
+    url(r'^apiReservas$', core_views.apiReservas, name="apiReservas" ),
+    url(r'^apiReservasCond$', core_views.apiReservasCond, name="apiReservasCond" ),
+
+    url(r'^apiNotificarViaje/(?P<id>\d+)/$', core_views.apiNotificarViaje, name='apiNotificarViaje'),
+    url(r'^apiNotificarReserva/(?P<id>\d+)/$', core_views.apiNotificarReserva, name='apiNotificarReserva'),
+
     url(r'^apiTest1$', core_views.apiTest1, name="apiTest1" ),
     url(r'^apiTest2$', core_views.apiTest2, name="apiTest2" ),
     url(r'^Viajes_Management/', include('Viajes_Management.urls')),

@@ -177,7 +177,9 @@ class Reserva(models.Model):
 	# 0 cancelado
 	# 1 aceptado / finalizado
 	# 2 terminado / en espera de valoracion
-	# 3 aceptado y notificado #Falta implemetar
+	# 3 aceptado sin notificacion 
+	# -2 cancelado sin notificacion 
+	# -3 en espera sin notificacion 
 
 	tramo = models.ForeignKey("Tramo",related_name="Tramo", null=False, blank=True, default=1)
 

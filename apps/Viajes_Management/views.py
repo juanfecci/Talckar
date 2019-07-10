@@ -111,13 +111,13 @@ def ViajeDelete(request, viaje_id):
 
 def AceptarPlaza(request, viaje_id, reserva_id):
 	reserva = Reserva.objects.get(id=reserva_id)
-	reserva.estado = 1
+	reserva.estado = 3
 	reserva.save()
 	return ViajeDetail(request, viaje_id)
 
 def RechazarPlaza(request, viaje_id, reserva_id):
 	reserva = Reserva.objects.get(id=reserva_id)
-	reserva.estado = 0
+	reserva.estado = -2
 	reserva.save()
 	return ViajeDetail(request, viaje_id)
 

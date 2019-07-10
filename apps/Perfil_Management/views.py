@@ -134,7 +134,7 @@ def DetalleVehiculo(request, pk):
 	return render(request, "Perfil_Management/vehiculo_detail.html", {'conductor': conductor})
 
 def getValorProm(usuario):
-	vals = usuario.valoraciones.all()
+	vals = usuario.first().valoraciones.all()
 	suma = 0.0
 	for val in vals:
 		suma += val.puntaje
@@ -165,7 +165,7 @@ def Valorar(request, pk, tipo, reserva_id, usuario_id):
 	elif (tipo == 'Pasajero'):
 		reserva = Reserva.objects.get(id = reserva_id)
 		pasajero = reserva.user.first()
-		aux = str(getValor(pasajero))
+		aux = str(getValorProm(pasajero))
 		pasajero.promedioVal = aux
 		pasajero.save()
 		print(aux)
@@ -232,7 +232,7 @@ def ValorarConductor(request, viaje_id, reserva_id):
 	else:
 		reserva.estado = 3
 		reserva.save()
-		aux = str(getValor(reserva.user))
+		aux = str(getValorProm(reserva.user))
 		print(aux)
 		#conductor = viaje.conductor
 		return render(request, 'Perfil_Management/valorar_pasajero.html', {'viaje': viaje, 'reserva': reserva, 'pasajero': reserva.user, 'valor': aux})

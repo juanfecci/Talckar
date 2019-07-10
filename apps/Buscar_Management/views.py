@@ -106,7 +106,7 @@ def CrearReserva(request, id, cordx1, cordx2, cordy1, cordy2):
 				reserva = Reserva()
 				print(2.8)
 				reserva.posicion = 1
-				reserva.estado = -1
+				reserva.estado = -3
 				reserva.tramo = tramo
 				reserva.viaje = viaje
 				reserva.save()
@@ -119,7 +119,7 @@ def CrearReserva(request, id, cordx1, cordx2, cordy1, cordy2):
 			if request.POST.get("plaza2"):
 				reserva = Reserva()
 				reserva.posicion = 2
-				reserva.estado = -1
+				reserva.estado = -3
 				reserva.tramo = tramo
 				reserva.viaje = viaje
 				reserva.save()
@@ -131,7 +131,7 @@ def CrearReserva(request, id, cordx1, cordx2, cordy1, cordy2):
 				print(1)
 				reserva = Reserva()
 				reserva.posicion = 3
-				reserva.estado = -1
+				reserva.estado = -3
 				reserva.tramo = tramo
 				print(2)
 				reserva.viaje = viaje
@@ -146,7 +146,7 @@ def CrearReserva(request, id, cordx1, cordx2, cordy1, cordy2):
 			if request.POST.get("plaza4"):
 				reserva = Reserva()
 				reserva.posicion = 4
-				reserva.estado = -1
+				reserva.estado = -3
 				reserva.tramo = tramo
 				reserva.viaje = viaje
 				reserva.save()

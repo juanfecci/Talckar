@@ -69,17 +69,20 @@
                           {%if reserva.estado == -1%}
                           <td>Esperando confirmacion</td>
                           {%endif%}
-                          {%if reserva.estado == 1%}
+                          {%if reserva.estado == 1 or reserva.estado == 3%}
                           <td>Confirmado</td>
                           {%endif%}
+                          {%if reserva.estado == 0 or reserva.estado == -2%}
+                          <td>Rechazado</td>
+                          {%endif%}
 
-                          {%if reserva.estado == -1%}
+                          {%if reserva.estado == -1 or reserva.estado == -3%}
                           <td><a href="{% url "Aceptar" viaje_id=viaje.id reserva_id=reserva.id %}" type="button" class="btn btn-round btn-success btn-sm">Aceptar</a>
                           <a href="{% url "Rechazar" viaje_id=viaje.id reserva_id=reserva.id %}" type="button" class="btn btn-round btn-danger btn-sm">Cancelar</a>
                           <a href="{% url "Reserva_Detail" reserva.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a>
                           <a href="{% url "Ver_Perfil1" reserva.user.first.id %}" type="button" class="btn btn-round btn-info btn-sm">Ver Perfil</a></td>
-                         {%endif%}
-                          {%if reserva.estado == 1%}
+                          {%endif%}
+                          {%if reserva.estado == 1 or reserva.estado == 3%}
                           <td><a href="{% url "Reserva_Detail" reserva.id %}" type="button" class="btn btn-round btn-info btn-sm">Detalles</a>
                           <a href="{% url "Ver_Perfil1" reserva.user.first.id %}" type="button" class="btn btn-round btn-info btn-sm">Ver Perfil</a></td>
                           {%endif%}

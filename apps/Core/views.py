@@ -28,7 +28,7 @@ def home(request):
 				return render(request,'base.html',{'viajes': usuario.viajes})	
 			else:
 				viaje = viaje.first()
-				reserva = usuario.reservas.all()
+				reserva = viaje.ViajeReserva.all()
 				if (len(reserva) == 0):
 					return render(request, 'base.html', {})
 				reserva = reserva.first()
@@ -158,7 +158,7 @@ def createUser(request, name):
 
 def AdministrarViaje(request, pk, name="none"):
 	viaje = Viaje.objects.get(id=pk)
-	reservas = Reserva.objects.filter(viaje=pk).filter(estado=1)
+	reservas = Reserva.objects.filter(viaje=pk).filter(estado=1) | Reserva.objects.filter(viaje=pk).filter(estado=3)
 
 	if len(reservas) == 0:
 		viaje.estado = 3
@@ -202,17 +202,70 @@ def changeActiveClient(request,clientId):
 ## API MANAGEMENT
 
 def apiViajes(request):
-	viaje = Viaje.objects.all()
+	viaje = Viaje.objects.filter(estado=-1)
 	resp = []
 
 	for v in viaje:
-		aux = {'estado': v.estado, 'id': v.id}
-		auxU = [{'id': c.id, 'correo': c.correo} for c in v.user.all()]
 		
-		aux['users'] = auxU
+		try:
+			aux = {'id': v.id, 'fecha': v.origen.fecha + " " + v.origen.hora, 'CondId': v.user.first().id, 'correo': v.user.first().email, 'nombre': v.user.first().first_name + " " + v.user.first().last_name, 'origen': v.origen.nombre, 'destino': v.destino.nombre}
+			
+			auxU = []
+			for r in (Reserva.objects.filter(viaje=v.id).filter(estado=1) | Reserva.objects.filter(viaje=v.id).filter(estado=3)):
+				try:
+					auxU.append({'origen': r.tramo.origen.nombre, 'destino': r.tramo.destino.nombre, 'fecha': r.tramo.origen.fecha + " " + r.tramo.origen.hora, 'correo': r.user.first().email, 'nombre': r.user.first().first_name + " " + r.user.first().last_name})
+				except:
+					continue
+			
+			aux['users'] = auxU
+
+			resp.append(aux)
+		except:
+			continue
+
+	return HttpResponse(json.dumps(resp))
+
+def apiReservas(request):
+	reservas = Reserva.objects.filter(estado=3) | Reserva.objects.filter(estado=-2)
+	resp = []
+
+	for r in reservas:
+		aux = {'estado': r.estado, 'id': r.id, 'origen': r.tramo.origen.nombre, 'destino': r.tramo.destino.nombre, 'fecha': r.tramo.origen.fecha + " " + r.tramo.origen.hora, 'correo': r.user.first().email, 'nombre': r.viaje.user.first().first_name + " " + r.viaje.user.first().last_name}
 		resp.append(aux)
 
 	return HttpResponse(json.dumps(resp))
+
+def apiReservasCond(request):
+	reservas = Reserva.objects.filter(estado=-3) 
+	resp = []
+
+	for r in reservas:
+		aux = {'id': r.id, 'origen': r.tramo.origen.nombre, 'destino': r.tramo.destino.nombre, 'fecha': r.tramo.origen.fecha + " " + r.tramo.origen.hora, 'correo': r.viaje.user.first().email, 'nombre': r.viaje.user.first().first_name + " " + r.viaje.user.first().last_name}
+		resp.append(aux)
+
+	return HttpResponse(json.dumps(resp))
+
+def apiNotificarViaje(request, id):
+	viaje = Viaje.objects.get(id=id)
+	viaje.estado = 2
+	viaje.save()
+
+	return HttpResponse("Success")
+
+def apiNotificarReserva(request, id):
+	reserva = Reserva.objects.get(id=id)
+
+	if reserva.estado == 3:
+		reserva.estado = 1
+	elif reserva.estado == -2:
+		reserva.estado = 0
+	elif reserva.estado == -3:
+		reserva.estado = -1	
+
+	reserva.save()
+
+	return HttpResponse("Success")
+
 
 def apiTest1(request):
 	reserva = Reserva.objects.get(id=16)

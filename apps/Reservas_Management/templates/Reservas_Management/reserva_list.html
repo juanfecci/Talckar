@@ -36,11 +36,11 @@
                           <td>{{reserva.tramo.destino}}</td>
                           <td>{{reserva.tramo.origen.fecha}} - {{reserva.tramo.origen.hora}} / {{reserva.tramo.destino.fecha}} - {{reserva.tramo.destino.hora}}</td>
                           <td>{{reserva.user.first.promedioVal}}</td>
-                          {%if reserva.estado == 0%}
+                          {%if reserva.estado == 0 or reserva.estado == -2%}
                           <td>Rechazado</td>
-                          {%elif reserva.viaje.estado == -1 and reserva.estado == -1%}
+                          {%elif reserva.viaje.estado == -1 and (reserva.estado == -1 or or reserva.estado == -3)%}
                           <td>Esperando confirmacion</td>
-                          {%elif reserva.viaje.estado == -1 and reserva.estado == 1%}
+                          {%elif reserva.viaje.estado == -1 and (reserva.estado == 1 or reserva.estado == 3)%}
                           <td>Confirmado</td>
                           {%elif reserva.viaje.estado == 0 and reserva.estado == 1%}
                           <td>Realizando Viaje</td>
