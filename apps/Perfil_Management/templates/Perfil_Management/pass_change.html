@@ -36,30 +36,21 @@
                     {% if not redirectt %}
                     <font color="red"><h4>**Todos los campos son obligatorios**</h4></font>
                     {% endif %}
-                    <div class = "column">
                       {% if not redirectt %}
-                      <form method="post">
+                      <form method="post" >
                         {% csrf_token %}
-                        {{form.non_field_errors}}
-                        {% for field in form %}
-                        {{field.label_tag}}
-                        {{ field }}
-                        {% if field.errors %}
-                        {{ field.errors }}
-                        {% endif %}
-                        {% endfor %}
+                        {{form.as_p}}
                         <br>
-                        <button type="submit">guardar</button>
+                        <button type="submit">Guardar</button>
                       </form>
                       {% else %}
                       <h3><a href = "{% url "inicio" %}" type="button" class="btn btn-round btn-info btn-sm">Inicio</a></h3>
                       {% endif %}
-                    </div>
                     <div class = "column">
                       {% if messages %}
                         <ul class="messages">
                           {% for message in messages %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
+                            <li class="html_safe alert alert-error error" role="alert">{{message}}</li>
                           {% endfor %}
                         </ul>
                       {% endif %}

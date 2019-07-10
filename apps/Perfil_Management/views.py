@@ -114,13 +114,14 @@ def EditarFotoVehiculo(request):
 def VerPerfil(request, pk):
 	user = User.objects.get(id = pk)
 	num_vals = len(user.valoraciones.all())
+	promedio = str(getValorProm(user))
 	if (num_vals >= 3):
 		valoraciones = user.valoraciones.all().order_by('-id')[:3]
 		print("valoraciones: ", user.valoraciones)
-		return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False, 'valoraciones': valoraciones, 'n': num_vals})
+		return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False, 'valoraciones': valoraciones, 'n': num_vals, 'prom': promedio})
 	else:
 		valoraciones = user.valoraciones.all().order_by('-id')[:num_vals]
-		return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False, 'valoraciones': valoraciones, 'n': num_vals})
+		return render(request, "Perfil_Management/perfil_detail2.html", {'usuario': user, 'flag': False, 'valoraciones': valoraciones, 'n': num_vals, 'prom': promedio})
 
 
 def MasValoraciones(request, pk):
@@ -132,8 +133,8 @@ def DetalleVehiculo(request, pk):
 	conductor = user.datos_conductor
 	return render(request, "Perfil_Management/vehiculo_detail.html", {'conductor': conductor})
 
-def getValor(conductor):
-	vals = conductor.first().valoraciones.all()
+def getValorProm(usuario):
+	vals = usuario.valoraciones.all()
 	suma = 0.0
 	for val in vals:
 		suma += val.puntaje
@@ -163,13 +164,15 @@ def Valorar(request, pk, tipo, reserva_id, usuario_id):
 		return render(request, 'Perfil_Management/seleccionar.html', {'viaje':viaje, 'reservas':reservas, 'tipo':'Fin'})
 	elif (tipo == 'Pasajero'):
 		reserva = Reserva.objects.get(id = reserva_id)
-		conductor = viaje.user
-		aux = str(getValor(conductor))
+		pasajero = reserva.user.first()
+		aux = str(getValor(pasajero))
+		pasajero.promedioVal = aux
+		pasajero.save()
 		print(aux)
 		#conductor = viaje.conductor
 		return render(request, 'Perfil_Management/valorar_conductor.html', {'viaje': viaje, 'reserva': reserva, 'conductor': conductor, 'valor': aux})
 
-def ValorarPasajero(request, viaje_id, reserva_id):	
+def ValorarPasajero(request, viaje_id, reserva_id):	# Conductor valorando pasajero
 	viaje = Viaje.objects.get(id=viaje_id)
 	usuario = viaje.user.first()
 
