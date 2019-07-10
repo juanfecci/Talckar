@@ -50,6 +50,11 @@
                     </p>
                      <br>
                    </div>
+          {% if error_flag == 1 %}
+          <font color="red"><h4>Los viajes a realizar no pueden durar más de 1 día</h4></font>
+          {% elif error_flag == 2 %}
+          <font color="red"><h4>El termino del viaje no puede ser antes del inicio</h4></font>
+          {% endif %}
           <form action="" method="POST">
           {% csrf_token %}
                <div style="font-weight:bold">

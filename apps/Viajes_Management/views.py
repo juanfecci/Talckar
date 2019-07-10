@@ -7,6 +7,9 @@ from django.shortcuts import render
 from Core.models import *
 from form import *
 
+from datetime import datetime
+from datetime import timedelta
+
 # Create your views here.
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -43,15 +46,28 @@ def ViajeCreate4(request):
 		par1.coordenada_y = request.POST.get('long1')
 		par1.fecha = request.POST.get('fecha_inicio')
 		par1.hora =request.POST.get('hora_inicio')
-		par1.save()
 
 		par2 = Parada()
 		par2.nombre = request.POST.get('destino')
 		par2.coordenada_x = request.POST.get('lati2')
 		par2.coordenada_y = request.POST.get('long2')
 		par2.fecha = request.POST.get('fecha_final')
+		print(request.POST.get('fecha_final'))
+		_fecha1 = datetime.strptime(par1.fecha, '%Y-%m-%d')
+		_fecha2 = datetime.strptime(par2.fecha, '%Y-%m-%d')
+		print(_fecha1)
+		print(_fecha2)
+		print(_fecha2 - _fecha1)
+		print(_fecha1 - _fecha2)
+		if(_fecha2 - _fecha1 > timedelta(days = 1)): #no viajes largos
+			return render(request, 'Viajes_Management/viajes_create.html', {'error_flag': 1})
+		elif(_fecha2 - _fecha1 < timedelta(days = 0)): #no viajes en el tiempo
+			return render(request, 'Viajes_Management/viajes_create.html', {'error_flag': 2})
+		print(type(request.POST.get('fecha_final')))
+		#print(par2.fecha - par1.fecha)
 		par2.hora = request.POST.get('hora_final')
 		par2.save()
+		par1.save()
 
 		viaje.origen = par1
 		viaje.destino = par2
